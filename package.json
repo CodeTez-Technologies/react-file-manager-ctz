@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "pnpm --filter=demo run dev",
-    "build": "pnpm --filter=react-file-explorer run build",
+    "build": "pnpm --filter=react-file-manager-ctz run build",
     "publish-packages": "pnpm run build && changeset version && changeset publish"
   },
   "dependencies": {
