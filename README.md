@@ -1,2 +1,2 @@
-# -codetez-react-file-manager
+# codetez-react-file-manager
 React File Manager
