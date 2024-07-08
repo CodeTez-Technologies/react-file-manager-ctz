@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter=demo run dev",
+    "build": "pnpm --filter=react-file-explorer run build",
+    "publish-packages": "pnpm run build && changeset version && changeset publish"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.27.7"
+  }
+}

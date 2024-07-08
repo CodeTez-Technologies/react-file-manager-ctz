@@ -5,7 +5,7 @@
 </div>
 
 <p align="center">
-    <img src="./assets/image.png" alt="Banner" width="500" />
+    <img src="../../assets/image.png" alt="Banner" width="500" />
 </p>
 
 > A file explorer component for React. It tries to recreate the native file
