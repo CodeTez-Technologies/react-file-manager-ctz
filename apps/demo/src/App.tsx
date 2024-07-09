@@ -6,7 +6,7 @@ import {
 	FileList,
 	FileContextMenu,
 	IconFA,
-} from '../../../packages/react-file-explorer/src/index';
+} from '../../../packages/react-file-manager-ctz/src/index';
 import files from './files';
 import './App.css';
 
