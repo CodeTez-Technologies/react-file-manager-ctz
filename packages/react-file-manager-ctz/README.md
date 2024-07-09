@@ -1,11 +1,11 @@
 <div align="center">
 
-# React File Explorer
+# React File Manager
 
 </div>
 
 <p align="center">
-    <img src="../../assets/image.png" alt="Banner" width="500" />
+    <img src="https://github.com/CodeTez-Technologies/react-file-manager-ctz/blob/main/assets/image.png?raw=true" alt="Banner" width="500" />
 </p>
 
 > A file explorer component for React. It tries to recreate the native file
@@ -18,19 +18,19 @@
 Install it using your favourite package manager.
 
 ```sh
-npm install @codetez/react-file-explorer
+npm install @codetez/react-file-manager-ctz
 ```
 
 ```sh
-yarn add @codetez/react-file-explorer
+yarn add @codetez/react-file-manager-ctz
 ```
 
 ```sh
-pnpm add @codetez/react-file-explorer
+pnpm add @codetez/react-file-manager-ctz
 ```
 
 ```sh
-bun add @codetez/react-file-explorer
+bun add @codetez/react-file-manager-ctz
 ```
 
 ### Usage
@@ -43,7 +43,7 @@ import  {
   FileList,
   FileContextMenu,
   IconFA
-} from '@codetez/react-file-explorer'
+} from '@codetez/react-file-manager-ctz'
 
 export function MyComponent() {
     return (
