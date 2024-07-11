@@ -282,7 +282,7 @@ export const ColorsLight: string[] = [
   '#ad5cd6',
   '#b85cd6',
   '#c25cd6',
-  '#cc5cd6',
+  '#ffffff',
   '#d65cd6',
   '#d65ccc',
   '#d65cc2',

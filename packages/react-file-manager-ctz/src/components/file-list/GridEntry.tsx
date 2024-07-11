@@ -18,11 +18,11 @@ export const GridEntry: React.FC<FileEntryProps> = React.memo(({ file, selected,
   });
   return (
     <div className={entryClassName} {...fileEntryHtmlProps}>
-      {isDirectory ? (
+      {/* {isDirectory ? (
         <GridEntryPreviewFolder className={classes.gridFileEntryPreview} entryState={entryState} dndState={dndState} />
       ) : (
-        <GridEntryPreviewFile className={classes.gridFileEntryPreview} entryState={entryState} dndState={dndState} />
-      )}
+      )} */}
+      <GridEntryPreviewFile className={classes.gridFileEntryPreview} entryState={entryState} dndState={dndState} />
       <div className={classes.gridFileEntryNameContainer}>
         <FileEntryName className={classes.gridFileEntryName} file={file} />
       </div>
@@ -38,7 +38,7 @@ const useFileEntryStyles = makeLocalExplorerStyles((theme) => ({
     height: '100%',
   },
   gridFileEntryPreview: {
-    flexGrow: 1,
+    // flexGrow: 1,
   },
   gridFileEntryNameContainer: {
     fontSize: theme.gridFileEntry.fontSize,

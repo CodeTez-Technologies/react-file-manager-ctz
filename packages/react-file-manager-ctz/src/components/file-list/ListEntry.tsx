@@ -79,6 +79,8 @@ const useStyles = makeLocalExplorerStyles((theme) => ({
     boxSizing: 'border-box',
     padding: [2, 4],
     zIndex: 20,
+    width: '24px',
+    height: '24px',
   },
   listFileEntryName: {
     textOverflow: 'ellipsis',

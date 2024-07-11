@@ -130,7 +130,6 @@ const useFolderStyles = makeLocalExplorerStyles((theme) => ({
 
 export const GridEntryPreviewFile: React.FC<FileEntryPreviewProps> = React.memo((props) => {
   const { className: externalClassName, entryState, dndState } = props;
-
   const fileClasses = useFileStyles(entryState);
   const commonClasses = useCommonEntryStyles(entryState);
   const ExplorerIcon = useContext(ExplorerIconContext);
@@ -138,6 +137,7 @@ export const GridEntryPreviewFile: React.FC<FileEntryPreviewProps> = React.memo(
     [fileClasses.previewFile]: true,
     [externalClassName || '']: !!externalClassName,
   });
+
   return (
     <div className={className}>
       <GridEntryDndIndicator className={fileClasses.dndIndicator} dndState={dndState} />
@@ -160,7 +160,8 @@ const useFileStyles = makeLocalExplorerStyles((theme) => ({
       shadows.push(`inset ${theme.gridFileEntry.fileColorTint} 0 0 0 999px`);
       return shadows.join(', ');
     },
-    backgroundColor: (state: FileEntryState) => state.color,
+    // backgroundColor: (state: FileEntryState) => state.color,
+    backgroundColor: '#ffffff',
     borderRadius: theme.gridFileEntry.borderRadius,
     position: 'relative',
     overflow: 'hidden',
@@ -169,15 +170,15 @@ const useFileStyles = makeLocalExplorerStyles((theme) => ({
     zIndex: 14,
   },
   fileIcon: {
-    transform: 'translateX(-50%) translateY(-50%)',
-    fontSize: theme.gridFileEntry.iconSize,
-    opacity: (state: FileEntryState) => (state.thumbnailUrl && !state.focused ? 0 : 1),
-    color: (state: FileEntryState) =>
-      state.focused ? theme.gridFileEntry.iconColorFocused : theme.gridFileEntry.iconColor,
-    position: 'absolute',
-    left: '50%',
-    zIndex: 12,
-    top: '50%',
+    // transform: 'translateX(-50%) translateY(-50%)',
+    // fontSize: theme.gridFileEntry.iconSize,
+    // opacity: (state: FileEntryState) => (state.thumbnailUrl && !state.focused ? 0 : 1),
+    // color: (state: FileEntryState) =>
+    //   state.focused ? theme.gridFileEntry.iconColorFocused : theme.gridFileEntry.iconColor,
+    // position: 'absolute',
+    // left: '50%',
+    // zIndex: 12,
+    // top: '50%',
   },
   thumbnail: {
     borderRadius: theme.gridFileEntry.borderRadius,
