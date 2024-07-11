@@ -1,5 +1,10 @@
 export default [
     {
+        isDir: true,
+        "id": "myfolderid",
+        name: "My Folder"
+    },
+    {
         "isDir": false,
         "id": "96b204a2-8218-486c-a1b4-856405e057a7",
         "name": "approved.jpg",

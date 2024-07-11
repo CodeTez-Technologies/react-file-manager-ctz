@@ -6,12 +6,17 @@ import {
 	FileList,
 	FileContextMenu,
 	IconFA,
+	ExplorerActions
 } from '../../../packages/react-file-manager-ctz/src/index';
 import files from './files';
 import './App.css';
-
 function App() {
 	const pathEntries = ['test', 'folder'];
+	const myFileActions = [
+		ExplorerActions.UploadFiles,
+		ExplorerActions.DownloadFiles,
+		ExplorerActions.DeleteFiles,
+	];
 
 	return (
 		<Box>
@@ -25,6 +30,7 @@ function App() {
 
 			<Box sx={{ height: '500px', mt: 5, p: 5 }}>
 				<FileBrowser
+					fileActions={myFileActions}
 					iconComponent={IconFA}
 					folderChain={pathEntries.map((name, idx) => ({
 						id: `${idx}`,
