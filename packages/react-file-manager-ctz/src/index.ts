@@ -30,7 +30,7 @@ export type {
   FileActionState,
 } from './types/action-handler.types';
 export type { ExplorerActionUnion } from './types/file-browser.types';
-export type { IconName } from './types/icons.types';
+export { IconName } from './types/icons.types';
 export type ExplorerIconProps = import('./types/icons.types').ExplorerIconProps;
 export type { FileBrowserHandle, FileBrowserProps } from './types/file-browser.types';
 export type { FileViewMode } from './types/file-view.types';

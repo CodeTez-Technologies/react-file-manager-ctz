@@ -6,7 +6,9 @@ import {
 	FileList,
 	FileContextMenu,
 	IconFA,
-	ExplorerActions
+	ExplorerActions,
+	defineFileAction,
+	IconName
 } from '../../../packages/react-file-manager-ctz/src/index';
 import files from './files';
 import './App.css';
@@ -17,6 +19,74 @@ function App() {
 		ExplorerActions.DownloadFiles,
 		ExplorerActions.DeleteFiles,
 	];
+	const CustomActions = {
+		DeleteFiles: defineFileAction({
+			id: 'delete_files',
+			requiresSelection: true,
+			hotkeys: ['delete'],
+			button: {
+				name: 'Delete',
+				toolbar: true,
+				contextMenu: true,
+				group: 'Actions',
+				tooltip: 'Delete',
+				dropdown: true,
+				icon: IconName.trash,
+			},
+		}),
+		RenameFiles: defineFileAction({
+			id: 'rename_files',
+			requiresSelection: true,
+			button: {
+				name: 'Rename',
+				toolbar: true,
+				contextMenu: true,
+				group: 'Actions',
+				icon: IconName.copy,
+			},
+		}),
+		CopyFiles: defineFileAction({
+			id: 'copy_files',
+			requiresSelection: true,
+			button: {
+				name: 'Copy To...',
+				toolbar: true,
+				contextMenu: true,
+				group: 'Actions',
+				icon: IconName.copy,
+			},
+		}),
+		MoveFiles: defineFileAction({
+			id: 'move_files',
+			requiresSelection: true,
+			button: {
+				name: 'Move To...',
+				toolbar: true,
+				contextMenu: true,
+				group: 'Actions',
+				icon: IconName.folder,
+			},
+		}),
+		ShareFiles: defineFileAction({
+			id: 'share_files',
+			requiresSelection: true,
+			button: {
+				name: 'Share',
+				toolbar: true,
+				contextMenu: true,
+				group: 'Actions',
+				icon: IconName.share,
+			},
+		}),
+		UploadFiles: defineFileAction({
+			id: 'upload_files',
+			button: {
+				name: 'Upload',
+				toolbar: true,
+				icon: IconName.upload,
+			},
+		}),
+	};
 
 	return (
 		<Box>
@@ -30,7 +100,7 @@ function App() {
 
 			<Box sx={{ height: '500px', mt: 5, p: 5 }}>
 				<FileBrowser
-					fileActions={myFileActions}
+					fileActions={CustomActions}
 					iconComponent={IconFA}
 					folderChain={pathEntries.map((name, idx) => ({
 						id: `${idx}`,
