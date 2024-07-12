@@ -439,9 +439,15 @@ const iconTrie = getIconTrie();
 export const useIconData = (file: Nullable<FileData>): FileIconData => {
   return useMemo(() => {
     if (!file) return { icon: IconName.loading, colorCode: 0 };
+
+    if (file.isDir && file.parentId === null) {
+      return { icon: 'cabinet', colorCode: 0 };
+    }
+
     if (file.isDir === true) return { icon: IconName.folder, colorCode: 0 };
 
     const match = iconTrie.getWithCheckpoints(file.name, '.', true);
+
     return match ? match : { icon: IconName.file, colorCode: 32 };
   }, [file]);
 };

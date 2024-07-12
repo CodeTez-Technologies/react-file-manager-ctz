@@ -33,9 +33,9 @@ GridEntry.displayName = 'GridEntry';
 
 const useFileEntryStyles = makeLocalExplorerStyles((theme) => ({
   gridFileEntry: {
-    flexDirection: 'column',
-    display: 'flex',
-    height: '100%',
+    // flexDirection: 'column',
+    // display: 'flex',
+    // height: '100%',
   },
   gridFileEntryPreview: {
     // flexGrow: 1,
@@ -45,6 +45,8 @@ const useFileEntryStyles = makeLocalExplorerStyles((theme) => ({
     wordBreak: 'break-word',
     textAlign: 'center',
     paddingTop: 5,
+    height: '50px',
+    overflow: 'hidden'
   },
   gridFileEntryName: {
     backgroundColor: (state: FileEntryState) => (state.selected ? 'rgba(0,153,255, .25)' : 'transparent'),

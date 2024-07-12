@@ -107,7 +107,7 @@ export const useFileNameComponent = (file: Nullable<FileData>) => {
 
     return (
       <>
-        {name.substring(0, 10)}
+        {name}
         {extension && <span className="explorer-file-entry-description-title-extension">.{extension}</span>}
       </>
     );

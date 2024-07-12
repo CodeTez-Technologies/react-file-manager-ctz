@@ -2,7 +2,18 @@ export default [
     {
         isDir: true,
         "id": "myfolderid",
-        name: "My Folder"
+        name: "My Cabintet Folder",
+        parentId: null
+    },
+    {
+        isDir: true,
+        "id": "myfolderid2",
+        name: "My Folder 2",
+    },
+    {
+        isDir: false,
+        "id": "myXlsxFile",
+        "name": "Recommended approach to share session information between applications on subdomains.xlsx",
     },
     {
         "isDir": false,
