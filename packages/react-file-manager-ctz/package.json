@@ -1,6 +1,6 @@
 {
   "name": "@codetez/react-file-manager-ctz",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "A File Explorer Component for React",
   "license": "MIT",
   "author": {
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ganapathy-codetez/react-file-explorer.git"
+    "url": "https://github.com/CodeTez-Technologies/react-file-manager-ctz.git"
   },
   "keywords": [
     "file",

@@ -18,6 +18,7 @@ export const FileToolbar: React.FC<FileToolbarProps & { children?: ReactNode; }>
 
   const toolbarItemComponents = useMemo(() => {
     const components: ReactElement[] = [];
+    // @ts-ignore
     const items = toolbarItems.filter(i => i.name !== 'Actions');
 
     for (let i = 0; i < items.length; ++i) {
