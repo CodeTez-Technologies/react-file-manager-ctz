@@ -7,6 +7,7 @@ import { SmartToolbarButton } from './ToolbarButton';
 import { ToolbarDropdown } from './ToolbarDropdown';
 import { ToolbarInfo } from './ToolbarInfo';
 import { ToolbarSearch } from './ToolbarSearch';
+import BtnGroup from './BtnGroup';
 
 export interface FileToolbarProps { }
 
@@ -17,8 +18,10 @@ export const FileToolbar: React.FC<FileToolbarProps & { children?: ReactNode; }>
 
   const toolbarItemComponents = useMemo(() => {
     const components: ReactElement[] = [];
-    for (let i = 0; i < toolbarItems.length; ++i) {
-      const item = toolbarItems[i];
+    const items = toolbarItems.filter(i => i.name !== 'Actions');
+
+    for (let i = 0; i < items.length; ++i) {
+      const item = items[i];
 
       const key = `toolbar-item-${typeof item === 'string' ? item : item.name}`;
       const component =
@@ -41,6 +44,7 @@ export const FileToolbar: React.FC<FileToolbarProps & { children?: ReactNode; }>
           {!hideToolbarInfo && <ToolbarInfo />}
           {children}
         </div>
+        <BtnGroup />
         <div className={classes.toolbarRight}>{toolbarItemComponents}</div>
       </div>
     </div>
@@ -52,6 +56,7 @@ const useStyles = makeGlobalExplorerStyles((theme) => ({
   toolbarContainer: {
     flexWrap: 'wrap-reverse',
     display: 'flex',
+    padding: '15px'
   },
   toolbarLeft: {
     paddingBottom: theme.margins.rootLayoutMargin,

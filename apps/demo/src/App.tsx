@@ -107,8 +107,9 @@ function App() {
 						name,
 					}))}
 					files={files}
+					clearSelectionOnOutsideClick={false}
 				>
-					<FileNavbar />
+					{/* <FileNavbar /> */}
 					<FileToolbar />
 					<FileList />
 					<FileContextMenu />

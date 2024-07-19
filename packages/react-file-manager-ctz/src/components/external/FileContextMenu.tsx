@@ -89,9 +89,9 @@ export const FileContextMenu: React.FC<FileContextMenuProps> = React.memo(() => 
       classes={{ list: classes.contextMenuList }}
     >
       {contextMenuItemComponents}
-      <ListSubheader component="div" className={classes.browserMenuTooltip}>
+      {/* <ListSubheader component="div" className={classes.browserMenuTooltip}>
         {browserMenuShortcutString}
-      </ListSubheader>
+      </ListSubheader> */}
     </Menu>
   );
 });

@@ -33,7 +33,7 @@ export const DefaultFileActions = [
   ExplorerActions.SortFilesByName,
   ExplorerActions.SortFilesBySize,
   ExplorerActions.SortFilesByDate,
-  ExplorerActions.ToggleHiddenFiles,
-  ExplorerActions.ToggleShowFoldersFirst,
+  // ExplorerActions.ToggleHiddenFiles,
+  // ExplorerActions.ToggleShowFoldersFirst,
   ExplorerActions.FocusSearchInput,
 ];

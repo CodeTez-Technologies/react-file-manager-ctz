@@ -90,7 +90,7 @@ export const DefaultActions = {
     },
     button: {
       name: 'Switch to List',
-      toolbar: true,
+      toolbar: false,
       icon: IconName.list,
       // iconOnly: true,
       group: 'Options',
@@ -124,7 +124,7 @@ export const DefaultActions = {
     fileViewConfig: { mode: FileViewMode.Grid, entryWidth: 100, entryHeight: 150 },
     button: {
       name: 'Switch to Grid',
-      toolbar: true,
+      toolbar: false,
       icon: IconName.smallThumbnail,
       // iconOnly: true,
       group: 'Options',
