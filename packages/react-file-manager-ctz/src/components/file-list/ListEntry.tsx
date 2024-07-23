@@ -9,6 +9,8 @@ import { useDndIcon, useFileEntryHtmlProps, useFileEntryState } from './FileEntr
 import { FileEntryName } from './FileEntryName';
 import { FileEntryState, useCommonEntryStyles } from './GridEntryPreview';
 
+import { format } from 'date-fns';
+
 interface StyleState {
   entryState: FileEntryState;
   dndState: DndEntryState;
@@ -30,6 +32,8 @@ export const ListEntry: React.FC<FileEntryProps> = React.memo(({ file, selected,
   const commonClasses = useCommonEntryStyles(entryState);
   const ExplorerIcon = useContext(ExplorerIconContext);
   const fileEntryHtmlProps = useFileEntryHtmlProps(file);
+  const fileModDate = typeof file?.modDate === 'string' ? format(new Date(file.modDate), 'MMM dd, yyyy HH:mm') : '-';
+
   return (
     <div className={classes.listFileEntry} {...fileEntryHtmlProps}>
       <div className={commonClasses.focusIndicator}></div>
@@ -45,10 +49,13 @@ export const ListEntry: React.FC<FileEntryProps> = React.memo(({ file, selected,
         <FileEntryName file={file} />
       </div>
       <div className={classes.listFileEntryProperty}>
-        {file ? fileModDateString ?? <span>—</span> : <TextPlaceholder minLength={5} maxLength={15} />}
+        {file ? fileModDate ?? <span>—</span> : <TextPlaceholder minLength={5} maxLength={15} />}
       </div>
       <div className={classes.listFileEntryProperty}>
         {file ? fileSizeString ?? <span>—</span> : <TextPlaceholder minLength={10} maxLength={20} />}
+      </div>
+      <div className={classes.listFileEntryProperty}>
+        {file ? file.updatedBy : <TextPlaceholder minLength={10} maxLength={20} />}
       </div>
     </div>
   );

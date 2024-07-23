@@ -168,8 +168,6 @@ const IconMap: { [iconName in IconName]: any } = {
 
 export const IconFA: React.FC<ExplorerIconProps> = React.memo((props) => {
   const { icon } = props;
-  console.log(icon);
-
 
   if (IconMap[icon as keyof typeof IconMap]) {
     const faProps = {

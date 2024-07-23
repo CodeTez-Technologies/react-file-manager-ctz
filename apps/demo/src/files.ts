@@ -424,10 +424,11 @@ export default [
         "remarks": null,
         "status": 1,
         "createdBy": null,
-        "updatedBy": null,
+        "updatedBy": 'Ganapathy',
         "createdAt": "2024-07-08T09:14:43.092Z",
         "updatedAt": "2024-07-08T09:14:43.092Z",
-        "deletedAt": null
+        "deletedAt": null,
+
     },
     {
         "isDir": false,

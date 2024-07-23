@@ -100,15 +100,16 @@ function App() {
 
 			<Box sx={{ height: '500px', mt: 5, p: 5 }}>
 				<FileBrowser
+					// darkMode={true}
 					fileActions={CustomActions}
 					iconComponent={IconFA}
 					folderChain={pathEntries.map((name, idx) => ({
 						id: `${idx}`,
 						name,
 					}))}
-					files={files}
+					files={files.map(f => ({ ...f, modDate: f.updatedAt, size: f.isDir ? '' : parseInt(f.size || 0, 10) }))}
 					clearSelectionOnOutsideClick={false}
-					defaultFileViewActionId='enable_grid_view'
+				// defaultFileViewActionId='enable_grid_view'
 				>
 					{/* <FileNavbar /> */}
 					<FileToolbar />
