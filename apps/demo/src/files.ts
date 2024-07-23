@@ -13,7 +13,7 @@ export default [
     {
         isDir: false,
         "id": "myXlsxFile",
-        "name": "Recommended approach to share session information between applications on subdomains.xlsx",
+        "name": "sheet1.xlsx",
     },
     {
         "isDir": false,

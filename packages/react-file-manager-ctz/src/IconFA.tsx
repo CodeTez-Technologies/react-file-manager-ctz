@@ -71,6 +71,7 @@ import { IconName, ExplorerIconProps } from './types/icons.types';
 // SVG Icons
 import PdfIcon from './icons/pdf';
 import WordIcon from './icons/word';
+import SpreadSheetIcon from './icons/spreadsheet';
 import FolderIcon from './icons/folder';
 import ImageIcon from './icons/image';
 import FileIcon from './icons/file';
@@ -167,10 +168,7 @@ const IconMap: { [iconName in IconName]: any } = {
 
 export const IconFA: React.FC<ExplorerIconProps> = React.memo((props) => {
   const { icon } = props;
-
-  if (typeof icon === 'object') {
-    return icon;
-  }
+  console.log(icon);
 
 
   if (IconMap[icon as keyof typeof IconMap]) {
@@ -185,6 +183,8 @@ export const IconFA: React.FC<ExplorerIconProps> = React.memo((props) => {
   switch (icon) {
     case 'word':
       return <WordIcon />;
+    case 'excel':
+      return <SpreadSheetIcon />;
     case 'folder':
       return <FolderIcon />;
     case 'pdf':

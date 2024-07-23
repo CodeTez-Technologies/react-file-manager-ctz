@@ -1,7 +1,7 @@
 import { AppBar, Box, Toolbar, Typography } from '@mui/material';
 import {
 	FileBrowser,
-	FileNavbar,
+	// FileNavbar,
 	FileToolbar,
 	FileList,
 	FileContextMenu,
@@ -108,6 +108,7 @@ function App() {
 					}))}
 					files={files}
 					clearSelectionOnOutsideClick={false}
+					defaultFileViewActionId='enable_grid_view'
 				>
 					{/* <FileNavbar /> */}
 					<FileToolbar />

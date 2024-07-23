@@ -21,7 +21,7 @@ export const OldExplorerActions = validateActionTypes({
   CreateFolder: {
     id: 'create_folder',
     button: {
-      name: 'Create folder',
+      name: 'Create',
       toolbar: true,
       contextMenu: true,
       tooltip: 'Create a folder',

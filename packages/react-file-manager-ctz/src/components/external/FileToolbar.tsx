@@ -7,7 +7,6 @@ import { SmartToolbarButton } from './ToolbarButton';
 import { ToolbarDropdown } from './ToolbarDropdown';
 import { ToolbarInfo } from './ToolbarInfo';
 import { ToolbarSearch } from './ToolbarSearch';
-import BtnGroup from './BtnGroup';
 
 export interface FileToolbarProps { }
 
@@ -45,7 +44,6 @@ export const FileToolbar: React.FC<FileToolbarProps & { children?: ReactNode; }>
           {!hideToolbarInfo && <ToolbarInfo />}
           {children}
         </div>
-        <BtnGroup />
         <div className={classes.toolbarRight}>{toolbarItemComponents}</div>
       </div>
     </div>
