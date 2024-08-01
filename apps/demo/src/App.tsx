@@ -98,7 +98,7 @@ function App() {
 				</Toolbar>
 			</AppBar>
 
-			<Box sx={{ height: '500px', mt: 5, p: 5 }}>
+			<Box sx={{ height: '80vh', mt: 2, p: 5 }}>
 				<FileBrowser
 					// darkMode={true}
 					fileActions={CustomActions}
@@ -109,7 +109,7 @@ function App() {
 					}))}
 					files={files.map(f => ({ ...f, modDate: f.updatedAt, size: f.isDir ? '' : parseInt(f.size || 0, 10) }))}
 					clearSelectionOnOutsideClick={false}
-				// defaultFileViewActionId='enable_grid_view'
+					defaultFileViewActionId='enable_grid_view'
 				>
 					{/* <FileNavbar /> */}
 					<FileToolbar />

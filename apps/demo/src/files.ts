@@ -1,5 +1,42 @@
 export default [
     {
+        "isDir": true,
+        id: "my-folder-id",
+        size: "412032",
+        name: 'my-folder',
+        "updatedUser": {
+            "id": "da0a005f-44d1-4bf8-98b3-fbd2db76d761",
+            "userName": "CannyMinds",
+            "firstName": "Christopher",
+            "lastName": "CannyMinds"
+        },
+    },
+    {
+        "isDir": true,
+        id: "my-cabinet-id",
+        size: "412032",
+        name: 'my-cabintet',
+        parentId: null,
+        "updatedUser": {
+            "id": "da0a005f-44d1-4bf8-98b3-fbd2db76d761",
+            "userName": "CannyMinds",
+            "firstName": "Christopher",
+            "lastName": "CannyMinds"
+        },
+    },
+    {
+        "isDir": true,
+        id: "my-large-name-folder-id",
+        size: "412032",
+        name: 'my-large-name-folder-some-long-text-folder-name-with-extra-long',
+        "updatedUser": {
+            "id": "da0a005f-44d1-4bf8-98b3-fbd2db76d761",
+            "userName": "CannyMinds",
+            "firstName": "Christopher",
+            "lastName": "CannyMinds"
+        },
+    },
+    {
         "isDir": false,
         "id": "6c96178b-caab-49f1-ab78-71b2bdd35df9",
         "name": "document.pdf",
@@ -51,6 +88,18 @@ export default [
         "createdAt": "2024-07-18T11:27:45.531Z",
         "updatedAt": "2024-07-18T11:27:45.531Z",
         "deletedAt": null,
+        "updatedUser": {
+            "id": "da0a005f-44d1-4bf8-98b3-fbd2db76d761",
+            "userName": "CannyMinds",
+            "firstName": "Christopher",
+            "lastName": "CannyMinds"
+        },
+        "modDate": "2024-07-18T11:27:45.531Z"
+    },
+    {
+        isDir: false,
+        name: 'My test file name with large text in it with some extra text.txt',
+        id: 'my-large-text-id',
         "updatedUser": {
             "id": "da0a005f-44d1-4bf8-98b3-fbd2db76d761",
             "userName": "CannyMinds",

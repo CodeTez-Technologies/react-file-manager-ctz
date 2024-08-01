@@ -198,14 +198,14 @@ const useFileStyles = makeLocalExplorerStyles((theme) => ({
 export const useCommonEntryStyles = makeLocalExplorerStyles(() => ({
   selectionIndicator: {
     display: (state: FileEntryState) => (state.selected ? 'block' : 'none'),
-    background:
-      'repeating-linear-gradient(' +
-      '45deg,' +
-      'rgba(0,153,255,.14),' +
-      'rgba(0,153,255,.14) 10px,' +
-      'rgba(0,153,255,.25) 0,' +
-      'rgba(0,153,255,.25) 20px' +
-      ')',
+    // background:
+    //   'repeating-linear-gradient(' +
+    //   '45deg,' +
+    //   'rgba(0,153,255,.14),' +
+    //   'rgba(0,153,255,.14) 10px,' +
+    //   'rgba(0,153,255,.25) 0,' +
+    //   'rgba(0,153,255,.25) 20px' +
+    //   ')',
     backgroundColor: 'rgba(0, 153, 255, .14)',
     position: 'absolute',
     height: '100%',

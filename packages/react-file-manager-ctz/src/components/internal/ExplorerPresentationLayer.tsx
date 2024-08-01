@@ -59,6 +59,10 @@ export const ExplorerPresentationLayer: React.FC<ExplorerPresentationLayerProps>
   const classes = useStyles();
 
   const handleClick = (e: any) => {
+    if (typeof e.target.className !== 'string') {
+      return;
+    }
+
     const targetClassNames = ['explorer-fileThumbnail', 'gridFileEntry', 'selectionIndicator', 'explorer-file-entry'];
     const matchFn = (c: any) => {
       const regex = new RegExp(`${c}`);
