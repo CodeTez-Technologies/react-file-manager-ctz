@@ -165,6 +165,8 @@ const useFileStyles = makeLocalExplorerStyles((theme) => ({
     borderRadius: theme.gridFileEntry.borderRadius,
     position: 'relative',
     overflow: 'hidden',
+    display: 'flex',
+    justifyContent: 'center',
   },
   dndIndicator: {
     zIndex: 14,
@@ -179,6 +181,8 @@ const useFileStyles = makeLocalExplorerStyles((theme) => ({
     // left: '50%',
     // zIndex: 12,
     // top: '50%',
+    width: '79.5px',
+    height: '78px'
   },
   thumbnail: {
     borderRadius: theme.gridFileEntry.borderRadius,

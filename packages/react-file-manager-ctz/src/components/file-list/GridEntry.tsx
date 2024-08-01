@@ -53,5 +53,6 @@ const useFileEntryStyles = makeLocalExplorerStyles((theme) => ({
     textDecoration: (state: FileEntryState) => (state.focused ? 'underline' : 'none'),
     borderRadius: 3,
     padding: [2, 4],
+    fontWeight: 500
   },
 }));
