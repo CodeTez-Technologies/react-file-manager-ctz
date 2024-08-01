@@ -57,9 +57,27 @@ export const ExplorerPresentationLayer: React.FC<ExplorerPresentationLayerProps>
   const showContextMenu = useContextMenuTrigger();
 
   const classes = useStyles();
+
+  const handleClick = (e: any) => {
+    const targetClassNames = ['explorer-fileThumbnail', 'gridFileEntry', 'selectionIndicator', 'explorer-file-entry'];
+    const matchFn = (c: any) => {
+      const regex = new RegExp(`${c}`);
+      const match = e.target.className.match(regex);
+
+      return match?.length;
+    };
+
+
+    if (targetClassNames.find(matchFn)) {
+      return;
+    }
+
+    dispatch(reduxActions.clearSelection());
+  };
+
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
-      <Box className={classes.explorerRoot} onContextMenu={showContextMenu}>
+      <Box className={classes.explorerRoot} onContextMenu={showContextMenu} onClick={handleClick}>
         {!dndDisabled && dndContextAvailable && <DnDFileListDragLayer />}
         {hotkeyListenerComponents}
         {children ? children : null}
