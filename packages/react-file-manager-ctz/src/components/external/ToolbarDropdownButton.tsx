@@ -34,6 +34,7 @@ export const ToolbarDropdownButton = React.forwardRef(
     const ExplorerIcon = useContext(ExplorerIconContext);
 
     const className = c({
+      [classes.contextMenuItem]: true,
       [classes.baseButton]: true,
       [classes.activeButton]: active,
     });
@@ -70,6 +71,10 @@ const useStyles = makeGlobalExplorerStyles((theme) => ({
   activeButton: {
     color: important(theme.colors.textActive),
   },
+  contextMenuItem: {
+    lineHeight: '18px !important',
+    padding: '18px 10px !important'
+  }
 }));
 
 export interface SmartToolbarDropdownButtonProps {

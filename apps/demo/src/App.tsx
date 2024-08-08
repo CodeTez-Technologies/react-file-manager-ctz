@@ -15,6 +15,19 @@ import './App.css';
 function App() {
 	const pathEntries = ['test', 'folder'];
 	const myFileActions = [
+		defineFileAction({
+			id: 'create_folder',
+			requiresSelection: false,
+			hotkeys: [],
+			button: {
+				name: 'Create New',
+				toolbar: true,
+				contextMenu: false,
+				tooltip: 'Create New',
+				dropdown: false,
+				icon: IconName.folderCreate,
+			},
+		}),
 		ExplorerActions.UploadFiles,
 		ExplorerActions.DownloadFiles,
 		ExplorerActions.DeleteFiles,
@@ -101,7 +114,7 @@ function App() {
 			<Box sx={{ height: '80vh', mt: 2, p: 5 }}>
 				<FileBrowser
 					// darkMode={true}
-					fileActions={CustomActions}
+					fileActions={myFileActions}
 					iconComponent={IconFA}
 					folderChain={pathEntries.map((name, idx) => ({
 						id: `${idx}`,
