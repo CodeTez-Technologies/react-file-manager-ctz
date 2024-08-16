@@ -4,7 +4,7 @@
  * @license MIT
  */
 
-import React, { CSSProperties, useCallback, useMemo, useRef } from 'react';
+import React, { CSSProperties, useCallback, useContext, useMemo, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { FixedSizeList } from 'react-window';
 
@@ -13,6 +13,7 @@ import { FileViewMode } from '../../types/file-view.types';
 import { useInstanceVariable } from '../../util/hooks-helpers';
 import { makeLocalExplorerStyles } from '../../util/styles';
 import { SmartFileEntry } from './FileEntry';
+import { PropsContext } from '../PropsProvider';
 
 export interface FileListListProps {
   width: number;
@@ -21,6 +22,8 @@ export interface FileListListProps {
 
 export const ListContainer: React.FC<FileListListProps> = React.memo((props) => {
   const { width, height } = props;
+
+  const { listCols } = useContext(PropsContext);
 
   const viewConfig = useSelector(selectFileViewConfig);
 
@@ -55,14 +58,18 @@ export const ListContainer: React.FC<FileListListProps> = React.memo((props) => 
             Name
           </div>
           <div style={{ flex: '0 1 150px', }}>
-            Last Modified
-          </div>
-          <div style={{ flex: '0 1 150px', }}>
             Size
           </div>
           <div style={{ flex: '0 1 150px', }}>
-            Modified By
+            Last Modified
           </div>
+          {
+            listCols.map((item, i) => (
+              <div key={i} style={{ flex: '0 1 150px', }}>
+                {item.label}
+              </div>
+            ))
+          }
         </div>
       );
     };

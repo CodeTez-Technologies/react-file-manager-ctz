@@ -1,4 +1,4 @@
-import { AppBar, Box, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Chip, Toolbar, Typography } from '@mui/material';
 import {
 	FileBrowser,
 	// FileNavbar,
@@ -8,29 +8,29 @@ import {
 	IconFA,
 	ExplorerActions,
 	defineFileAction,
-	IconName
-} from '../../../packages/react-file-manager-ctz/src/index';
+	IconName,
+} from '../../../packages/react-file-manager-ctz/dist/index';
 import files from './files';
 import './App.css';
 function App() {
 	const pathEntries = ['test', 'folder'];
 	const myFileActions = [
-		defineFileAction({
-			id: 'create_folder',
-			requiresSelection: false,
-			hotkeys: [],
-			button: {
-				name: 'Create New',
-				toolbar: true,
-				contextMenu: false,
-				tooltip: 'Create New',
-				dropdown: false,
-				icon: IconName.folderCreate,
-			},
-		}),
-		ExplorerActions.UploadFiles,
-		ExplorerActions.DownloadFiles,
-		ExplorerActions.DeleteFiles,
+		// defineFileAction({
+		// 	id: 'create_folder',
+		// 	requiresSelection: false,
+		// 	hotkeys: [],
+		// 	button: {
+		// 		name: 'Create New',
+		// 		toolbar: true,
+		// 		contextMenu: false,
+		// 		tooltip: 'Create New',
+		// 		dropdown: false,
+		// 		icon: IconName.folderCreate,
+		// 	},
+		// }),
+		// ExplorerActions.UploadFiles,
+		// ExplorerActions.DownloadFiles,
+		// ExplorerActions.DeleteFiles,
 	];
 	const CustomActions = {
 		DeleteFiles: defineFileAction({
@@ -120,9 +120,18 @@ function App() {
 						id: `${idx}`,
 						name,
 					}))}
-					files={files.map(f => ({ ...f, modDate: f.updatedAt, size: f.isDir ? '' : parseInt(f.size || 0, 10) }))}
+					files={files.map((f) => ({
+						...f,
+						modDate: f.updatedAt,
+						size: f.isDir ? '' : parseInt(f.size || 0, 10),
+					}))}
 					clearSelectionOnOutsideClick={false}
-					defaultFileViewActionId='enable_grid_view'
+					// defaultFileViewActionId='enable_grid_view'
+					defaultFileViewActionId="enable_list_view"
+				// listCols={[
+				// 	{ label: 'Cabinet Size', getValue: (item) => 0 },
+				// 	{ label: 'MetaData', getValue: (item) => <Chip label="Yes" color="primary" size="small" /> },
+				// ]}
 				>
 					{/* <FileNavbar /> */}
 					<FileToolbar />

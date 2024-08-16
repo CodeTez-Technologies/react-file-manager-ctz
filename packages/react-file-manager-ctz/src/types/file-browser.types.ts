@@ -186,4 +186,9 @@ export interface FileBrowserProps {
    * Overrides MuiThemeOptions properties.
    */
   muiThemeOptions?: DeepPartial<MuiThemeOptions>;
+
+  /**
+   * Define list view custom columns
+   */
+  listCols?: { label: string; getValue: (item: any) => any; }[];
 }
