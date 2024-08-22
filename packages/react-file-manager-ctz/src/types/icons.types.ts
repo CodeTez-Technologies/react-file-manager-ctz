@@ -20,6 +20,7 @@ export enum IconName {
   search = 'search',
   selectAllFiles = 'selectAllFiles',
   clearSelection = 'clearSelection',
+  star = 'star',
 
   // File Actions: Sorting & options
   sortAsc = 'sortAsc',

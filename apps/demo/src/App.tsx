@@ -9,7 +9,7 @@ import {
 	ExplorerActions,
 	defineFileAction,
 	IconName,
-} from '../../../packages/react-file-manager-ctz/dist/index';
+} from '../../../packages/react-file-manager-ctz/src/index';
 import files from './files';
 import './App.css';
 function App() {
@@ -31,6 +31,17 @@ function App() {
 		// ExplorerActions.UploadFiles,
 		// ExplorerActions.DownloadFiles,
 		// ExplorerActions.DeleteFiles,
+		defineFileAction({
+			id: 'star_file',
+			requiresSelection: true,
+			button: {
+				name: 'Add to Starred',
+				toolbar: true,
+				contextMenu: true,
+				group: 'Actions',
+				icon: IconName.star,
+			},
+		}),
 	];
 	const CustomActions = {
 		DeleteFiles: defineFileAction({

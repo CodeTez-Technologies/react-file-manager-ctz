@@ -64,6 +64,7 @@ import { faToggleOn } from '@fortawesome/free-solid-svg-icons/faToggleOn';
 import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash';
 import { faUpload } from '@fortawesome/free-solid-svg-icons/faUpload';
 // import { faUsers } from '@fortawesome/free-solid-svg-icons/faUsers';
+import { faStar } from '@fortawesome/free-solid-svg-icons/fastar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { IconName, ExplorerIconProps } from './types/icons.types';
@@ -96,6 +97,7 @@ const IconMap: { [iconName in IconName]: any } = {
   [IconName.paste]: faPaste,
   [IconName.share]: faShareAlt,
   [IconName.search]: faSearch,
+  [IconName.star]: faStar,
   [IconName.selectAllFiles]: faObjectGroup,
   [IconName.clearSelection]: faEraser,
 
