@@ -95,7 +95,7 @@ export const defaultFormatters: ExplorerFormatters = {
     if (!file || typeof file.size !== 'number') return null;
 
     const size = file.size;
-    const sizeData = filesize(size, { bits: false, output: 'object' }) as any;
+    const sizeData = filesize(size, { bits: false, output: 'object', base: 2 }) as any;
     if (sizeData.symbol === 'B') {
       return `${Math.round(sizeData.value / 10) / 100.0} KB`;
     } else if (sizeData.symbol === 'KB') {
