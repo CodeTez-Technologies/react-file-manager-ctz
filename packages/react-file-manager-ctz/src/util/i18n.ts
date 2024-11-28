@@ -101,8 +101,28 @@ export const defaultFormatters: ExplorerFormatters = {
     } else if (sizeData.symbol === 'KB') {
       return `${Math.round(sizeData.value)} ${sizeData.symbol}`;
     }
-    return `${sizeData.value} ${sizeData.symbol}`;
+
+    return convertUnitSymbol(`${sizeData.value} ${sizeData.symbol}`);
   },
 };
+
+/**
+ * Convert SI unit symbols (KiB, MiB, etc.) to decimal unit symbols (KB, MB, etc.).
+ * @param {string} sizeStr - Size with SI unit (e.g., "1024 KiB", "1 MiB").
+ * @returns {string} - Size with decimal unit (e.g., "1024 KB", "1 MB").
+ */
+function convertUnitSymbol(sizeStr: string) {
+  // Define a mapping for SI unit replacements
+  const symbolMap: Record<string, string> = {
+    KiB: 'KB',
+    MiB: 'MB',
+    GiB: 'GB',
+    TiB: 'TB',
+    PiB: 'PB',
+  };
+
+  // Replace the SI unit symbol with the decimal unit symbol
+  return sizeStr.replace(/\b(KiB|MiB|GiB|TiB|PiB)\b/g, (match) => symbolMap[match]);
+}
 
 export const ExplorerFormattersContext = createContext(defaultFormatters);
