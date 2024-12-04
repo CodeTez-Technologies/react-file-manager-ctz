@@ -102,7 +102,7 @@ export const useFileNameComponent = (file: Nullable<FileData>) => {
       name = file.name;
     } else {
       extension = file.ext ?? _extname(file.name);
-      name = file.name.substring(0, file.name.length - extension.length);
+      name = file.name.substring(0, file.name.length - (extension.length + 1));
     }
 
     if (name.length > 45) {
