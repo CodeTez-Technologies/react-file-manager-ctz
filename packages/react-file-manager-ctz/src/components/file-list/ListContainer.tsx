@@ -54,7 +54,7 @@ export const ListContainer: React.FC<FileListListProps> = React.memo((props) => 
     const headerRenderer = () => {
       return (
         <div style={{ display: 'flex' }}>
-          <div style={{ flex: '1 1 300px', }}>
+          <div style={{ flex: '1 1 550px', }}>
             Name
           </div>
           <div style={{ flex: '0 1 150px', }}>
