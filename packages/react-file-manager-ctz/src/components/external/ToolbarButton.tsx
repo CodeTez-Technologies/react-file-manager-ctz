@@ -30,7 +30,7 @@ export interface ToolbarButtonProps {
 }
 
 export const ToolbarButton: React.FC<ToolbarButtonProps> = React.memo((props) => {
-    
+
     const { className: externalClassName, text, tooltip, active, icon, iconOnly, onClick, disabled, dropdown } = props;
     const classes = useStyles();
     const ExplorerIcon = useContext(ExplorerIconContext);
@@ -97,7 +97,7 @@ export interface SmartToolbarButtonProps {
 }
 
 export const SmartToolbarButton: React.FC<SmartToolbarButtonProps> = React.memo((props) => {
-    
+
     const { fileActionId } = props;
 
     const action = useParamSelector(selectFileActionData, fileActionId);
