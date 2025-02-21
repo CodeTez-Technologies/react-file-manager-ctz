@@ -80,120 +80,120 @@ import CabinetIcon from './icons/cabinet';
 
 // @ts-ignore
 const IconMap: { [iconName in IconName]: any } = {
-  // Misc
-  [IconName.loading]: faCircleNotch,
-  [IconName.dropdown]: faChevronDown,
-  [IconName.placeholder]: faMinus,
+    // Misc
+    [IconName.loading]: faCircleNotch,
+    [IconName.dropdown]: faChevronDown,
+    [IconName.placeholder]: faMinus,
 
-  // File Actions: Drag & drop
-  [IconName.dndDragging]: faFistRaised,
-  [IconName.dndCanDrop]: faArrowDown,
-  [IconName.dndCannotDrop]: faTimes,
+    // File Actions: Drag & drop
+    [IconName.dndDragging]: faFistRaised,
+    [IconName.dndCanDrop]: faArrowDown,
+    [IconName.dndCannotDrop]: faTimes,
 
-  // File Actions: File operations
-  [IconName.openFiles]: faBoxOpen,
-  [IconName.openParentFolder]: faLevelUpAlt,
-  [IconName.copy]: faCopy,
-  [IconName.paste]: faPaste,
-  [IconName.share]: faShareAlt,
-  [IconName.search]: faSearch,
-  [IconName.star]: faStar,
-  [IconName.selectAllFiles]: faObjectGroup,
-  [IconName.clearSelection]: faEraser,
+    // File Actions: File operations
+    [IconName.openFiles]: faBoxOpen,
+    [IconName.openParentFolder]: faLevelUpAlt,
+    [IconName.copy]: faCopy,
+    [IconName.paste]: faPaste,
+    [IconName.share]: faShareAlt,
+    [IconName.search]: faSearch,
+    [IconName.star]: faStar,
+    [IconName.selectAllFiles]: faObjectGroup,
+    [IconName.clearSelection]: faEraser,
 
-  // File Actions: Sorting & options
-  [IconName.sortAsc]: faSortAmountDownAlt,
-  [IconName.sortDesc]: faSortAmountUpAlt,
-  [IconName.toggleOn]: faToggleOn,
-  [IconName.toggleOff]: faToggleOff,
+    // File Actions: Sorting & options
+    [IconName.sortAsc]: faSortAmountDownAlt,
+    [IconName.sortDesc]: faSortAmountUpAlt,
+    [IconName.toggleOn]: faToggleOn,
+    [IconName.toggleOff]: faToggleOff,
 
-  // File Actions: File Views
-  [IconName.list]: faList,
-  [IconName.compact]: faThList,
-  [IconName.smallThumbnail]: faTh,
-  [IconName.largeThumbnail]: faThLarge,
+    // File Actions: File Views
+    [IconName.list]: faList,
+    [IconName.compact]: faThList,
+    [IconName.smallThumbnail]: faTh,
+    [IconName.largeThumbnail]: faThLarge,
 
-  // File Actions: Unsorted
-  // [IconName.folder]: faFolder,
-  [IconName.folderCreate]: faFolderPlus,
-  [IconName.folderOpen]: faFolderOpen,
-  [IconName.folderChainSeparator]: faChevronRight,
-  [IconName.download]: faDownload,
-  [IconName.upload]: faUpload,
-  [IconName.trash]: faTrash,
-  [IconName.fallbackIcon]: faExclamationTriangle,
+    // File Actions: Unsorted
+    // [IconName.folder]: faFolder,
+    [IconName.folderCreate]: faFolderPlus,
+    [IconName.folderOpen]: faFolderOpen,
+    [IconName.folderChainSeparator]: faChevronRight,
+    [IconName.download]: faDownload,
+    [IconName.upload]: faUpload,
+    [IconName.trash]: faTrash,
+    [IconName.fallbackIcon]: faExclamationTriangle,
 
-  // File modifiers
-  // [IconName.symlink]: faExternalLinkAlt,
-  // [IconName.hidden]: faEyeSlash,
+    // File modifiers
+    // [IconName.symlink]: faExternalLinkAlt,
+    // [IconName.hidden]: faEyeSlash,
 
-  // Generic file types
-  // [IconName.file]: faFile,
-  // [IconName.license]: faBalanceScale,
-  // [IconName.code]: faFileCode,
-  [IconName.config]: faCogs,
-  // [IconName.model]: faCubes,
-  // [IconName.database]: faDatabase,
-  // [IconName.text]: faFileAlt,
-  // [IconName.archive]: faFileArchive,
-  // [IconName.image]: faFileImage,
-  // [IconName.video]: faFilm,
-  // [IconName.info]: faInfoCircle,
-  // [IconName.key]: faKey,
-  // [IconName.lock]: faLock,
-  // [IconName.music]: faMusic,
-  // [IconName.terminal]: faTerminal,
-  // [IconName.users]: faUsers,
+    // Generic file types
+    // [IconName.file]: faFile,
+    // [IconName.license]: faBalanceScale,
+    // [IconName.code]: faFileCode,
+    [IconName.config]: faCogs,
+    // [IconName.model]: faCubes,
+    // [IconName.database]: faDatabase,
+    // [IconName.text]: faFileAlt,
+    // [IconName.archive]: faFileArchive,
+    // [IconName.image]: faFileImage,
+    // [IconName.video]: faFilm,
+    // [IconName.info]: faInfoCircle,
+    // [IconName.key]: faKey,
+    // [IconName.lock]: faLock,
+    // [IconName.music]: faMusic,
+    // [IconName.terminal]: faTerminal,
+    // [IconName.users]: faUsers,
 
-  // OS file types
-  // [IconName.linux]: faLinux,
-  // [IconName.ubuntu]: faUbuntu,
-  // [IconName.windows]: faWindows,
+    // OS file types
+    // [IconName.linux]: faLinux,
+    // [IconName.ubuntu]: faUbuntu,
+    // [IconName.windows]: faWindows,
 
-  // Programming language file types
-  // [IconName.rust]: faRust,
-  // [IconName.python]: faPython,
-  // [IconName.nodejs]: faNodeJs,
-  // [IconName.php]: faPhp,
+    // Programming language file types
+    // [IconName.rust]: faRust,
+    // [IconName.python]: faPython,
+    // [IconName.nodejs]: faNodeJs,
+    // [IconName.php]: faPhp,
 
-  // Development tools file types
-  // [IconName.git]: faGitAlt,
+    // Development tools file types
+    // [IconName.git]: faGitAlt,
 
-  // Other program file types
-  // [IconName.pdf]: faFilePdf,
-  // [IconName.excel]: faFileExcel,
-  // [IconName.word]: faFileWord,
-  // [IconName.flash]: faRunning,
+    // Other program file types
+    // [IconName.pdf]: faFilePdf,
+    // [IconName.excel]: faFileExcel,
+    // [IconName.word]: faFileWord,
+    // [IconName.flash]: faRunning,
 } as const;
 
 
 
 export const IconFA: React.FC<ExplorerIconProps> = React.memo((props) => {
-  const { icon } = props;
+    const { icon } = props;
 
-  if (IconMap[icon as keyof typeof IconMap]) {
-    const faProps = {
-      ...props,
-      icon: IconMap[icon as keyof typeof IconMap],
-    } as const;
+    if (IconMap[icon as keyof typeof IconMap]) {
+        const faProps = {
+            ...props,
+            icon: IconMap[icon as keyof typeof IconMap],
+        } as const;
 
-    return <FontAwesomeIcon {...faProps} />;
-  }
+        return <FontAwesomeIcon {...faProps} />;
+    }
 
-  switch (icon) {
-    case 'word':
-      return <WordIcon />;
-    case 'excel':
-      return <SpreadSheetIcon />;
-    case 'folder':
-      return <FolderIcon />;
-    case 'pdf':
-      return <PdfIcon />;
-    case 'image':
-      return <ImageIcon />;
-    case 'cabinet':
-      return <CabinetIcon />;
-    default:
-      return <FileIcon />;
-  }
+    switch (icon) {
+        case 'word':
+            return <WordIcon />;
+        case 'excel':
+            return <SpreadSheetIcon />;
+        case 'folder':
+            return <FolderIcon />;
+        case 'pdf':
+            return <PdfIcon />;
+        case 'image':
+            return <ImageIcon />;
+        case 'cabinet':
+            return <CabinetIcon />;
+        default:
+            return <FileIcon />;
+    }
 });

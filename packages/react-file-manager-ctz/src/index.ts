@@ -17,17 +17,17 @@ export { makeGlobalExplorerStyles, type ExplorerTheme } from './util/styles';
 
 export type { FileData, FileArray } from './types/file.types';
 export type {
-  FileAction,
-  FileActionEffect,
-  FileSelectionTransform,
-  FileActionButton,
-  CustomVisibilityState,
+    FileAction,
+    FileActionEffect,
+    FileSelectionTransform,
+    FileActionButton,
+    CustomVisibilityState,
 } from './types/action.types';
 export type {
-  GenericFileActionHandler,
-  MapFileActionsToData,
-  FileActionData,
-  FileActionState,
+    GenericFileActionHandler,
+    MapFileActionsToData,
+    FileActionData,
+    FileActionState,
 } from './types/action-handler.types';
 export type { ExplorerActionUnion } from './types/file-browser.types';
 export { IconName } from './types/icons.types';
