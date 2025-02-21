@@ -42,7 +42,6 @@ export const ExplorerBusinessLogicInner = React.memo(
             thunkUpdateDefaultFileViewActionId,
             getValueOrFallback(props.defaultFileViewActionId, defaultConfig.defaultFileViewActionId, 'string'),
         );
-
         useDTE(
             reduxActions.setThumbnailGenerator,
             getValueOrFallback(props.thumbnailGenerator, defaultConfig.thumbnailGenerator),
@@ -74,7 +73,9 @@ export const ExplorerBusinessLogicInner = React.memo(
         return null;
     }),
 );
+
 ExplorerBusinessLogicInner.displayName = 'ExplorerBusinessLogicInner';
 
 export const ExplorerBusinessLogic = React.memo(ExplorerBusinessLogicInner);
+
 ExplorerBusinessLogic.displayName = 'ExplorerBusinessLogic';

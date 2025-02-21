@@ -23,110 +23,109 @@ import { ExplorerDispatch } from '../../types/redux.types';
 export interface ToolbarSearchProps { }
 
 export const ToolbarSearch: React.FC<ToolbarSearchProps> = React.memo(() => {
-  const intl = useIntl();
-  const searchPlaceholderString = intl.formatMessage({
-    id: getI18nId(I18nNamespace.Toolbar, 'searchPlaceholder'),
-    defaultMessage: 'Search',
-  });
 
-  const classes = useStyles();
-  const ExplorerIcon = useContext(ExplorerIconContext);
+    const intl = useIntl();
+    const searchPlaceholderString = intl.formatMessage({
+        id: getI18nId(I18nNamespace.Toolbar, 'searchPlaceholder'),
+        defaultMessage: 'Search',
+    });
 
-  const searchInputRef = useRef<HTMLInputElement>();
+    const classes = useStyles();
+    const ExplorerIcon = useContext(ExplorerIconContext);
 
-  const dispatch: ExplorerDispatch = useDispatch();
-  const reduxSearchString = useSelector(selectSearchString);
+    const searchInputRef = useRef<HTMLInputElement>();
 
-  const [localSearchString, setLocalSearchString] = useState(reduxSearchString);
-  const [debouncedLocalSearchString] = useDebounce(localSearchString, 50);
-  const [showLoadingIndicator, setShowLoadingIndicator] = useState(false);
+    const dispatch: ExplorerDispatch = useDispatch();
+    const reduxSearchString = useSelector(selectSearchString);
 
-  useEffect(() => {
-    dispatch(
-      reduxActions.setFocusSearchInput(() => {
-        if (searchInputRef.current) searchInputRef.current.focus();
-      }),
+    const [localSearchString, setLocalSearchString] = useState(reduxSearchString);
+    const [debouncedLocalSearchString] = useDebounce(localSearchString, 50);
+    const [showLoadingIndicator, setShowLoadingIndicator] = useState(false);
+
+    useEffect(() => {
+        dispatch(
+            reduxActions.setFocusSearchInput(() => {
+                if (searchInputRef.current) searchInputRef.current.focus();
+            }),
+        );
+        return () => {
+            dispatch(reduxActions.setFocusSearchInput(null));
+        };
+    }, [dispatch]);
+
+    useEffect(() => {
+        setShowLoadingIndicator(false);
+        dispatch(reduxActions.setSearchString(debouncedLocalSearchString));
+    }, [debouncedLocalSearchString, dispatch]);
+
+    const handleChange = useCallback((event: React.FormEvent<HTMLInputElement>) => {
+        setShowLoadingIndicator(true);
+        setLocalSearchString(event.currentTarget.value);
+    }, []);
+
+    const handleKeyUp = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
+        // Remove focus from the search input field when user presses escape.
+        // Note: We use KeyUp instead of KeyPress because some browser plugins can
+        //       intercept KeyPress events with Escape key.
+        //       @see https://stackoverflow.com/a/37461974
+        if (event.key === 'Escape') {
+            setLocalSearchString('');
+            dispatch(reduxActions.setSearchString(''));
+            if (searchInputRef.current) searchInputRef.current.blur();
+        }
+    }, [dispatch]);
+
+    return (
+        <TextField
+            className={classes.searchFieldContainer}
+            size="small"
+            variant="outlined"
+            value={localSearchString}
+            placeholder={searchPlaceholderString}
+            onChange={handleChange as any}
+            inputRef={searchInputRef}
+            InputProps={{
+                onKeyUp: handleKeyUp,
+                startAdornment: (
+                    <InputAdornment className={classes.searchIcon} position="start">
+                        <ExplorerIcon
+                            icon={showLoadingIndicator ? IconName.loading : IconName.search}
+                            spin={showLoadingIndicator}
+                        />
+                    </InputAdornment>
+                ),
+                className: classes.searchFieldInput,
+            }}
+            inputProps={{ className: classes.searchFieldInputInner }}
+        />
     );
-    return () => {
-      dispatch(reduxActions.setFocusSearchInput(null));
-    };
-  }, [dispatch]);
-
-  useEffect(() => {
-    setShowLoadingIndicator(false);
-    dispatch(reduxActions.setSearchString(debouncedLocalSearchString));
-  }, [debouncedLocalSearchString, dispatch]);
-
-  const handleChange = useCallback((event: React.FormEvent<HTMLInputElement>) => {
-    setShowLoadingIndicator(true);
-    setLocalSearchString(event.currentTarget.value);
-  }, []);
-  const handleKeyUp = useCallback(
-    (event: React.KeyboardEvent<HTMLInputElement>) => {
-      // Remove focus from the search input field when user presses escape.
-      // Note: We use KeyUp instead of KeyPress because some browser plugins can
-      //       intercept KeyPress events with Escape key.
-      //       @see https://stackoverflow.com/a/37461974
-      if (event.key === 'Escape') {
-        setLocalSearchString('');
-        dispatch(reduxActions.setSearchString(''));
-        if (searchInputRef.current) searchInputRef.current.blur();
-      }
-    },
-    [dispatch],
-  );
-
-  return (
-    <TextField
-      className={classes.searchFieldContainer}
-      size="small"
-      variant="outlined"
-      value={localSearchString}
-      placeholder={searchPlaceholderString}
-      onChange={handleChange as any}
-      inputRef={searchInputRef}
-      InputProps={{
-        onKeyUp: handleKeyUp,
-        startAdornment: (
-          <InputAdornment className={classes.searchIcon} position="start">
-            <ExplorerIcon
-              icon={showLoadingIndicator ? IconName.loading : IconName.search}
-              spin={showLoadingIndicator}
-            />
-          </InputAdornment>
-        ),
-        className: classes.searchFieldInput,
-      }}
-      inputProps={{ className: classes.searchFieldInputInner }}
-    />
-  );
 });
 
 const useStyles = makeGlobalExplorerStyles((theme) => ({
-  searchFieldContainer: {
-    height: theme.toolbar.size,
-    width: 150,
-  },
-  searchIcon: {
-    fontSize: '0.9em',
-    opacity: 0.75,
-  },
-  searchFieldInput: {
-    lineHeight: important(0),
-    padding: important(0),
-    margin: important(0),
-    fontSize: important(theme.toolbar.fontSize),
-    borderRadius: theme.toolbar.buttonRadius,
-    height: theme.toolbar.size - 4,
-    paddingLeft: important(8),
-    marginTop: 2,
-  },
-  searchFieldInputInner: {
-    lineHeight: important(`${theme.toolbar.size - 4}px`),
-    fontSize: important(theme.toolbar.fontSize),
-    height: important(theme.toolbar.size - 4),
-    padding: important([0, 8, 0, 0]),
-    margin: important(0),
-    '-webkit-appearance': 'none',
-  },
+    searchFieldContainer: {
+        height: theme.toolbar.size,
+        width: 150,
+    },
+    searchIcon: {
+        fontSize: '0.9em',
+        opacity: 0.75,
+    },
+    searchFieldInput: {
+        lineHeight: important(0),
+        padding: important(0),
+        margin: important(0),
+        fontSize: important(theme.toolbar.fontSize),
+        borderRadius: theme.toolbar.buttonRadius,
+        height: theme.toolbar.size - 4,
+        paddingLeft: important(8),
+        marginTop: 2,
+    },
+    searchFieldInputInner: {
+        lineHeight: important(`${theme.toolbar.size - 4}px`),
+        fontSize: important(theme.toolbar.fontSize),
+        height: important(theme.toolbar.size - 4),
+        padding: important([0, 8, 0, 0]),
+        margin: important(0),
+        '-webkit-appearance': 'none',
+    },
 }));

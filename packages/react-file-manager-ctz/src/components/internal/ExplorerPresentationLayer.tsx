@@ -24,25 +24,25 @@ export interface ExplorerPresentationLayerProps {
 }
 
 export const ExplorerPresentationLayer: React.FC<ExplorerPresentationLayerProps> = ({ children }) => {
+
     const dispatch: ExplorerDispatch = useDispatch();
     const fileActionIds = useSelector(selectFileActionIds);
     const dndDisabled = useSelector(selectIsDnDDisabled);
     const clearSelectionOnOutsideClick = useSelector(selectClearSelectionOnOutsideClick);
 
     // Deal with clicks outside of Explorer
-    const handleClickAway = useCallback(
-        (event: MouseEvent | TouchEvent) => {
-            if (!clearSelectionOnOutsideClick || elementIsInsideButton(event.target)) {
-                // We only clear out the selection on outside click if the click target
-                // was not a button. We don't want to clear out the selection when a
-                // button is clicked because Explorer users might want to trigger some
-                // selection-related action on that button click.
-                return;
-            }
-            dispatch(reduxActions.clearSelection());
-        },
-        [dispatch, clearSelectionOnOutsideClick],
-    );
+    const handleClickAway = useCallback((event: MouseEvent | TouchEvent) => {
+        if (!clearSelectionOnOutsideClick || elementIsInsideButton(event.target)) {
+            // We only clear out the selection on outside click if the click target
+            // was not a button. We don't want to clear out the selection when a
+            // button is clicked because Explorer users might want to trigger some
+            // selection-related action on that button click.
+            return;
+        }
+
+        dispatch(reduxActions.clearSelection());
+
+    }, [dispatch, clearSelectionOnOutsideClick]);
 
     // Generate necessary components
     const hotkeyListenerComponents = useMemo(
