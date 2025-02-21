@@ -14,16 +14,19 @@ import { FileNavbar } from './FileNavbar';
 import { FileToolbar } from './FileToolbar';
 
 export const FullFileBrowser = React.memo(
-  React.forwardRef<FileBrowserHandle, FileBrowserProps>((props, ref) => {
-    const { onScroll } = props;
-    return (
-      <FileBrowser ref={ref} {...props}>
-        {props.folderChain?.length ? <FileNavbar /> : undefined}
-        <FileToolbar />
-        <FileList onScroll={onScroll} />
-        <FileContextMenu />
-      </FileBrowser>
-    );
-  }),
+    React.forwardRef<FileBrowserHandle, FileBrowserProps>((props, ref) => {
+
+        const { onScroll } = props;
+        
+        return (
+            <FileBrowser ref={ref} {...props}>
+                {props.folderChain?.length ? <FileNavbar /> : undefined}
+                <FileToolbar />
+                <FileList onScroll={onScroll} />
+                <FileContextMenu />
+            </FileBrowser>
+        );
+    }),
 );
+
 FullFileBrowser.displayName = 'FullFileBrowser';

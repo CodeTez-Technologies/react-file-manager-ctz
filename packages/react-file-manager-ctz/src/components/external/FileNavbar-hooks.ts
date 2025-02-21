@@ -10,37 +10,38 @@ import { ExplorerDispatch } from '../../types/redux.types';
 import { FileHelper } from '../../util/file-helper';
 
 export interface FolderChainItem {
-  file: Nullable<FileData>;
-  disabled: boolean;
-  onClick?: () => void;
+    file: Nullable<FileData>;
+    disabled: boolean;
+    onClick?: () => void;
 }
 
 export const useFolderChainItems = (): FolderChainItem[] => {
-  const folderChain = useSelector(selectFolderChain);
-  const dispatch: ExplorerDispatch = useDispatch();
 
-  const folderChainItems = useMemo(() => {
-    const items: FolderChainItem[] = [];
-    if (!folderChain) return items;
+    const folderChain = useSelector(selectFolderChain);
+    const dispatch: ExplorerDispatch = useDispatch();
 
-    for (let i = 0; i < folderChain.length; ++i) {
-      const file = folderChain[i];
-      items.push({
-        file,
-        disabled: !file,
-        onClick:
-          !FileHelper.isOpenable(file) || i === folderChain.length - 1
-            ? undefined
-            : () =>
-              dispatch(
-                thunkRequestFileAction(ExplorerActions.OpenFiles, {
-                  targetFile: file,
-                  files: [file],
-                }),
-              ),
-      });
-    }
-    return items;
-  }, [dispatch, folderChain]);
-  return folderChainItems;
+    const folderChainItems = useMemo(() => {
+        const items: FolderChainItem[] = [];
+        if (!folderChain) return items;
+
+        for (let i = 0; i < folderChain.length; ++i) {
+            const file = folderChain[i];
+            items.push({
+                file,
+                disabled: !file,
+                onClick: !FileHelper.isOpenable(file) || i === folderChain.length - 1
+                    ? undefined
+                    : () => dispatch(
+                        thunkRequestFileAction(ExplorerActions.OpenFiles, {
+                            targetFile: file,
+                            files: [file],
+                        }),
+                    ),
+            });
+        }
+
+        return items;
+    }, [dispatch, folderChain]);
+
+    return folderChainItems;
 };
