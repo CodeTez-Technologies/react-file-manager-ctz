@@ -18,6 +18,8 @@ export interface FileListEmptyProps {
 }
 
 export const FileListEmpty: React.FC<FileListEmptyProps> = (props) => {
+  debugger
+  
   const { width, height } = props;
   const classes = useStyles();
   const ExplorerIcon = useContext(ExplorerIconContext);
@@ -33,7 +35,7 @@ export const FileListEmpty: React.FC<FileListEmptyProps> = (props) => {
   });
 
   return (
-    <div className={classes.fileListEmpty} style={style}>
+    <div className={classes.fileListEmpty}>
       <div className={classes.fileListEmptyContent}>
         <ExplorerIcon icon={IconName.folderOpen} />
         &nbsp; {emptyString}
@@ -48,11 +50,18 @@ const useStyles = makeGlobalExplorerStyles((theme) => ({
     position: 'relative',
     textAlign: 'center',
     fontSize: '1.2em',
+    width: 'calc(100vw - 10px)',
+    height: 'calc(100vh - 10px)',
   },
   fileListEmptyContent: {
     transform: 'translateX(-50%) translateY(-50%)',
     position: 'absolute',
     left: '50%',
     top: '50%',
+    width: '100%',
+    height: '100%',
+    display : 'flex',
+    alignItems: 'center',
+    justifyContent : 'center'
   },
 }));

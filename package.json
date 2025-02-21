@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "dev": "pnpm --filter=demo run dev",
+    "dev": "pnpm --filter=demo run dev --port 3001",
     "build": "pnpm --filter=react-file-manager-ctz run build",
     "publish-packages": "pnpm run build && changeset version && changeset publish"
   },

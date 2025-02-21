@@ -1,4 +1,4 @@
-import { AppBar, Box, Chip, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Chip, styled, Toolbar, Typography } from '@mui/material';
 import {
 	FileBrowser,
 	// FileNavbar,
@@ -12,6 +12,12 @@ import {
 } from '../../../packages/react-file-manager-ctz/src/index';
 import files from './files';
 import './App.css';
+
+const FileViewerContainer = styled(Box)(()=>({
+    height: '100vh',
+	width: '100%',
+}))
+
 function App() {
 	const pathEntries = ['test', 'folder'];
 	const myFileActions = [
@@ -113,44 +119,34 @@ function App() {
 	};
 
 	return (
-		<Box>
-			<AppBar position="static">
-				<Toolbar variant="dense">
-					<Typography variant="h6" color="inherit" component="div">
-						React File Explorer
-					</Typography>
-				</Toolbar>
-			</AppBar>
-
-			<Box sx={{ height: '80vh', mt: 2, p: 5 }}>
-				<FileBrowser
-					// darkMode={true}
-					fileActions={myFileActions}
-					iconComponent={IconFA}
-					folderChain={pathEntries.map((name, idx) => ({
-						id: `${idx}`,
-						name,
-					}))}
-					files={files.map((f) => ({
-						...f,
-						modDate: f.updatedAt,
-						size: f.isDir ? '' : parseInt(f.size || 0, 10),
-					}))}
-					clearSelectionOnOutsideClick={false}
-					// defaultFileViewActionId='enable_grid_view'
-					defaultFileViewActionId="enable_list_view"
-				// listCols={[
-				// 	{ label: 'Cabinet Size', getValue: (item) => 0 },
-				// 	{ label: 'MetaData', getValue: (item) => <Chip label="Yes" color="primary" size="small" /> },
-				// ]}
-				>
-					{/* <FileNavbar /> */}
-					<FileToolbar />
-					<FileList />
-					<FileContextMenu />
-				</FileBrowser>
-			</Box>
-		</Box>
+		<FileViewerContainer>
+			<FileBrowser
+				// darkMode={true}
+				fileActions={myFileActions}
+				iconComponent={IconFA}
+				folderChain={pathEntries.map((name, idx) => ({
+					id: `${idx}`,
+					name,
+				}))}
+				files={files.map((f) => ({
+					...f,
+					modDate: f.updatedAt,
+					size: f.isDir ? '' : parseInt(f.size || 0, 10),
+				}))}
+				clearSelectionOnOutsideClick={false}
+				// defaultFileViewActionId='enable_grid_view'
+				defaultFileViewActionId="enable_list_view"
+			// listCols={[
+			// 	{ label: 'Cabinet Size', getValue: (item) => 0 },
+			// 	{ label: 'MetaData', getValue: (item) => <Chip label="Yes" color="primary" size="small" /> },
+			// ]}
+			>
+				{/* <FileNavbar /> */}
+				{/* <FileToolbar /> */}
+				<FileList />
+				<FileContextMenu />
+			</FileBrowser>
+		</FileViewerContainer>
 	);
 }
 

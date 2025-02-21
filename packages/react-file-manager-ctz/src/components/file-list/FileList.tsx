@@ -12,6 +12,7 @@ import { c, getStripeGradient, makeGlobalExplorerStyles, makeLocalExplorerStyles
 import { FileListEmpty } from './FileListEmpty';
 import { GridContainer } from './GridContainer';
 import { ListContainer } from './ListContainer';
+import { Box } from '@mui/material';
 
 export interface FileListProps {
   onScroll?: (e: UIEvent<HTMLDivElement>) => void;
@@ -41,13 +42,13 @@ export const FileList: React.FC<FileListProps> = React.memo((props: FileListProp
 
   const listRenderer = useCallback(
     ({ width, height }: { width: number; height: number; }) => {
-      if (displayFileIds.length === 0) {
+      // if (displayFileIds.length === 0) {
         return <FileListEmpty width={width} height={viewConfig.entryHeight} />;
-      } else if (viewConfig.mode === FileViewMode.List) {
-        return <ListContainer width={width} height={height} />;
-      } else {
-        return <GridContainer width={width} height={height} />;
-      }
+      // } else if (viewConfig.mode === FileViewMode.List) {
+      //   return <ListContainer width={width} height={height} />;
+      // } else {
+      //   return <GridContainer width={width} height={height} />;
+      // }
     },
     [displayFileIds, viewConfig],
   );
@@ -66,6 +67,7 @@ export const FileList: React.FC<FileListProps> = React.memo((props: FileListProp
         </div>
       </div>
       <AutoSizer disableHeight={!fillParentContainer}>{listRenderer}</AutoSizer>
+      {/* <Box className='w-full h-full'>{listRenderer}</Box> */}
     </div>
   );
 });
