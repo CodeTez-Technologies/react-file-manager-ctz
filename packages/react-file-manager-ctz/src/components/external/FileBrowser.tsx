@@ -7,10 +7,10 @@ import { ThemeProvider } from 'react-jss';
 import { Provider as ReduxProvider } from 'react-redux';
 import shortid from 'shortid';
 import {
-  createTheme,
-  ThemeProvider as MuiThemeProvider,
-  StyledEngineProvider,
-  ThemeOptions,
+    createTheme,
+    ThemeProvider as MuiThemeProvider,
+    StyledEngineProvider,
+    ThemeOptions,
 } from '@mui/material/styles';
 
 import { useExplorerStore } from '../../redux/store';
@@ -33,18 +33,18 @@ import { PropsProvider } from '../PropsProvider';
 //     });
 // }
 
-export const FileBrowser = React.forwardRef<FileBrowserHandle, FileBrowserProps & { children?: ReactNode; }>(
-  (props, ref) => {
+export const FileBrowser = React.forwardRef<FileBrowserHandle, FileBrowserProps & { children?: ReactNode; }>((props, ref) => {
+
     const { instanceId, iconComponent, children, listCols } = props;
     const disableDragAndDrop = getValueOrFallback(
-      props.disableDragAndDrop,
-      defaultConfig.disableDragAndDrop,
-      'boolean',
+        props.disableDragAndDrop,
+        defaultConfig.disableDragAndDrop,
+        'boolean',
     );
     const disableDragAndDropProvider = getValueOrFallback(
-      props.disableDragAndDropProvider,
-      defaultConfig.disableDragAndDropProvider,
-      'boolean',
+        props.disableDragAndDropProvider,
+        defaultConfig.disableDragAndDropProvider,
+        'boolean',
     );
     const darkMode = getValueOrFallback(props.darkMode, defaultConfig.darkMode, 'boolean');
     const i18n = getValueOrFallback(props.i18n, defaultConfig.i18n);
@@ -54,53 +54,54 @@ export const FileBrowser = React.forwardRef<FileBrowserHandle, FileBrowserProps 
     const store = useExplorerStore(explorerInstanceId);
 
     const isMobileBreakpoint = useIsMobileBreakpoint();
+
     const theme = useMemo(() => {
-      let muiOptions: ThemeOptions = {
-        palette: { mode: darkMode ? 'dark' : 'light' },
-      };
-      if (props.muiThemeOptions) {
-        muiOptions = merge(muiOptions, props.muiThemeOptions);
-      }
-      const muiTheme = createTheme(muiOptions);
-      const combinedTheme = merge(
-        muiTheme,
-        merge(merge(lightTheme, darkMode ? darkThemeOverride : {}), props.theme || {}),
-      );
-      return isMobileBreakpoint ? merge(combinedTheme, mobileThemeOverride) : combinedTheme;
+        let muiOptions: ThemeOptions = {
+            palette: { mode: darkMode ? 'dark' : 'light' },
+        };
+        if (props.muiThemeOptions) {
+            muiOptions = merge(muiOptions, props.muiThemeOptions);
+        }
+        const muiTheme = createTheme(muiOptions);
+        const combinedTheme = merge(
+            muiTheme,
+            merge(merge(lightTheme, darkMode ? darkThemeOverride : {}), props.theme || {}),
+        );
+        return isMobileBreakpoint ? merge(combinedTheme, mobileThemeOverride) : combinedTheme;
     }, [darkMode, isMobileBreakpoint]);
 
     const explorerComps = (
-      <>
-        <ExplorerBusinessLogic ref={ref} {...props} />
-        <PropsProvider initialValue={{ listCols: listCols ?? [] }}>
-          <ExplorerPresentationLayer>{children}</ExplorerPresentationLayer>
-        </PropsProvider>
-      </>
+        <>
+            <ExplorerBusinessLogic ref={ref} {...props} />
+            <PropsProvider initialValue={{ listCols: listCols ?? [] }}>
+                <ExplorerPresentationLayer>{children}</ExplorerPresentationLayer>
+            </PropsProvider>
+        </>
     );
 
     return (
-      <IntlProvider locale="en" defaultLocale="en" {...i18n}>
-        <ExplorerFormattersContext.Provider value={formatters}>
-          <ReduxProvider store={store}>
-            <ThemeProvider theme={theme}>
-              <StyledEngineProvider injectFirst>
-                <MuiThemeProvider theme={theme}>
-                  <ExplorerIconContext.Provider
-                    value={iconComponent ?? defaultConfig.iconComponent ?? ExplorerIconPlaceholder}
-                  >
-                    {disableDragAndDrop || disableDragAndDropProvider ? (
-                      explorerComps
-                    ) : (
-                      <DndProvider backend={HTML5Backend}>{explorerComps}</DndProvider>
-                    )}
-                  </ExplorerIconContext.Provider>
-                </MuiThemeProvider>
-              </StyledEngineProvider>
-            </ThemeProvider>
-          </ReduxProvider>
-        </ExplorerFormattersContext.Provider>
-      </IntlProvider>
+        <IntlProvider locale="en" defaultLocale="en" {...i18n}>
+            <ExplorerFormattersContext.Provider value={formatters}>
+                <ReduxProvider store={store}>
+                    <ThemeProvider theme={theme}>
+                        <StyledEngineProvider injectFirst>
+                            <MuiThemeProvider theme={theme}>
+                                <ExplorerIconContext.Provider
+                                    value={iconComponent ?? defaultConfig.iconComponent ?? ExplorerIconPlaceholder}
+                                >
+                                    {disableDragAndDrop || disableDragAndDropProvider ? (
+                                        explorerComps
+                                    ) : (
+                                        <DndProvider backend={HTML5Backend}>{explorerComps}</DndProvider>
+                                    )}
+                                </ExplorerIconContext.Provider>
+                            </MuiThemeProvider>
+                        </StyledEngineProvider>
+                    </ThemeProvider>
+                </ReduxProvider>
+            </ExplorerFormattersContext.Provider>
+        </IntlProvider>
     );
-  },
-);
+});
+
 FileBrowser.displayName = 'FileBrowser';

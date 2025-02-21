@@ -19,10 +19,7 @@ export const useExplorerStore = (explorerInstanceId: string) => {
         return configureStore({
             preloadedState: preloadedState as any,
             reducer: rootReducer,
-            middleware: (getDefaultMiddleware) =>
-                getDefaultMiddleware({
-                    serializableCheck: false,
-                }),
+            middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
             devTools: { name: `explorer_${explorerInstanceId}` },
         });
     });

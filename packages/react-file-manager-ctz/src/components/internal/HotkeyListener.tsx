@@ -33,7 +33,9 @@ export const HotkeyListener: React.FC<HotkeyListenerProps> = React.memo((props) 
             event.preventDefault();
             dispatch(thunkRequestFileAction(fileAction, undefined));
         };
+
         hotkeys(hotkeysStr, hotkeyCallback);
+
         return () => hotkeys.unbind(hotkeysStr, hotkeyCallback);
     }, [dispatch, fileAction]);
 
