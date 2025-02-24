@@ -20,6 +20,7 @@ export type ExplorerConfig = Pick<
     | 'iconComponent'
     | 'darkMode'
     | 'i18n'
+    | 'listCols'
 >;
 
 export const defaultConfig: ExplorerConfig = {
@@ -39,6 +40,7 @@ export const defaultConfig: ExplorerConfig = {
     iconComponent: ExplorerIconPlaceholder,
     darkMode: false,
     i18n: {},
+    listCols: []
 };
 
 export const setExplorerDefaults = (config: Partial<ExplorerConfig>) => {

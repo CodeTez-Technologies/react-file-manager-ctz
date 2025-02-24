@@ -52,4 +52,6 @@ export const initialRootState: RootState = {
 
     contextMenuMounted: false,
     contextMenuConfig: null,
+
+    listCols: [],
 };

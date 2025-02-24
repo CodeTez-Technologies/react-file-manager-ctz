@@ -89,6 +89,8 @@ export const selectContextMenuTriggerFile = (state: RootState) => {
     return fileMap[config.triggerFileId] ?? null;
 };
 
+export const selectListColumns = (state: RootState) => state.listCols;
+
 // Raw selectors
 const getFileActionMap = (state: RootState) => state.fileActionMap;
 const getOptionMap = (state: RootState) => state.optionMap;
