@@ -14,9 +14,9 @@ export { defineFileAction } from './util/helpers';
 export { ExplorerIconContext } from './util/icon-helper';
 export { makeGlobalExplorerStyles, type ExplorerTheme } from './util/styles';
 
-export { FileHelper } from './util/file-helper';
-export { FileData, FileArray } from './types/file.types';
-export { FileAction, FileActionEffect, FileSelectionTransform, FileActionButton, CustomVisibilityState } from './types/action.types';
+export type { FileHelper } from './util/file-helper';
+export type { FileData, FileArray } from './types/file.types';
+export type { FileAction, FileActionEffect, FileSelectionTransform, FileActionButton, CustomVisibilityState } from './types/action.types';
 export type {
     GenericFileActionHandler,
     MapFileActionsToData,
