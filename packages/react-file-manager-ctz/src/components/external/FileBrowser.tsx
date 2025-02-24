@@ -26,14 +26,9 @@ import { ExplorerIconPlaceholder } from '../internal/ExplorerIconPlaceholder';
 import { ExplorerPresentationLayer } from '../internal/ExplorerPresentationLayer';
 import { PropsProvider } from '../PropsProvider';
 
-// if (process.env.NODE_ENV === 'development') {
-//     const whyDidYouRender = require('@welldone-software/why-did-you-render');
-//     whyDidYouRender(React, {
-//         trackAllPureComponents: true,
-//     });
-// }
-
 export const FileBrowser = React.forwardRef<FileBrowserHandle, FileBrowserProps & { children?: ReactNode; }>((props, ref) => {
+
+    console.log("props", props);
 
     const { instanceId, iconComponent, children, listCols } = props;
     const disableDragAndDrop = getValueOrFallback(
@@ -41,17 +36,22 @@ export const FileBrowser = React.forwardRef<FileBrowserHandle, FileBrowserProps 
         defaultConfig.disableDragAndDrop,
         'boolean',
     );
+    console.log("disableDragAndDrop", disableDragAndDrop);
     const disableDragAndDropProvider = getValueOrFallback(
         props.disableDragAndDropProvider,
         defaultConfig.disableDragAndDropProvider,
         'boolean',
     );
+    console.log("disableDragAndDropProvider", disableDragAndDropProvider);
+
     const darkMode = getValueOrFallback(props.darkMode, defaultConfig.darkMode, 'boolean');
     const i18n = getValueOrFallback(props.i18n, defaultConfig.i18n);
     const formatters = useMemo(() => ({ ...defaultFormatters, ...i18n?.formatters }), [i18n]);
 
     const explorerInstanceId = useStaticValue(() => instanceId ?? shortid.generate());
     const store = useExplorerStore(explorerInstanceId);
+    console.log("store", store.getState());
+
 
     const isMobileBreakpoint = useIsMobileBreakpoint();
 
@@ -69,6 +69,8 @@ export const FileBrowser = React.forwardRef<FileBrowserHandle, FileBrowserProps 
         );
         return isMobileBreakpoint ? merge(combinedTheme, mobileThemeOverride) : combinedTheme;
     }, [darkMode, isMobileBreakpoint]);
+
+    console.log("theme", theme);
 
     const explorerComps = (
         <>

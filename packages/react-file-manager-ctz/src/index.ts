@@ -9,20 +9,14 @@ export { FileContextMenu } from './components/external/FileContextMenu';
 export { FullFileBrowser } from './components/external/FullFileBrowser';
 
 export { ExplorerActions, DefaultFileActions, OptionIds } from './action-definitions';
-
 export { defineFileAction } from './util/helpers';
+
 export { ExplorerIconContext } from './util/icon-helper';
-export { FileHelper } from './util/file-helper';
 export { makeGlobalExplorerStyles, type ExplorerTheme } from './util/styles';
 
-export type { FileData, FileArray } from './types/file.types';
-export type {
-    FileAction,
-    FileActionEffect,
-    FileSelectionTransform,
-    FileActionButton,
-    CustomVisibilityState,
-} from './types/action.types';
+export { FileHelper } from './util/file-helper';
+export { FileData, FileArray } from './types/file.types';
+export { FileAction, FileActionEffect, FileSelectionTransform, FileActionButton, CustomVisibilityState } from './types/action.types';
 export type {
     GenericFileActionHandler,
     MapFileActionsToData,
