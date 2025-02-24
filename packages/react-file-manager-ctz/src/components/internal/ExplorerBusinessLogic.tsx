@@ -66,6 +66,10 @@ export const ExplorerBusinessLogicInner = React.memo(
             reduxActions.setClearSelectionOnOutsideClick,
             getValueOrFallback(props.clearSelectionOnOutsideClick, defaultConfig.clearSelectionOnOutsideClick, 'boolean'),
         );
+        useDTE(
+            reduxActions.setListColumns,
+            getValueOrFallback(props.listCols, defaultConfig.listCols),
+        );
 
         // ==== Setup the imperative handle for external use
         useFileBrowserHandle(ref);
