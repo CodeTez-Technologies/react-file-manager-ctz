@@ -19,6 +19,7 @@ export interface SmartFileEntryProps {
   fileId: Nullable<string>;
   displayIndex: number;
   fileViewMode: FileViewMode;
+  columnWidths?: number;
 }
 
 const disabledDndState: DndEntryState = {
@@ -27,7 +28,7 @@ const disabledDndState: DndEntryState = {
   dndCanDrop: false,
 };
 
-export const SmartFileEntry: React.FC<SmartFileEntryProps> = React.memo(({ fileId, displayIndex, fileViewMode }) => {
+export const SmartFileEntry: React.FC<SmartFileEntryProps> = React.memo(({ fileId, displayIndex, fileViewMode ,columnWidths}) => {
   const classes = useStyles();
 
   // Basic properties
@@ -59,13 +60,13 @@ export const SmartFileEntry: React.FC<SmartFileEntryProps> = React.memo(({ fileI
 
   return dndDisabled ? (
     <ClickableWrapper {...clickableWrapperProps}>
-      <EntryComponent {...fileEntryProps} dndState={disabledDndState} />
+      <EntryComponent {...fileEntryProps} dndState={disabledDndState} columnWidths={columnWidths}/>
     </ClickableWrapper>
   ) : (
     <DnDFileEntry file={file}>
       {(dndState) => (
         <ClickableWrapper {...clickableWrapperProps}>
-          <EntryComponent {...fileEntryProps} dndState={dndState} />
+          <EntryComponent {...fileEntryProps} dndState={dndState} columnWidths={columnWidths}/>
         </ClickableWrapper>
       )}
     </DnDFileEntry>
@@ -80,5 +81,6 @@ const useStyles = makeGlobalExplorerStyles(() => ({
     outline: 'none !important',
     position: 'relative',
     height: '100%',
+    width: '100%'
   },
 }));

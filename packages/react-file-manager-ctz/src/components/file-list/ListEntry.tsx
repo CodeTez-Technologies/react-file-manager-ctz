@@ -1,33 +1,47 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useMemo } from "react";
 
-import { DndEntryState, FileEntryProps } from '../../types/file-list.types';
-import { useLocalizedFileEntryStrings } from '../../util/i18n';
-import { ExplorerIconContext } from '../../util/icon-helper';
-import { c, makeLocalExplorerStyles } from '../../util/styles';
-import { TextPlaceholder } from '../external/TextPlaceholder';
-import { useDndIcon, useFileEntryHtmlProps, useFileEntryState } from './FileEntry-hooks';
-import { FileEntryName } from './FileEntryName';
-import { FileEntryState, useCommonEntryStyles } from './GridEntryPreview';
-import { selectListColumns } from '../../redux/selectors';
+import { DndEntryState, FileEntryProps } from "../../types/file-list.types";
+import { useLocalizedFileEntryStrings } from "../../util/i18n";
+import { ExplorerIconContext } from "../../util/icon-helper";
+import { c, makeLocalExplorerStyles } from "../../util/styles";
+import { TextPlaceholder } from "../external/TextPlaceholder";
+import {
+  useDndIcon,
+  useFileEntryHtmlProps,
+  useFileEntryState,
+} from "./FileEntry-hooks";
+import { FileEntryName } from "./FileEntryName";
+import { FileEntryState, useCommonEntryStyles } from "./GridEntryPreview";
+import { selectListColumns } from "../../redux/selectors";
 
-import { format } from 'date-fns';
-import { useSelector } from 'react-redux';
+import { format } from "date-fns";
+import { useSelector } from "react-redux";
+import { Box, styled, Typography } from "@mui/material";
 
 interface StyleState {
-    entryState: FileEntryState;
-    dndState: DndEntryState;
+  entryState: FileEntryState;
+  dndState: DndEntryState;
+  columnWidths?: number;
 }
 
-export const ListEntry: React.FC<FileEntryProps> = React.memo(({ file, selected, focused, dndState }) => {
-    const entryState: FileEntryState = useFileEntryState(file, selected, focused);
+export const ListEntry: React.FC<FileEntryProps> = React.memo(
+  ({ file, selected, focused, dndState, columnWidths }) => {
+    debugger
+
+    const entryState: FileEntryState = useFileEntryState(
+      file,
+      selected,
+      focused
+    );
     const dndIconName = useDndIcon(dndState);
-    const { fileModDateString, fileSizeString } = useLocalizedFileEntryStrings(file);
+    const { fileModDateString, fileSizeString } =
+      useLocalizedFileEntryStrings(file);
     const styleState = useMemo<StyleState>(
-        () => ({
-            entryState,
-            dndState,
-        }),
-        [dndState, entryState],
+      () => ({
+        entryState,
+        dndState,
+      }),
+      [dndState, entryState]
     );
     const classes = useStyles(styleState);
     const commonClasses = useCommonEntryStyles(entryState);
@@ -35,11 +49,73 @@ export const ListEntry: React.FC<FileEntryProps> = React.memo(({ file, selected,
     const fileEntryHtmlProps = useFileEntryHtmlProps(file);
     const listCols = useSelector(selectListColumns);
 
-    const fileModDate = typeof file?.modDate === 'string' ? format(new Date(file.modDate), 'MMM dd, yyyy HH:mm') : '-';
+    const fileModDate =
+      typeof file?.modDate === "string"
+        ? format(new Date(file.modDate), "MMM dd, yyyy HH:mm")
+        : "-";
+
+    const renderFileInformationData = (row: any) => {
+      return (
+        <FileInformation className="fileItems">
+          <Box component="figure" className="fileIconBlock">
+            <ExplorerIcon
+              icon={dndIconName ?? entryState.icon}
+              spin={dndIconName ? false : entryState.iconSpin}
+              fixedWidth={true}
+            />
+          </Box>
+          <Box className="flex flex-col fileDetailBlock">
+            <FileEntryName file={file} />
+            {row.createdUser && (
+              <Typography variant="body1" className="fileDescription">
+                Created by{" "}
+                <span>
+                  {" "}
+                  {row.createdUser?.firstName} {row.createdUser?.lastName}
+                </span>
+              </Typography>
+            )}
+          </Box>
+        </FileInformation>
+      );
+    };
+
+    const columns = [
+      {
+        key: "name",
+        label: "Name",
+        resizable: true,
+        component: (row: any) => renderFileInformationData(row),
+      },
+
+      {
+        key: "createdAt",
+        label: "Created At",
+        resizable: false,
+        component: (row: any) => (
+          <Typography>
+            {new Date(row.createdAt).toLocaleString()} by{" "}
+            {row.updatedUser?.firstName} {row.updatedUser?.lastName}
+          </Typography>
+        ),
+      },
+    ];
 
     return (
-        <div className={classes.listFileEntry} {...fileEntryHtmlProps}>
-            <div className={commonClasses.focusIndicator}></div>
+      <ListItem
+        {...fileEntryHtmlProps}
+        style={{
+            gridTemplateColumns: columns
+              .map((col) => `${columnWidths?.[col.key] || "1fr"}`) 
+              .join(" "),
+          }}
+      >
+        {columns.map((col) => (
+          <ResizableCell key={col.key} style={{ width: columnWidths[col.key] }}>
+            {col.component ? col.component(file) : "-"}
+          </ResizableCell>
+        ))}
+        {/* <div className={commonClasses.focusIndicator}></div>
             <div className={c([commonClasses.selectionIndicator, classes.listFileEntrySelection])}></div>
             <div className={classes.listFileEntryIcon}>
                 <ExplorerIcon
@@ -63,55 +139,135 @@ export const ListEntry: React.FC<FileEntryProps> = React.memo(({ file, selected,
                         {entry.getValue(file) ?? '-'}
                     </div>
                 ))
-            }
-        </div>
+            } */}
+      </ListItem>
     );
-});
+  }
+);
 
 const useStyles = makeLocalExplorerStyles((theme) => ({
-    listFileEntry: {
-        boxShadow: `inset ${theme.palette.divider} 0 -1px 0`,
-        fontSize: theme.listFileEntry.fontSize,
-        color: ({ dndState }: StyleState) =>
-            dndState.dndIsOver ? (dndState.dndCanDrop ? theme.dnd.canDropColor : theme.dnd.cannotDropColor) : 'inherit',
-        alignItems: 'center',
-        position: 'relative',
-        display: 'flex',
-        height: '100%',
+  listFileEntry: {
+    color: ({ dndState }: StyleState) =>
+      dndState.dndIsOver
+        ? dndState.dndCanDrop
+          ? theme.dnd.canDropColor
+          : theme.dnd.cannotDropColor
+        : "inherit",
+    boxShadow: `inset ${theme.palette.divider} 0 -1px 0`,
+    fontSize: theme.listFileEntry.fontSize,
+    alignItems: "center",
+    position: "relative",
+    height: "100%",
+  },
+  listFileEntrySelection: {
+    opacity: 0.6,
+  },
+  listFileEntryIcon: {
+    color: ({ entryState, dndState }: StyleState) =>
+      dndState.dndIsOver
+        ? dndState.dndCanDrop
+          ? theme.dnd.canDropColor
+          : theme.dnd.cannotDropColor
+        : entryState.color,
+    fontSize: theme.listFileEntry.iconFontSize,
+    boxSizing: "border-box",
+    padding: [2, 4],
+    zIndex: 20,
+    width: "24px",
+    height: "24px",
+  },
+  listFileEntryName: {
+    textOverflow: "ellipsis",
+    boxSizing: "border-box",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    flex: "1 1 300px",
+    paddingLeft: 8,
+    zIndex: 20,
+  },
+  listFileEntryProperty: {
+    fontSize: theme.listFileEntry.propertyFontSize,
+    boxSizing: "border-box",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    flex: "0 1 150px",
+    padding: [2, 8],
+    zIndex: 20,
+  },
+}));
+
+const ListItem = styled(Box)(({ theme }) => ({
+  display: "grid",
+  "&:not(:last-child)": {
+    borderBottom: `1px solid ${theme.palette.divider}`,
+  },
+  "&:hover": {
+    background: theme.palette.action.hover,
+  },
+  "&.active": {
+    background: theme.palette.primary.lighterOpacity,
+  },
+  "& .checkBoxBlock": {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "end",
+    position: "relative",
+    zIndex: 100,
+  },
+}));
+
+const FileInformation = styled(Box)(({ theme }) => ({
+  "&.fileItems": {
+    gap: theme.spacing(3),
+    display: "flex",
+    alignItems: "center",
+    cursor: "pointer",
+    width: "100%",
+    "& .fileIconBlock": {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      margin: '0',
+      "& svg": {
+        width: "32px",
+        height: "32px",
+      },
     },
-    listFileEntrySelection: {
-        opacity: 0.6,
+    "& .fileDetailBlock": {
+      width: "calc(100% - 80px)",
+      "& .fileName": {
+        fontSize: "14px",
+        fontWeight: 500,
+        whiteSpace: "nowrap",
+        textOverflow: "ellipsis",
+        overflow: "hidden",
+        maxWidth: "100%",
+        textTransform: "capitalize",
+      },
+      "& .fileDescription": {
+        fontSize: "12px",
+        FontWeight: 400,
+        whiteSpace: "nowrap",
+        textOverflow: "ellipsis",
+        overflow: "hidden",
+        maxWidth: "100%",
+        textTransform: "capitalize",
+      },
     },
-    listFileEntryIcon: {
-        color: ({ entryState, dndState }: StyleState) =>
-            dndState.dndIsOver
-                ? dndState.dndCanDrop
-                    ? theme.dnd.canDropColor
-                    : theme.dnd.cannotDropColor
-                : entryState.color,
-        fontSize: theme.listFileEntry.iconFontSize,
-        boxSizing: 'border-box',
-        padding: [2, 4],
-        zIndex: 20,
-        width: '24px',
-        height: '24px',
-    },
-    listFileEntryName: {
-        textOverflow: 'ellipsis',
-        boxSizing: 'border-box',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        flex: '1 1 300px',
-        paddingLeft: 8,
-        zIndex: 20,
-    },
-    listFileEntryProperty: {
-        fontSize: theme.listFileEntry.propertyFontSize,
-        boxSizing: 'border-box',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        flex: '0 1 150px',
-        padding: [2, 8],
-        zIndex: 20,
-    },
+  },
+}));
+
+const ResizableCell = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(2),
+  display: "flex",
+  alignItems: "center",
+  position: "relative",
+  minWidth: "0",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
+  "& p ,&": {
+    fontSize: "12px",
+    fontWeight: 400,
+  },
 }));

@@ -19,9 +19,10 @@ import {
   makeLocalExplorerStyles,
 } from "../../util/styles";
 import { FileListEmpty } from "./FileListEmpty";
-import { GridContainer } from "./GridContainer";
+// import { GridContainer } from "./GridContainer";
 import { ListContainer } from "./ListContainer";
 import { Box } from "@mui/material";
+import GridContainer from "./GridContainer";
 
 export interface FileListProps {
   onScroll?: (e: UIEvent<HTMLDivElement>) => void;
@@ -62,9 +63,9 @@ export const FileList: React.FC<FileListProps> = React.memo(
             <FileListEmpty width={width} height={viewConfig.entryHeight} />
           );
         } 
-        // else if (viewConfig.mode === FileViewMode.List) {
-        //   return <ListContainer width={width} height={height} />;
-        // } 
+        else if (viewConfig.mode === FileViewMode.List) {
+          return <ListContainer width={width} height={height} />;
+        } 
         else {
           return <GridContainer width={width} height={height} />;
         }
