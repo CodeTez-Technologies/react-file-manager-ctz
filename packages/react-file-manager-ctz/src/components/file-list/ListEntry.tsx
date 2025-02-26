@@ -26,7 +26,6 @@ interface StyleState {
 
 export const ListEntry: React.FC<FileEntryProps> = React.memo(
   ({ file, selected, focused, dndState, columnWidths }) => {
-    debugger
 
     const entryState: FileEntryState = useFileEntryState(
       file,
@@ -106,12 +105,12 @@ export const ListEntry: React.FC<FileEntryProps> = React.memo(
         {...fileEntryHtmlProps}
         style={{
             gridTemplateColumns: columns
-              .map((col) => `${columnWidths?.[col.key] || "1fr"}`) 
+              .map((col) => `${columnWidths?.[col.key]+'px' || "1fr"}`) 
               .join(" "),
           }}
       >
         {columns.map((col) => (
-          <ResizableCell key={col.key} style={{ width: columnWidths[col.key] }}>
+          <ResizableCell key={col.key}>
             {col.component ? col.component(file) : "-"}
           </ResizableCell>
         ))}

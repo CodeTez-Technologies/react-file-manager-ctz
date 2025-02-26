@@ -18,8 +18,7 @@ export interface FileListEmptyProps {
 }
 
 export const FileListEmpty: React.FC<FileListEmptyProps> = (props) => {
-  debugger
-  
+
   const { width, height } = props;
   const classes = useStyles();
   const ExplorerIcon = useContext(ExplorerIconContext);

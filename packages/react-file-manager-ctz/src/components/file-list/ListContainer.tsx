@@ -31,8 +31,6 @@ export interface FileListListProps {
 export const ListContainer: React.FC<FileListListProps> = React.memo(
   (props) => {
 
-    debugger
-
     const { width, height } = props;
 
     const listCols = useSelector(selectListColumns);
@@ -50,7 +48,7 @@ export const ListContainer: React.FC<FileListListProps> = React.memo(
     const resizingColumn = useRef<string | null>(null);
     const startX = useRef<number>(0);
     const startWidth = useRef<number>(0);
-   const column = useMemo(() => ["name", "createdAt"], []);
+    const column = useMemo(() => ["name", "createdAt"], []);
 
     // const getItemKey = useCallback(
     //     (index: number) => displayFileIdsRef.current[index] ?? `loading-file-${index}`,
@@ -58,67 +56,69 @@ export const ListContainer: React.FC<FileListListProps> = React.memo(
     // );
 
     useEffect(() => {
-        if (!listContainerRef.current) return;
-    
-        const parentWidth = listContainerRef.current.clientWidth;
-        const totalColumns = column.length;
-        const initialWidth = Math.floor(parentWidth / totalColumns);
-    
-        setColumnWidths((prevWidths) => {
-            const newWidths = { ...prevWidths };
-    
-            column.forEach((col) => {
-                if (!(col in newWidths)) {
-                    newWidths[col] = initialWidth;
-                }
-            });
-    
-            return newWidths;
+      if (!listContainerRef.current) return;
+
+      const parentWidth = listContainerRef.current.clientWidth;
+      const totalColumns = column.length;
+      const initialWidth = Math.floor(parentWidth / totalColumns);
+
+      setColumnWidths((prevWidths) => {
+        const newWidths = { ...prevWidths };
+
+        column.forEach((col) => {
+          if (!newWidths[col] || isNaN(newWidths[col])) {
+            newWidths[col] = initialWidth;
+          }
         });
-    }, []); 
+
+        return newWidths;
+      });
+    }, [width, column]);
 
     const handleMouseDown = (key: string, event: React.MouseEvent) => {
-        resizingColumn.current = key;
-        startX.current = event.clientX;
-        startWidth.current = columnWidths[key];
 
-        document.addEventListener('mousemove', handleMouseMove);
-        document.addEventListener('mouseup', handleMouseUp);
+      resizingColumn.current = key;
+      startX.current = event.clientX;
+      startWidth.current = columnWidths[key] || 100; // Default to 100 if undefined
+
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
     };
 
     const handleMouseMove = (event: MouseEvent) => {
-        if (!resizingColumn.current) return;
-    
-        const deltaX = event.clientX - startX.current;
-        const newWidth = Math.max(100, startWidth.current + deltaX);
-    
-        setColumnWidths((prev) => ({
-            ...prev,
-            [resizingColumn.current as string]: newWidth,
-        }));
+
+      if (!resizingColumn.current) return;
+
+      const deltaX = event.clientX - startX.current;
+      const newWidth = Math.max(50, startWidth.current + deltaX);  // Minimum 50px
+
+      setColumnWidths((prev) => ({
+        ...prev,
+        [resizingColumn.current as string]: newWidth,
+      }));
     };
 
     const handleMouseUp = () => {
-        resizingColumn.current = null;
-        document.removeEventListener('mousemove', handleMouseMove);
-        document.removeEventListener('mouseup', handleMouseUp);
+      resizingColumn.current = null;
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
     };
 
     const listComponent = useMemo(() => {
-      const rowRenderer = (index: number) => {
-        return (
-          <ListItemParent className="listParent">
-            <SmartFileEntry
-              fileId={displayFileIds[index] ?? null}
-              displayIndex={index}
-              fileViewMode={FileViewMode.List}
-              columnWidths={columnWidths}
-            />
-          </ListItemParent>
-        );
-      };
+      // const rowRenderer = (index: number) => {
+      //   return (
+      //     <ListItemParent className="listParent">
+      //       <SmartFileEntry
+      //         fileId={displayFileIds[index] ?? null}
+      //         displayIndex={index}
+      //         fileViewMode={FileViewMode.List}
+      //         columnWidths={columnWidths}
+      //       />
+      //     </ListItemParent>
+      //   );
+      // };
 
-     
+
 
       const headerRenderer = () => {
         return (
@@ -126,7 +126,9 @@ export const ListContainer: React.FC<FileListListProps> = React.memo(
             onMouseOver={() => setHoveredHeader("show")}
             onMouseLeave={() => setHoveredHeader(null)}
             style={{
-                gridTemplateColumns: column.map((col) => `${columnWidths[col] ? columnWidths[col]+'px' : '1fr'} `).join(" ")
+              gridTemplateColumns: column.map((col) =>
+                columnWidths[col] ? `${columnWidths[col]}px` : '1fr'
+              ).join(" ")
             }}
           >
             {/* {checkboxSelection && (
@@ -141,15 +143,15 @@ export const ListContainer: React.FC<FileListListProps> = React.memo(
             )} */}
             {column.map((col) => (
               <ResizableCell
-                style={{ width: columnWidths[col] }}
-                header={true}
+              key={col}
+              style={{ flex: columnWidths[col] ? `0 0 ${columnWidths[col]}px` : "1" }}
               >
                 <ListHeaderText variant="h6">{col}</ListHeaderText>
-                  <ResizeHandle
-                    onMouseDown={(e) => handleMouseDown(col, e)}
-                  >
-                    <Box className="resizeHandleBar"></Box>
-                  </ResizeHandle>
+                <ResizeHandle
+                  onMouseDown={(e) => handleMouseDown(col, e)}
+                >
+                  <Box className="resizeHandleBar"></Box>
+                </ResizeHandle>
               </ResizableCell>
             ))}
           </ListHeaderRow>
@@ -164,30 +166,47 @@ export const ListContainer: React.FC<FileListListProps> = React.memo(
           height={height}
         >
           <Box className="listHeader">
-           {headerRenderer()}
+            {headerRenderer()}
           </Box>
-          <Box className="listBody">
-            {displayFileIds.map((_, index) => rowRenderer(index))}
-          </Box>
+            <Box className="listBody">
+              {displayFileIds.map((fileId, index) => (
+                <ListItemParent key={fileId ?? index} className="listParent">
+                  <SmartFileEntry
+                    fileId={fileId}
+                    displayIndex={index}
+                    fileViewMode={FileViewMode.List}
+                    columnWidths={columnWidths}
+                  />
+                </ListItemParent>
+              ))}
+            </Box>        
         </List>
       );
-    }, [viewConfig.entryHeight, height, displayFileIds, width]);
+    }, [viewConfig.entryHeight, height, displayFileIds, width , columnWidths]);
 
     return listComponent;
   }
 );
 
+
+
 const List = styled(Box)(({ theme, width, height }) => ({
   width: width,
   height: height,
+  overflow: 'auto',
+  position: 'relative',
   "& .listBody": {
-    width: "100%",
+    width: "fit-content",
     height: `calc(100% - 60px)`,
-    overflowY: "auto",
   },
   "& .listHeader": {
     height: "60px",
-    borderBottom: `1px solid ${theme.palette.divider}`
+    borderBottom: `1px solid ${theme.palette.divider}`,
+    position : 'sticky',
+    top:'0',
+    background: theme.palette.background.paper,
+    zIndex: 1,
+    width: "fit-content",
   },
 }));
 
@@ -198,62 +217,62 @@ const ListItemParent = styled(Box)(({ theme }) => ({
 
 
 const ListHeaderRow = styled(Box)(() => ({
-    display: 'grid',
-    '.checkBoxBlock': {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'end',
-        position: 'relative',
-        zIndex: 100
-    }
+  display: 'grid',
+  '.checkBoxBlock': {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'end',
+    position: 'relative',
+    zIndex: 100
+  }
 }));
 
 const ResizableCell = styled(Box)(
-    ({ theme, align, header }: { theme: any; align?: string; header?: boolean }) => ({
-        padding: header ? theme.spacing(3) : theme.spacing(2),
-        display: 'flex',
-        alignItems: 'center',
-        position: 'relative',
-        minWidth: '0',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-        '& p ,&': {
-            fontSize: '12px',
-            fontWeight: 400
-        },
-        ...(align == 'center' && {
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-        })
+  ({ theme, align, header }: { theme: any; align?: string; header?: boolean }) => ({
+    padding: header ? theme.spacing(3) : theme.spacing(2),
+    display: 'flex',
+    alignItems: 'center',
+    position: 'relative',
+    minWidth: '0',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    '& p ,&': {
+      fontSize: '12px',
+      fontWeight: 400
+    },
+    ...(align == 'center' && {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
     })
+  })
 );
 
 const ResizeHandle = styled(Box)(({ theme }) => ({
-    cursor: 'col-resize',
-    position: 'absolute',
-    right: '0px',
-    top: '50%',
-    transform: 'translateY(-50%)',
-    bottom: '0',
-    display: 'flex',
-    alignItems: 'center',
-    '&:hover': {
-        '& .resizeHandleBar': {
-            background: theme.palette.primary.main
-        }
-    },
+  cursor: 'col-resize',
+  position: 'absolute',
+  right: '0px',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  bottom: '0',
+  display: 'flex',
+  alignItems: 'center',
+  '&:hover': {
     '& .resizeHandleBar': {
-        width: '2px',
-        height: '90%',
-        borderRadius: '3px',
-        background: theme.palette.divider
+      background: theme.palette.primary.main
     }
+  },
+  '& .resizeHandleBar': {
+    width: '2px',
+    height: '90%',
+    borderRadius: '3px',
+    background: theme.palette.divider
+  }
 }));
 
 const ListHeaderText = styled(Typography)(() => ({
-    fontSize: '14px',
-    fontWeight: 500,
-    textTransform: 'capitalize'
+  fontSize: '14px',
+  fontWeight: 500,
+  textTransform: 'capitalize'
 }));
