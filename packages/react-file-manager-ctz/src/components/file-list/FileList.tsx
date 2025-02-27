@@ -69,6 +69,16 @@ export const FileList: React.FC<FileListProps> = React.memo(
         else {
           return <GridContainer width={width} height={height} />;
         }
+        // return (
+        //   <div className="inner-container">
+        //     {displayFileIds.length === 0 ? (
+        //       <FileListEmpty width={width} height={viewConfig.entryHeight} />
+        //     ) : viewConfig.mode === FileViewMode.List ? (
+        //       <ListContainer width={width} height={height} />
+        //     ) : (
+        //       <GridContainer width={width} height={height} />
+        //     )}
+        //   </div>)
       },
       [displayFileIds, viewConfig]
     );
@@ -106,13 +116,13 @@ const useLocalStyles = makeLocalExplorerStyles((theme) => ({
       state.dndIsOverCurrent && state.dndCanDrop
         ? state.dndCanDrop
           ? getStripeGradient(
-              theme.dnd.fileListCanDropMaskOne,
-              theme.dnd.fileListCanDropMaskTwo
-            )
+            theme.dnd.fileListCanDropMaskOne,
+            theme.dnd.fileListCanDropMaskTwo
+          )
           : getStripeGradient(
-              theme.dnd.fileListCannotDropMaskOne,
-              theme.dnd.fileListCannotDropMaskTwo
-            )
+            theme.dnd.fileListCannotDropMaskOne,
+            theme.dnd.fileListCannotDropMaskTwo
+          )
         : "none",
   },
   dndDropZone: {

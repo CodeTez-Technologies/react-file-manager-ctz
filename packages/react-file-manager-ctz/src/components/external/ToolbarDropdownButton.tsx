@@ -84,6 +84,7 @@ export interface SmartToolbarDropdownButtonProps {
 
 export const SmartToolbarDropdownButton = React.forwardRef(
     (props: SmartToolbarDropdownButtonProps, ref: React.Ref<HTMLLIElement>) => {
+
         const { fileActionId, onClickFollowUp } = props;
 
         const action = useParamSelector(selectFileActionData, fileActionId);

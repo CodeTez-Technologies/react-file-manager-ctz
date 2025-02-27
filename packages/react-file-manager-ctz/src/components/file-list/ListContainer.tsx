@@ -19,9 +19,8 @@ import {
 } from "../../redux/selectors";
 import { FileViewMode } from "../../types/file-view.types";
 import { useInstanceVariable } from "../../util/hooks-helpers";
-import { makeLocalExplorerStyles } from "../../util/styles";
 import { SmartFileEntry } from "./FileEntry";
-import { BorderBottom } from "@mui/icons-material";
+import CustomCheckBox from "../customize/CustomCheckBox";
 
 export interface FileListListProps {
   width: number;
@@ -126,21 +125,14 @@ export const ListContainer: React.FC<FileListListProps> = React.memo(
             onMouseOver={() => setHoveredHeader("show")}
             onMouseLeave={() => setHoveredHeader(null)}
             style={{
-              gridTemplateColumns: column.map((col) =>
-                columnWidths[col] ? `${columnWidths[col]}px` : '1fr'
-              ).join(" ")
+              gridTemplateColumns: ["40px", ... column.map((col) => columnWidths[col] ? `${columnWidths[col]}px` : '1fr')].join(" ")
             }}
           >
-            {/* {checkboxSelection && (
               <Box className="checkBoxBlock">
                 <CustomCheckBox
                   className={hoveredHeader ? "show" : ""}
-                  checked={isHeaderChecked}
-                  indeterminate={isHeaderIndeterminate || selectedItem}
-                  onChange={handleHeaderCheckboxChange}
                 />
               </Box>
-            )} */}
             {column.map((col) => (
               <ResizableCell
               key={col}

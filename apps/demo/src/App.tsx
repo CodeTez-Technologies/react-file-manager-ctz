@@ -38,6 +38,30 @@ function App() {
 		// ExplorerActions.DownloadFiles,
 		// ExplorerActions.DeleteFiles,
 		defineFileAction({
+			id: 'preview',
+			requiresSelection: true,
+			button: {
+				name: 'Preview',
+				toolbar: true,
+				contextMenu: true,
+				group: 'Actions',
+				groupType: 'access',
+				icon: IconName.star,
+			},
+		}),
+		defineFileAction({
+			id: 'open_width',
+			requiresSelection: true,
+			button: {
+				name: 'Open Width',
+				toolbar: true,
+				contextMenu: true,
+				group: 'Actions',
+				groupType: 'access',
+				icon: IconName.star,
+			},
+		}),
+		defineFileAction({
 			id: 'star_file',
 			requiresSelection: true,
 			button: {
@@ -45,6 +69,7 @@ function App() {
 				toolbar: true,
 				contextMenu: true,
 				group: 'Actions',
+				groupType: 'filemanage',
 				icon: IconName.star,
 			},
 		}),

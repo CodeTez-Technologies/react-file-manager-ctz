@@ -18,6 +18,7 @@ import { important, makeGlobalExplorerStyles } from '../../util/styles';
 import { useContextMenuDismisser } from './FileContextMenu-hooks';
 import { SmartToolbarDropdownButton } from './ToolbarDropdownButton';
 import { ExplorerDispatch } from '../../types/redux.types';
+import { styled } from '@mui/material';
 
 export interface FileContextMenuProps { }
 
@@ -81,7 +82,7 @@ export const FileContextMenu: React.FC<FileContextMenuProps> = React.memo(() => 
     const classes = useStyles();
     
     return (
-        <Menu
+        <ActionMenu
             elevation={2}
             disablePortal
             onClose={hideContextMenu}
@@ -89,13 +90,12 @@ export const FileContextMenu: React.FC<FileContextMenuProps> = React.memo(() => 
             open={!!contextMenuConfig}
             anchorPosition={anchorPosition}
             anchorReference="anchorPosition"
-            classes={{ list: classes.contextMenuList }}
         >
             {contextMenuItemComponents}
             {/* <ListSubheader component="div" className={classes.browserMenuTooltip}>
         {browserMenuShortcutString}
       </ListSubheader> */}
-        </Menu>
+        </ActionMenu>
     );
 });
 
@@ -109,4 +109,12 @@ const useStyles = makeGlobalExplorerStyles(() => ({
         lineHeight: important('30px'),
         fontSize: important('0.7em'),
     },
+}));
+
+const ActionMenu = styled(Menu)(({theme})=>({
+    '& .MuiPaper-root':{
+        minWidth: '280px',
+        // boxShadow: 'var(--mui-customShadows-md)',
+        borderRadius: theme.shape.borderRadius,
+    }
 }));

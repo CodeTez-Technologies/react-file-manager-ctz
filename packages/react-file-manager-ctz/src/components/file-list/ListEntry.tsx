@@ -17,6 +17,7 @@ import { selectListColumns } from "../../redux/selectors";
 import { format } from "date-fns";
 import { useSelector } from "react-redux";
 import { Box, styled, Typography } from "@mui/material";
+import CustomCheckBox from "../customize/CustomCheckBox";
 
 interface StyleState {
   entryState: FileEntryState;
@@ -26,7 +27,6 @@ interface StyleState {
 
 export const ListEntry: React.FC<FileEntryProps> = React.memo(
   ({ file, selected, focused, dndState, columnWidths }) => {
-
     const entryState: FileEntryState = useFileEntryState(
       file,
       selected,
@@ -104,11 +104,18 @@ export const ListEntry: React.FC<FileEntryProps> = React.memo(
       <ListItem
         {...fileEntryHtmlProps}
         style={{
-            gridTemplateColumns: columns
-              .map((col) => `${columnWidths?.[col.key]+'px' || "1fr"}`) 
-              .join(" "),
-          }}
+          gridTemplateColumns: [
+            "40px",
+            ...columns.map((col) => columnWidths?.[col.key] ? `${columnWidths[col.key]}px` : "1fr")
+          ].join(" ")
+        }}
       >
+        <Box className="checkBoxBlock">
+          <CustomCheckBox
+            className={'show'}
+            checked={entryState.focused}
+          />
+        </Box>
         {columns.map((col) => (
           <ResizableCell key={col.key}>
             {col.component ? col.component(file) : "-"}
@@ -202,6 +209,11 @@ const ListItem = styled(Box)(({ theme }) => ({
   },
   "&:hover": {
     background: theme.palette.action.hover,
+    "& .checkBoxBlock": {
+      '& .MuiCheckbox-root':{
+          opacity:' 1 !important'
+      }
+    }
   },
   "&.active": {
     background: theme.palette.primary.lighterOpacity,
@@ -211,7 +223,9 @@ const ListItem = styled(Box)(({ theme }) => ({
     alignItems: "center",
     justifyContent: "end",
     position: "relative",
-    zIndex: 100,
+    '& .MuiCheckbox-root:not(.Mui-checked)':{
+       opacity: 0
+    }
   },
 }));
 
