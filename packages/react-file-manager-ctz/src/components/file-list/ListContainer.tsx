@@ -47,7 +47,7 @@ export const ListContainer: React.FC<FileListListProps> = React.memo(
     const resizingColumn = useRef<string | null>(null);
     const startX = useRef<number>(0);
     const startWidth = useRef<number>(0);
-    const column = useMemo(() => ["name", "createdAt"], []);
+    const column = useMemo(() => ["name", "createdAt" , ...listCols?.map(item => item.label)], [listCols]);
 
     // const getItemKey = useCallback(
     //     (index: number) => displayFileIdsRef.current[index] ?? `loading-file-${index}`,
@@ -190,6 +190,7 @@ const List = styled(Box)(({ theme, width, height }) => ({
   "& .listBody": {
     width: "fit-content",
     height: `calc(100% - 60px)`,
+    minWidth: '100%',
   },
   "& .listHeader": {
     height: "60px",

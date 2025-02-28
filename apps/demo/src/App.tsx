@@ -59,6 +59,17 @@ function App() {
 				group: 'Actions',
 				groupType: 'access',
 				icon: IconName.star,
+				dropdown: true, 
+				dropdownItem: [
+					{
+						icon: IconName.copy,
+						label: 'Desktop App',
+					},
+					{
+						icon: IconName.copy,
+						label: 'Open in new tab',
+					},
+				],
 			},
 		}),
 		defineFileAction({
@@ -71,6 +82,17 @@ function App() {
 				group: 'Actions',
 				groupType: 'filemanage',
 				icon: IconName.star,
+				dropdown: true, 
+				dropdownItem: [
+					{
+						icon: IconName.copy,
+						label: 'Desktop App',
+					},
+					{
+						icon: IconName.copy,
+						label: 'Open in new tab',
+					},
+				],
 			},
 		}),
 	];
@@ -161,10 +183,10 @@ function App() {
 				clearSelectionOnOutsideClick={false}
 				// defaultFileViewActionId='enable_grid_view'
 				defaultFileViewActionId="enable_list_view"
-			// listCols={[
-			// 	{ label: 'Cabinet Size', getValue: (item) => 0 },
-			// 	{ label: 'MetaData', getValue: (item) => <Chip label="Yes" color="primary" size="small" /> },
-			// ]}
+				listCols={[
+					{ label: 'Cabinet Size', getValue: (item) => 0 },
+					{ label: 'MetaData', getValue: (item) => <Chip label="Yes" color="primary" size="small" /> },
+				]}
 			>
 				{/* <FileNavbar /> */}
 				{/* <FileToolbar /> */}

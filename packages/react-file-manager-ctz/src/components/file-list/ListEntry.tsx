@@ -27,6 +27,8 @@ interface StyleState {
 
 export const ListEntry: React.FC<FileEntryProps> = React.memo(
   ({ file, selected, focused, dndState, columnWidths }) => {
+    debugger
+
     const entryState: FileEntryState = useFileEntryState(
       file,
       selected,
@@ -47,6 +49,7 @@ export const ListEntry: React.FC<FileEntryProps> = React.memo(
     const ExplorerIcon = useContext(ExplorerIconContext);
     const fileEntryHtmlProps = useFileEntryHtmlProps(file);
     const listCols = useSelector(selectListColumns);
+
 
     const fileModDate =
       typeof file?.modDate === "string"
@@ -98,6 +101,13 @@ export const ListEntry: React.FC<FileEntryProps> = React.memo(
           </Typography>
         ),
       },
+      ...listCols.map((item) => ({
+        key: item.label.toLowerCase().replace(/\s+/g, "_"), // Convert label to a lowercase key with underscores
+        label: item.label,
+        resizable: true,
+        component: (row: any) => <Typography>-</Typography>, // Placeholder component
+    }))
+      
     ];
 
     return (

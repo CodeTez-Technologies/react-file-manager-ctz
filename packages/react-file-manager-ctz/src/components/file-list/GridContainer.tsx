@@ -59,7 +59,7 @@ const GridContainer: React.FC<FileListGridProps> = ({ width, height }) => {
                 Cabinet
               </Typography>
             </BlockTitle>
-            <GridViewBlock width={width} height={height}>
+            <GridViewBlock>
               {renderFiles(cabinets)}
             </GridViewBlock>
           </BlockViewChild>
@@ -71,18 +71,18 @@ const GridContainer: React.FC<FileListGridProps> = ({ width, height }) => {
                 Folder
               </Typography>
             </BlockTitle>
-            <GridViewBlock width={width} height={height}>
+            <GridViewBlock >
               {renderFiles(folders)}</GridViewBlock>
           </BlockViewChild>
         )}
         {normalFiles.length > 0 && (
           <BlockViewChild>
-            <BlockTitle>
+            <BlockTitle>  
               <Typography variant="h6" className="titleText">
                 Files
               </Typography>
             </BlockTitle>
-            <GridViewBlock width={width} height={height}>
+            <GridViewBlock>
               {renderFiles(normalFiles)}</GridViewBlock>
           </BlockViewChild>
         )}
@@ -94,13 +94,13 @@ const GridContainer: React.FC<FileListGridProps> = ({ width, height }) => {
 export default GridContainer;
 
 
-const GridViewBlock = styled(Box)(({ theme, width, height }: { width: any, height: any }) => ({
+const GridViewBlock = styled(Box)(({ theme }) => ({
   display: 'grid',
   gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
   gridColumnGap: theme.spacing(2),
   gridRowGap: theme.spacing(2),
-  width: width + 'px',
-  height: 'fit-content',
+  width: '100%',
+  height: 'auto',
   '& .gridItem': {
     display: 'flex',
   }
@@ -110,19 +110,23 @@ const GridViewBlock = styled(Box)(({ theme, width, height }: { width: any, heigh
 const BlockViewParent = styled(Box)(({ theme, width, height }: { width: any, height: any }) => ({
   display: 'flex',
   width: width + 'px',
+  height: height + 'px',
+  overflow : 'auto',
+ 
 }));
 
 // Styled Components
 const BlockView = styled(Box)(({ theme }) => ({
-  gap: theme.spacing(6),
+  gap: theme.spacing(3.5),
   display: 'flex',
   flexDirection: 'column',
   position: 'relative',
+  padding: theme.spacing(2, 3),
   width: '100%',
   '& .lastModified': {
     position: 'absolute',
-    right: 0,
-    top: '4px',
+    right: theme.spacing(3),
+    top: theme.spacing(2),
     display : 'flex',
     gap: '10px'
   }
