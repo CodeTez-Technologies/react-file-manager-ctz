@@ -12,8 +12,13 @@ import { useLocalizedFileActionGroup } from '../../util/i18n';
 import { important, makeGlobalExplorerStyles } from '../../util/styles';
 import { ToolbarButton, ToolbarButtonProps } from './ToolbarButton';
 import { SmartToolbarDropdownButton } from './ToolbarDropdownButton';
+import { styled } from '@mui/material';
 
-export type ToolbarDropdownProps = FileActionGroup;
+export type ToolbarDropdownProps = {
+    name?: string;
+    icon?: string;
+    fileActionIds: string[];  // Change from fileActionIds to items
+};
 
 export const ToolbarDropdown: React.FC<ToolbarDropdownProps> = React.memo((props) => {
 
@@ -46,30 +51,32 @@ export const ToolbarDropdown: React.FC<ToolbarDropdownProps> = React.memo((props
         toolbarButtonProps.text = '';
     }
 
-    const classes = useStyles();
 
     return (
         <>
             <ToolbarButton {...toolbarButtonProps} />
-            <Menu
+            <ActionMenu
                 autoFocus
                 keepMounted
                 elevation={2}
                 anchorEl={anchor}
                 onClose={handleClose}
                 open={Boolean(anchor)}
-                transitionDuration={150}
-                classes={{ list: classes.dropdownList }}
-            >
+                transitionDuration={150}>
                 {menuItemComponents}
-            </Menu>
+            </ActionMenu>
         </>
     );
 });
 
-const useStyles = makeGlobalExplorerStyles(() => ({
-    dropdownList: {
-        paddingBottom: important(0),
-        paddingTop: important(0),
-    },
+const ActionMenu = styled(Menu)(({theme})=>({
+    '& .MuiPaper-root':{
+        '& .MuiList-root':{
+            '& .MuiListItemText-root':{
+                margin: '0px !important'
+            }
+        }
+    }
 }));
+
+

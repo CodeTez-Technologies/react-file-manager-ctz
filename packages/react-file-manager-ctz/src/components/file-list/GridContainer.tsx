@@ -123,6 +123,7 @@ const BlockView = styled(Box)(({ theme }) => ({
   position: 'relative',
   padding: theme.spacing(2, 3),
   width: '100%',
+  height: 'fit-content',
   '& .lastModified': {
     position: 'absolute',
     right: theme.spacing(3),

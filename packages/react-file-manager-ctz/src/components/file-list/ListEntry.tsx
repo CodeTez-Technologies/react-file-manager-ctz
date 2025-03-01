@@ -27,13 +27,13 @@ interface StyleState {
 
 export const ListEntry: React.FC<FileEntryProps> = React.memo(
   ({ file, selected, focused, dndState, columnWidths }) => {
-    debugger
 
     const entryState: FileEntryState = useFileEntryState(
       file,
       selected,
       focused
     );
+    
     const dndIconName = useDndIcon(dndState);
     const { fileModDateString, fileSizeString } =
       useLocalizedFileEntryStrings(file);
@@ -113,6 +113,7 @@ export const ListEntry: React.FC<FileEntryProps> = React.memo(
     return (
       <ListItem
         {...fileEntryHtmlProps}
+        entryState={entryState}
         style={{
           gridTemplateColumns: [
             "40px",
@@ -123,7 +124,7 @@ export const ListEntry: React.FC<FileEntryProps> = React.memo(
         <Box className="checkBoxBlock">
           <CustomCheckBox
             className={'show'}
-            checked={entryState.focused}
+            checked={entryState.selected}
           />
         </Box>
         {columns.map((col) => (
@@ -212,21 +213,24 @@ const useStyles = makeLocalExplorerStyles((theme) => ({
   },
 }));
 
-const ListItem = styled(Box)(({ theme }) => ({
+const ListItem = styled(Box)(({ theme ,entryState } :{entryState : any}) => ({
   display: "grid",
+  ...(entryState.selected && {
+    // background: `rgb(${theme.palette.primary.main}) / 0.16)`,
+    background: `color-mix(in srgb, ${theme.palette.primary.main} 10%, transparent)`,
+  }),
   "&:not(:last-child)": {
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
   "&:hover": {
-    background: theme.palette.action.hover,
+    ...(!entryState.selected && {
+      background: theme.palette.action.hover,
+    }),
     "& .checkBoxBlock": {
       '& .MuiCheckbox-root':{
           opacity:' 1 !important'
       }
     }
-  },
-  "&.active": {
-    background: theme.palette.primary.lighterOpacity,
   },
   "& .checkBoxBlock": {
     display: "flex",

@@ -21,8 +21,9 @@ import {
 import { FileListEmpty } from "./FileListEmpty";
 // import { GridContainer } from "./GridContainer";
 import { ListContainer } from "./ListContainer";
-import { Box } from "@mui/material";
+import { Box, styled } from "@mui/material";
 import GridContainer from "./GridContainer";
+import MultiSelectPopup from "../external/MultiSelectPopup";
 
 export interface FileListProps {
   onScroll?: (e: UIEvent<HTMLDivElement>) => void;
@@ -63,12 +64,20 @@ export const FileList: React.FC<FileListProps> = React.memo(
             <FileListEmpty width={width} height={viewConfig.entryHeight} />
           );
         } 
-        else if (viewConfig.mode === FileViewMode.List) {
-          return <ListContainer width={width} height={height} />;
-        } 
         else {
-          return <GridContainer width={width} height={height} />;
-        }
+          return (
+            <ViewerParentBlock width={width} height={height}>
+               <MultiSelectPopup onClose={console.log('gahysgdfuy')}/>
+               {viewConfig.mode === FileViewMode.List ? <ListContainer width={width} height={height} /> :   <GridContainer width={width} height={height} />}
+             </ViewerParentBlock>
+          )
+          // if (viewConfig.mode === FileViewMode.List) {
+          //   return <ListContainer width={width} height={height} />;
+          // } 
+          // else {
+          //   return <GridContainer width={width} height={height} />;
+          // }
+        } 
       },
       [displayFileIds, viewConfig]
     );
@@ -150,3 +159,7 @@ const useStyles = makeGlobalExplorerStyles(() => ({
     maxHeight: "100%",
   },
 }));
+
+const ViewerParentBlock = styled(Box)(()=>({
+    position : 'relative',
+}))

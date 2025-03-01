@@ -189,7 +189,7 @@ function App() {
 				]}
 			>
 				{/* <FileNavbar /> */}
-				{/* <FileToolbar /> */}
+				<FileToolbar />
 				<FileList />
 				<FileContextMenu />
 			</FileBrowser>

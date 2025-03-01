@@ -30,6 +30,7 @@ export interface ToolbarButtonProps {
 }
 
 export const ToolbarButton: React.FC<ToolbarButtonProps> = React.memo((props) => {
+    debugger
 
     const { className: externalClassName, text, tooltip, active, icon, iconOnly, onClick, disabled, dropdown } = props;
     const classes = useStyles();

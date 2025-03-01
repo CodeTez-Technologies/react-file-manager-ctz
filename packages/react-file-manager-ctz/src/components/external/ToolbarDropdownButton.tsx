@@ -33,7 +33,6 @@ export interface ToolbarDropdownButtonProps {
 
 export const ToolbarDropdownButton = React.forwardRef(
     (props: ToolbarDropdownButtonProps, ref: React.Ref<HTMLLIElement>) => {
-        debugger
         const { text, active, icon, onClick, disabled, item } = props;
         const classes = useStyles();
         const ExplorerIcon = useContext(ExplorerIconContext);

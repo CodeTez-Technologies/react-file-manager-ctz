@@ -2,74 +2,84 @@ import React, { ReactElement, ReactNode, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
 import { selectToolbarItems, selectHideToolbarInfo } from '../../redux/selectors';
-import { makeGlobalExplorerStyles } from '../../util/styles';
 import { SmartToolbarButton } from './ToolbarButton';
 import { ToolbarDropdown } from './ToolbarDropdown';
 import { ToolbarInfo } from './ToolbarInfo';
 import { ToolbarSearch } from './ToolbarSearch';
+import { Box, styled } from '@mui/material';
+import MultiSelectPopup from './MultiSelectPopup';
 
 export interface FileToolbarProps { }
 
 export const FileToolbar: React.FC<FileToolbarProps & { children?: ReactNode; }> = React.memo((props) => {
+
     const { children } = props;
-    const classes = useStyles();
     const toolbarItems = useSelector(selectToolbarItems);
 
     const toolbarItemComponents = useMemo(() => {
         const components: ReactElement[] = [];
         // @ts-ignore
-        const items = toolbarItems.filter(i => i.name !== 'Actions');
+       // Extract all fileActionIds from items
+       const items = toolbarItems.filter(i => i.name !== 'Actions');
+    const fileActionIds = items.flatMap(item => item.fileActionIds || []);
 
-        for (let i = 0; i < items.length; ++i) {
-            const item = items[i];
+    // Split into two categories
+    const enableOptions = fileActionIds.filter(id => id.startsWith("enable"));
+    const sortOptions = fileActionIds.filter(id => id.startsWith("sort"));
 
-            const key = `toolbar-item-${typeof item === 'string' ? item : item.name}`;
-            const component =
-                typeof item === 'string' ? (
-                    <SmartToolbarButton key={key} fileActionId={item} />
-                ) : (
-                    <ToolbarDropdown key={key} {...item} />
-                );
-            components.push(component);
-        }
+    if (enableOptions.length > 0) {
+        components.push(
+            <ToolbarDropdown key="enable-options" icon="enable" name="enable" fileActionIds={enableOptions} />
+        );
+    }
+
+    // Add Sort Options Dropdown
+    if (sortOptions.length > 0) {
+        components.push(
+            <ToolbarDropdown key="sort-options" icon="sort" name="sort" fileActionIds={sortOptions} />
+        );
+    }
+
+    return components;
         return components;
     }, [toolbarItems]);
 
     const hideToolbarInfo = useSelector(selectHideToolbarInfo);
     
     return (
-        <div className={classes.toolbarWrapper}>
-            <div className={classes.toolbarContainer}>
-                <div className={classes.toolbarLeft}>
-                    <ToolbarSearch />
-                    {!hideToolbarInfo && <ToolbarInfo />}
-                    {children}
-                </div>
-                <div className={classes.toolbarRight}>{toolbarItemComponents}</div>
-            </div>
-        </div>
+        <>
+            <ToolbarWrapper className='toolbarWrapper'>
+                <Box className='toolbarContainer'>
+                    <Box className='toolbarLeft'>
+                        <ToolbarSearch />
+                        {!hideToolbarInfo && <ToolbarInfo />}
+                        {children}
+                    </Box>
+                    <Box className='toolbarRight'>{toolbarItemComponents}</Box>
+                </Box>
+             
+            </ToolbarWrapper>
+        </>
     );
 });
 
-const useStyles = makeGlobalExplorerStyles((theme) => ({
-    toolbarWrapper: {},
-    toolbarContainer: {
+const ToolbarWrapper = styled(Box)(({theme})=>({
+     borderBottom : `1px solid ${theme.palette.divider}`,
+    '& .toolbarContainer':{
         flexWrap: 'wrap-reverse',
         display: 'flex',
-        padding: '15px'
+        padding: theme.spacing(2, 3),
+        alignItems: 'center',
+        justifyContent : 'space-between',
     },
-    toolbarLeft: {
-        paddingBottom: theme.margins.rootLayoutMargin,
-        flexWrap: 'wrap',
-        flexGrow: 10000,
+    '& .toolbarLeft': {
         display: 'flex',
+        height: 'fit-content'
     },
-    toolbarLeftFiller: {
-        flexGrow: 10000,
+    '& .toolbarLeftFiller': {
     },
-    toolbarRight: {
-        paddingBottom: theme.margins.rootLayoutMargin,
-        flexWrap: 'wrap',
+    '& .toolbarRight': {
         display: 'flex',
+        gap: theme.spacing(3)
     },
-}));
+})) 
