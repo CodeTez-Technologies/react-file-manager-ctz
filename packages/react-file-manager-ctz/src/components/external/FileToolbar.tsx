@@ -29,14 +29,14 @@ export const FileToolbar: React.FC<FileToolbarProps & { children?: ReactNode; }>
 
     if (enableOptions.length > 0) {
         components.push(
-            <ToolbarDropdown key="enable-options" icon="enable" name="enable" fileActionIds={enableOptions} />
+            <ToolbarDropdown key="enable-options" icon="layout" fileActionIds={enableOptions} />
         );
     }
 
     // Add Sort Options Dropdown
     if (sortOptions.length > 0) {
         components.push(
-            <ToolbarDropdown key="sort-options" icon="sort" name="sort" fileActionIds={sortOptions} />
+            <ToolbarDropdown key="sort-options" icon='sort' fileActionIds={sortOptions} />
         );
     }
 
@@ -68,7 +68,7 @@ const ToolbarWrapper = styled(Box)(({theme})=>({
     '& .toolbarContainer':{
         flexWrap: 'wrap-reverse',
         display: 'flex',
-        padding: theme.spacing(2, 3),
+        padding: theme.spacing(1.5, 3),
         alignItems: 'center',
         justifyContent : 'space-between',
     },
@@ -80,6 +80,6 @@ const ToolbarWrapper = styled(Box)(({theme})=>({
     },
     '& .toolbarRight': {
         display: 'flex',
-        gap: theme.spacing(3)
+        gap: theme.spacing(1)
     },
 })) 

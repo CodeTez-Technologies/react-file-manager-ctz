@@ -131,7 +131,7 @@ export const FileContextMenu: React.FC<FileContextMenuProps> = React.memo(() => 
 });
 
 const useStyles = makeGlobalExplorerStyles(() => ({
-    contextMenuRoot: { minWdith: { md: '260px' }, maxWdith: { md: '280px' } },
+    contextMenuRoot: { minWidth: { md: '260px' }, maxWidth: { md: '280px' } },
     contextMenuList: {
         padding: '10px',
     },

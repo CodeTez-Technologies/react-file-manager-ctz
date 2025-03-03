@@ -51,7 +51,6 @@ export const ToolbarDropdown: React.FC<ToolbarDropdownProps> = React.memo((props
         toolbarButtonProps.text = '';
     }
 
-
     return (
         <>
             <ToolbarButton {...toolbarButtonProps} />
@@ -70,6 +69,7 @@ export const ToolbarDropdown: React.FC<ToolbarDropdownProps> = React.memo((props
 });
 
 const ActionMenu = styled(Menu)(({theme})=>({
+    marginTop : '10px',
     '& .MuiPaper-root':{
         '& .MuiList-root':{
             '& .MuiListItemText-root':{
