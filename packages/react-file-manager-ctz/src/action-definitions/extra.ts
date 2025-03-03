@@ -26,6 +26,7 @@ export const ExtraActions = {
             name: 'Create folder',
             toolbar: true,
             tooltip: 'Create a folder',
+            group: 'Options',
             icon: IconName.folderCreate,
         },
     } as const),

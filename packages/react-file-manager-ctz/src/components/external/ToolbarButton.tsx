@@ -46,19 +46,28 @@ export const ToolbarButton: React.FC<ToolbarButtonProps> = React.memo((props) =>
         [externalClassName ?? '']: true,
         ['baseButton']: true,
         ['iconOnlyButton']: iconOnly,
-        ['activeButton']: !!active, 
+        ['activeButton']: !!active,
     });
 
     return (
-        <DropDownButton variant={dropdown ? "default" : "contained"} className={className} onClick={onClick} title={tooltip ? tooltip : text} disabled={disabled || !onClick}>
-            {iconComponent}
-            {text && !iconOnly && <span>{text}</span>}
-            {dropdown && text && !iconOnly && (
-                <div className='iconDropdown'>
-                    <ExplorerIcon icon={IconName.dropdown} fixedWidth={true} />
-                </div>
-            )}
-        </DropDownButton>
+        <>
+            {
+                (icon || iconOnly) && text ?
+                    (<Button variant={'contained'} startIcon={ <ExplorerIcon icon={icon ? icon : IconName.fallbackIcon} fixedWidth={true} />} onClick={onClick} title={tooltip ? tooltip : text} disabled={disabled || !onClick} sx={{textTransform: 'capitalize'}}>
+                         {text}
+                    </Button>)
+                    :
+                    (<DropDownButton variant={dropdown ? "default" : "contained"} className={className} onClick={onClick} title={tooltip ? tooltip : text} disabled={disabled || !onClick}>
+                        {iconComponent}
+                        {text && !iconOnly && <span>{text}</span>}
+                        {dropdown && text && !iconOnly && (
+                            <div className='iconDropdown'>
+                                <ExplorerIcon icon={IconName.dropdown} fixedWidth={true} />
+                            </div>
+                        )}
+                    </DropDownButton>)
+            }
+        </>
     );
 });
 
@@ -93,30 +102,30 @@ export const SmartToolbarButton: React.FC<SmartToolbarButtonProps> = React.memo(
     );
 });
 
-const DropDownButton = styled(Box)(({theme})=>({
-    cursor : 'pointer',
-   '&.baseButton':{
+const DropDownButton = styled(Box)(({ theme }) => ({
+    cursor: 'pointer',
+    '&.baseButton': {
         display: 'flex',
         alignItems: 'center',
         gap: '5px',
-        '& .iconDropdown svg':{
-            width : '12px',
+        '& .iconDropdown svg': {
+            width: '12px',
             height: '12px',
-            color :  theme.palette.text.secondary,
+            color: theme.palette.text.secondary,
         }
-   }
+    }
 }))
 
-const IconBlock = styled(Box)(({theme})=>({
-    display : 'flex',
-    padding: '7px',
-    borderRadius: '50%',
-    '&:hover':{
-        background :  theme.palette.action.hover,
+const IconBlock = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    padding: '8px',
+    borderRadius: '6px',
+    '&:hover': {
+        background: theme.palette.action.hover,
     },
-     'svg':{
-        stroke :  theme.palette.text.secondary,
+    'svg': {
+        stroke: theme.palette.text.secondary,
         width: '20px',
         height: '20px',
-     }
+    }
 }))

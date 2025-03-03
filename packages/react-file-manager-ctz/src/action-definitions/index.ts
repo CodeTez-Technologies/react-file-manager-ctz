@@ -26,9 +26,10 @@ export const DefaultFileActions = [
     ExplorerActions.OpenSelection,
     ExplorerActions.SelectAllFiles,
     ExplorerActions.ClearSelection,
+    ExplorerActions.CreateFolder,
     ExplorerActions.EnableListView,
     // TODO: Don't enable until compact view is fully supported
-    // ExplorerActions.EnableCompactView,
+    ExplorerActions.EnableCompactView,
     ExplorerActions.EnableGridView,
     ExplorerActions.SortFilesByName,
     ExplorerActions.SortFilesBySize,
