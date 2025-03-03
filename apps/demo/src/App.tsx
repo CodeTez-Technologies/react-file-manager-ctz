@@ -22,7 +22,7 @@ function App() {
 	const pathEntries = ['test', 'folder'];
 	const myFileActions = [
 		// defineFileAction({
-		// 	id: 'create_folder',
+		// 	id: 'create_folder',	
 		// 	requiresSelection: false,
 		// 	hotkeys: [],
 		// 	button: {
@@ -37,6 +37,17 @@ function App() {
 		// ExplorerActions.UploadFiles,
 		// ExplorerActions.DownloadFiles,
 		// ExplorerActions.DeleteFiles,
+		defineFileAction({
+			id: 'filter',
+			requiresSelection: true,
+			button: {
+				name: 'Filter',
+				toolbar: true,
+				contextMenu: true,
+				group: 'Options',
+				icon: 'filter',
+			},
+		}),
 		defineFileAction({
 			id: 'preview',
 			requiresSelection: true,
