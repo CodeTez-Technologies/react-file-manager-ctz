@@ -17,12 +17,13 @@ import { styled } from '@mui/material';
 export type ToolbarDropdownProps = {
     name?: string;
     icon?: string;
+    text?: string;
     fileActionIds: string[];  // Change from fileActionIds to items
 };
 
 export const ToolbarDropdown: React.FC<ToolbarDropdownProps> = React.memo((props) => {
 
-    const { name, icon, fileActionIds } = props;
+    const { name, icon, fileActionIds , text} = props;
     const [anchor, setAnchor] = React.useState<null | HTMLElement>(null);
 
     const handleClick = useCallback(
@@ -48,7 +49,7 @@ export const ToolbarDropdown: React.FC<ToolbarDropdownProps> = React.memo((props
     if (icon) {
         toolbarButtonProps.icon = icon;
         toolbarButtonProps.iconOnly = true;
-        toolbarButtonProps.text = '';
+        toolbarButtonProps.text = text ? text : '';
     }
 
     return (

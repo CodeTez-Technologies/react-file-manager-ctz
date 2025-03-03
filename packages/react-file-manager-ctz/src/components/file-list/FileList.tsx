@@ -67,7 +67,7 @@ export const FileList: React.FC<FileListProps> = React.memo(
         else {
           return (
             <ViewerParentBlock width={width} height={height}>
-               <MultiSelectPopup onClose={console.log('gahysgdfuy')}/>
+               {/* <MultiSelectPopup onClose={console.log('gahysgdfuy')}/> */}
                {viewConfig.mode === FileViewMode.List ? <ListContainer width={width} height={height} /> :   <GridContainer width={width} height={height} />}
              </ViewerParentBlock>
           )

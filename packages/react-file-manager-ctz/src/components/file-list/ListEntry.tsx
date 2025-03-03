@@ -16,7 +16,8 @@ import { selectListColumns } from "../../redux/selectors";
 
 import { format } from "date-fns";
 import { useSelector } from "react-redux";
-import { Box, styled, Typography } from "@mui/material";
+import { Box, IconButton, styled, Typography, useMediaQuery } from "@mui/material";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CustomCheckBox from "../customize/CustomCheckBox";
 
 interface StyleState {
@@ -50,6 +51,8 @@ export const ListEntry: React.FC<FileEntryProps> = React.memo(
     const fileEntryHtmlProps = useFileEntryHtmlProps(file);
     const listCols = useSelector(selectListColumns);
 
+    // Inside your `ListEntry` component:
+    const isMobile = useMediaQuery("(max-width: 764px)");
 
     const fileModDate =
       typeof file?.modDate === "string"
@@ -90,24 +93,38 @@ export const ListEntry: React.FC<FileEntryProps> = React.memo(
         component: (row: any) => renderFileInformationData(row),
       },
 
-      {
-        key: "createdAt",
-        label: "Created At",
-        resizable: false,
-        component: (row: any) => (
-          <Typography>
-            {new Date(row.createdAt).toLocaleString()} by{" "}
-            {row.updatedUser?.firstName} {row.updatedUser?.lastName}
-          </Typography>
-        ),
-      },
-      ...listCols.map((item) => ({
-        key: item.label.toLowerCase().replace(/\s+/g, "_"), // Convert label to a lowercase key with underscores
-        label: item.label,
-        resizable: true,
-        component: (row: any) => <Typography>-</Typography>, // Placeholder component
-    }))
-      
+      ...(isMobile
+        ? [
+            {
+              key: "action",
+              label: "Action",
+              resizable: false,
+              component: () => (
+                <IconButton>
+                  <MoreVertIcon />
+                </IconButton>
+              ),
+            },
+          ]
+        : [
+            {
+              key: "createdAt",
+              label: "Created At",
+              resizable: false,
+              component: (row: any) => (
+                <Typography>
+                  {new Date(row.createdAt).toLocaleString()} by{" "}
+                  {row.updatedUser?.firstName} {row.updatedUser?.lastName}
+                </Typography>
+              ),
+            },
+            ...listCols.map((item) => ({
+              key: item.label.toLowerCase().replace(/\s+/g, "_"),
+              label: item.label,
+              resizable: true,
+              component: (row: any) => <Typography>-</Typography>,
+            })),
+          ]),
     ];
 
     return (
@@ -117,7 +134,7 @@ export const ListEntry: React.FC<FileEntryProps> = React.memo(
         style={{
           gridTemplateColumns: [
             "40px",
-            ...columns.map((col) => columnWidths?.[col.key] ? `${columnWidths[col.key]}px` : "1fr")
+            ...(isMobile ?  ['1fr 100px']: columns.map((col) => columnWidths?.[col.key] ? `${columnWidths[col.key]}px` : "1fr"))
           ].join(" ")
         }}
       >
@@ -132,31 +149,6 @@ export const ListEntry: React.FC<FileEntryProps> = React.memo(
             {col.component ? col.component(file) : "-"}
           </ResizableCell>
         ))}
-        {/* <div className={commonClasses.focusIndicator}></div>
-            <div className={c([commonClasses.selectionIndicator, classes.listFileEntrySelection])}></div>
-            <div className={classes.listFileEntryIcon}>
-                <ExplorerIcon
-                    icon={dndIconName ?? entryState.icon}
-                    spin={dndIconName ? false : entryState.iconSpin}
-                    fixedWidth={true}
-                />
-            </div>
-            <div className={classes.listFileEntryName} title={file ? file.name : undefined}>
-                <FileEntryName file={file} />
-            </div>
-            <div className={classes.listFileEntryProperty}>
-                {file ? fileSizeString ?? <span>—</span> : <TextPlaceholder minLength={10} maxLength={20} />}
-            </div>
-            <div className={classes.listFileEntryProperty}>
-                {file ? fileModDate ?? <span>—</span> : <TextPlaceholder minLength={5} maxLength={15} />}
-            </div>
-            {
-                listCols.map((entry, index) => (
-                    <div key={index} className={classes.listFileEntryProperty}>
-                        {entry.getValue(file) ?? '-'}
-                    </div>
-                ))
-            } */}
       </ListItem>
     );
   }

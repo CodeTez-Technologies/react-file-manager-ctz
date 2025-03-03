@@ -9,7 +9,7 @@ import React, {
 import { useSelector } from "react-redux";
 import { FixedSizeList } from "react-window";
 
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useMediaQuery } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 import {
@@ -36,6 +36,8 @@ export const ListContainer: React.FC<FileListListProps> = React.memo(
     const viewConfig = useSelector(selectFileViewConfig);
 
     const listRef = useRef<FixedSizeList>();
+    // Inside your `ListEntry` component:
+    const isMobile = useMediaQuery("(max-width: 764px)");
 
     const displayFileIds = useSelector(selectors.getDisplayFileIds) as [];
     const displayFileIdsRef = useInstanceVariable(displayFileIds);
@@ -47,12 +49,13 @@ export const ListContainer: React.FC<FileListListProps> = React.memo(
     const resizingColumn = useRef<string | null>(null);
     const startX = useRef<number>(0);
     const startWidth = useRef<number>(0);
-    const column = useMemo(() => ["name", "createdAt" , ...listCols?.map(item => item.label)], [listCols]);
-
-    // const getItemKey = useCallback(
-    //     (index: number) => displayFileIdsRef.current[index] ?? `loading-file-${index}`,
-    //     [displayFileIdsRef],
-    // );
+    const column = useMemo(() => [
+      "name",
+      ...(isMobile
+        ? ["action"]
+        : ["createdAt", ...listCols.map(item => item.label.toLowerCase().replace(/\s+/g, "_"))]
+      )
+    ], [isMobile, listCols]);
 
     useEffect(() => {
       if (!listContainerRef.current) return;
@@ -104,46 +107,34 @@ export const ListContainer: React.FC<FileListListProps> = React.memo(
     };
 
     const listComponent = useMemo(() => {
-      // const rowRenderer = (index: number) => {
-      //   return (
-      //     <ListItemParent className="listParent">
-      //       <SmartFileEntry
-      //         fileId={displayFileIds[index] ?? null}
-      //         displayIndex={index}
-      //         fileViewMode={FileViewMode.List}
-      //         columnWidths={columnWidths}
-      //       />
-      //     </ListItemParent>
-      //   );
-      // };
-
-
-
       const headerRenderer = () => {
         return (
           <ListHeaderRow
             onMouseOver={() => setHoveredHeader("show")}
             onMouseLeave={() => setHoveredHeader(null)}
             style={{
-              gridTemplateColumns: ["40px", ... column.map((col) => columnWidths[col] ? `${columnWidths[col]}px` : '1fr')].join(" ")
+              gridTemplateColumns: ["40px", ...(isMobile ? ['1fr 100px'] : column.map((col) => columnWidths[col] ? `${columnWidths[col]}px` : '1fr'))].join(" ")
             }}
           >
-              <Box className="checkBoxBlock">
-                <CustomCheckBox
-                  className={hoveredHeader ? "show" : ""}
-                />
-              </Box>
+            <Box className="checkBoxBlock">
+              <CustomCheckBox
+                className={hoveredHeader ? "show" : ""}
+              />
+            </Box>
             {column.map((col) => (
               <ResizableCell
-              key={col}
-              style={{ flex: columnWidths[col] ? `0 0 ${columnWidths[col]}px` : "1" }}
+                key={col}
+                style={{ flex: columnWidths[col] ? `0 0 ${columnWidths[col]}px` : "1" }}
               >
                 <ListHeaderText variant="h6">{col}</ListHeaderText>
-                <ResizeHandle
-                  onMouseDown={(e) => handleMouseDown(col, e)}
-                >
-                  <Box className="resizeHandleBar"></Box>
-                </ResizeHandle>
+                {
+                  !isMobile &&
+                  <ResizeHandle
+                    onMouseDown={(e) => handleMouseDown(col, e)}
+                  >
+                    <Box className="resizeHandleBar"></Box>
+                  </ResizeHandle>
+                }
               </ResizableCell>
             ))}
           </ListHeaderRow>
@@ -160,21 +151,21 @@ export const ListContainer: React.FC<FileListListProps> = React.memo(
           <Box className="listHeader">
             {headerRenderer()}
           </Box>
-            <Box className="listBody">
-              {displayFileIds.map((fileId, index) => (
-                <ListItemParent key={fileId ?? index} className="listParent">
-                  <SmartFileEntry
-                    fileId={fileId}
-                    displayIndex={index}
-                    fileViewMode={FileViewMode.List}
-                    columnWidths={columnWidths}
-                  />
-                </ListItemParent>
-              ))}
-            </Box>        
+          <Box className="listBody">
+            {displayFileIds.map((fileId, index) => (
+              <ListItemParent key={fileId ?? index} className="listParent">
+                <SmartFileEntry
+                  fileId={fileId}
+                  displayIndex={index}
+                  fileViewMode={FileViewMode.List}
+                  columnWidths={columnWidths}
+                />
+              </ListItemParent>
+            ))}
+          </Box>
         </List>
       );
-    }, [viewConfig.entryHeight, height, displayFileIds, width , columnWidths]);
+    }, [viewConfig.entryHeight, height, displayFileIds, width, columnWidths]);
 
     return listComponent;
   }
@@ -195,11 +186,12 @@ const List = styled(Box)(({ theme, width, height }) => ({
   "& .listHeader": {
     height: "60px",
     borderBottom: `1px solid ${theme.palette.divider}`,
-    position : 'sticky',
-    top:'0',
+    position: 'sticky',
+    top: '0',
     background: theme.palette.background.paper,
     zIndex: 1,
     width: "fit-content",
+    minWidth: '100%',
   },
 }));
 
