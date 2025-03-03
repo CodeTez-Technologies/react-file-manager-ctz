@@ -13,21 +13,18 @@ import { useFileNameComponent, useModifierIconComponents } from './FileEntry-hoo
 
 export interface FileEntryNameProps {
   file: Nullable<FileData>;
-  className?: string;
 }
 
-export const FileEntryName: React.FC<FileEntryNameProps> = React.memo(({ file, className }) => {
+export const FileEntryName: React.FC<FileEntryNameProps> = React.memo(({ file }) => {
   const modifierIconComponents = useModifierIconComponents(file);
   const fileNameComponent = useFileNameComponent(file);
 
   const classes = useStyles();
   return (
-    <span className={className} title={file ? file.name : undefined} style={{
-      fontSize: '12px'
-    }}>
+    <div className='fileName' title={file ? file.name : undefined} >
       {modifierIconComponents.length > 0 && <span className={classes.modifierIcons}>{modifierIconComponents}</span>}
       {fileNameComponent}
-    </span>
+    </div>
   );
 });
 FileEntryName.displayName = 'FileEntryName';

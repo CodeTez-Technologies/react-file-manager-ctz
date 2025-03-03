@@ -24,7 +24,6 @@ import { darkThemeOverride, lightTheme, mobileThemeOverride, useIsMobileBreakpoi
 import { ExplorerBusinessLogic } from '../internal/ExplorerBusinessLogic';
 import { ExplorerIconPlaceholder } from '../internal/ExplorerIconPlaceholder';
 import { ExplorerPresentationLayer } from '../internal/ExplorerPresentationLayer';
-import { PropsProvider } from '../PropsProvider';
 
 // if (process.env.NODE_ENV === 'development') {
 //     const whyDidYouRender = require('@welldone-software/why-did-you-render');
@@ -35,7 +34,7 @@ import { PropsProvider } from '../PropsProvider';
 
 export const FileBrowser = React.forwardRef<FileBrowserHandle, FileBrowserProps & { children?: ReactNode; }>((props, ref) => {
 
-    const { instanceId, iconComponent, children, listCols } = props;
+    const { instanceId, iconComponent, children } = props;
     const disableDragAndDrop = getValueOrFallback(
         props.disableDragAndDrop,
         defaultConfig.disableDragAndDrop,
@@ -57,6 +56,7 @@ export const FileBrowser = React.forwardRef<FileBrowserHandle, FileBrowserProps 
 
     const theme = useMemo(() => {
         let muiOptions: ThemeOptions = {
+            cssVarPrefix: 'mui',
             palette: { mode: darkMode ? 'dark' : 'light' },
         };
         if (props.muiThemeOptions) {
@@ -73,9 +73,7 @@ export const FileBrowser = React.forwardRef<FileBrowserHandle, FileBrowserProps 
     const explorerComps = (
         <>
             <ExplorerBusinessLogic ref={ref} {...props} />
-            <PropsProvider initialValue={{ listCols: listCols ?? [] }}>
-                <ExplorerPresentationLayer>{children}</ExplorerPresentationLayer>
-            </PropsProvider>
+            <ExplorerPresentationLayer>{children}</ExplorerPresentationLayer>
         </>
     );
 

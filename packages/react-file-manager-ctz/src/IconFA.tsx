@@ -77,6 +77,8 @@ import FolderIcon from './icons/folder';
 import ImageIcon from './icons/image';
 import FileIcon from './icons/file';
 import CabinetIcon from './icons/cabinet';
+import LayoutIcon from './icons/Assets/LayoutIcon';
+import SortIcon from './icons/Assets/Sorticon';
 
 // @ts-ignore
 const IconMap: { [iconName in IconName]: any } = {
@@ -193,6 +195,10 @@ export const IconFA: React.FC<ExplorerIconProps> = React.memo((props) => {
             return <ImageIcon />;
         case 'cabinet':
             return <CabinetIcon />;
+        case 'layout':
+            return <LayoutIcon />;
+        case 'sort':
+            return <SortIcon />;
         default:
             return <FileIcon />;
     }

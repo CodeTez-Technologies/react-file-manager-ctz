@@ -18,11 +18,52 @@ import { important, makeGlobalExplorerStyles } from '../../util/styles';
 import { useContextMenuDismisser } from './FileContextMenu-hooks';
 import { SmartToolbarDropdownButton } from './ToolbarDropdownButton';
 import { ExplorerDispatch } from '../../types/redux.types';
+import { Box, styled } from '@mui/material';
+
+import { useParamSelector } from '../../redux/store';
+import { selectFileActionData } from '../../redux/selectors';
 
 export interface FileContextMenuProps { }
 
-export const FileContextMenu: React.FC<FileContextMenuProps> = React.memo(() => {
+const ContextMenuItem: React.FC<{ fileActionId: string[], hideContextMenu: any }> = ({ fileActionId, hideContextMenu }) => {
+    // Fetch all actions based on fileActionIds
+    const buttonActions = useMemo(() => {
+        return fileActionId.map((id) => useParamSelector(selectFileActionData, id)).filter(Boolean);
+    }, [fileActionId]);
 
+    // Function to group by `groupType`
+    const groupByType = (actions: any) => {
+        return actions.reduce((acc, action) => {
+          const groupType = action.button.groupType || "ungrouped";
+          if (!acc[groupType]) {
+            acc[groupType] = [];
+          }
+          acc[groupType].push(action);
+          return acc;
+        }, {});
+      };
+  
+  const groupedActions = groupByType(buttonActions);
+
+  return (
+    <>
+      {Object.entries(groupedActions).map(([groupType, group]) => (
+        <DropDownSection key={groupType}>
+          {group.map(action => (
+            <SmartToolbarDropdownButton
+              key={`context-menu-item-${action.id}`}
+              fileActionId={action.id}
+              onClickFollowUp={hideContextMenu}
+            />
+          ))}
+        </DropDownSection>
+      ))}
+    </>
+  );
+};
+
+export const FileContextMenu: React.FC<FileContextMenuProps> = React.memo(() => {
+    
     const dispatch: ExplorerDispatch = useDispatch();
 
     useEffect(() => {
@@ -46,33 +87,24 @@ export const FileContextMenu: React.FC<FileContextMenuProps> = React.memo(() => 
 
     const hideContextMenu = useContextMenuDismisser();
     const contextMenuItemComponents = useMemo(() => {
-        const components: ReactElement[] = [];
-        for (let i = 0; i < contextMenuItems.length; ++i) {
-            const item = contextMenuItems[i];
-
+        return contextMenuItems.flatMap((item) => {
             if (typeof item === 'string') {
-                components.push(
+                return (
                     <SmartToolbarDropdownButton
                         key={`context-menu-item-${item}`}
                         fileActionId={item}
                         onClickFollowUp={hideContextMenu}
-                    />,
+                    />
                 );
             } else {
-                item.fileActionIds.map((id) =>
-                    components.push(
-                        <SmartToolbarDropdownButton
-                            key={`context-menu-item-${item.name}-${id}`}
-                            fileActionId={id}
-                            onClickFollowUp={hideContextMenu}
-                        />,
-                    ),
+                return (
+                    <ContextMenuItem key={`context-menu-item-${item.name}`} fileActionId={item.fileActionIds} hideContextMenu={hideContextMenu} />
                 );
             }
-        }
-        return components;
+        });
     }, [contextMenuItems, hideContextMenu]);
-
+    
+    
     const anchorPosition = useMemo(
         () => (contextMenuConfig ? { top: contextMenuConfig.mouseY, left: contextMenuConfig.mouseX } : undefined),
         [contextMenuConfig],
@@ -81,7 +113,7 @@ export const FileContextMenu: React.FC<FileContextMenuProps> = React.memo(() => 
     const classes = useStyles();
     
     return (
-        <Menu
+        <ActionMenu
             elevation={2}
             disablePortal
             onClose={hideContextMenu}
@@ -89,18 +121,17 @@ export const FileContextMenu: React.FC<FileContextMenuProps> = React.memo(() => 
             open={!!contextMenuConfig}
             anchorPosition={anchorPosition}
             anchorReference="anchorPosition"
-            classes={{ list: classes.contextMenuList }}
         >
             {contextMenuItemComponents}
             {/* <ListSubheader component="div" className={classes.browserMenuTooltip}>
         {browserMenuShortcutString}
       </ListSubheader> */}
-        </Menu>
+        </ActionMenu>
     );
 });
 
 const useStyles = makeGlobalExplorerStyles(() => ({
-    contextMenuRoot: { minWdith: { md: '260px' }, maxWdith: { md: '280px' } },
+    contextMenuRoot: { minWidth: { md: '260px' }, maxWidth: { md: '280px' } },
     contextMenuList: {
         padding: '10px',
     },
@@ -108,5 +139,27 @@ const useStyles = makeGlobalExplorerStyles(() => ({
     browserMenuTooltip: {
         lineHeight: important('30px'),
         fontSize: important('0.7em'),
+    },
+}));
+
+const ActionMenu = styled(Menu)(({theme})=>({
+    '& .MuiPaper-root':{
+        minWidth: '280px',
+        overflow: 'visible',
+        // boxShadow: 'var(--mui-customShadows-md)',
+        borderRadius: theme.shape.borderRadius,
+        '& .MuiList-root':{
+            padding: '0px',
+            '& .MuiListItemText-root':{
+                margin: '0px !important'
+            }
+        }
+    }
+}));
+
+const DropDownSection = styled(Box)(({ theme }) => ({
+    padding: theme.spacing(1, 0),
+    '&:not(:last-child)': {
+        borderBottom: `1px solid ${theme.palette.divider}`
     },
 }));

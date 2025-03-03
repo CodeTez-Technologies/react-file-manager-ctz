@@ -1,185 +1,151 @@
-/**
- * @author Timur Kuzhagaliyev <tim.kuzh@gmail.com>
- * @copyright 2020
- * @license MIT
- */
-
-import React, { CSSProperties, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { VariableSizeGrid } from 'react-window';
-
-import { ExplorerActions } from '../../action-definitions';
-import { selectFileViewConfig, selectors } from '../../redux/selectors';
-import { FileViewConfigGrid } from '../../types/file-view.types';
-import { RootState } from '../../types/redux.types';
-import { useInstanceVariable } from '../../util/hooks-helpers';
+import React, { useMemo } from "react";
+import { useSelector } from "react-redux";
+import { SmartFileEntry } from "./FileEntry";
 import { makeGlobalExplorerStyles, useIsMobileBreakpoint } from '../../util/styles';
-import { SmartFileEntry } from './FileEntry';
+import { FileViewConfigGrid } from "../..";
+import { selectFileViewConfig, selectors } from '../../redux/selectors';
+import { Box, styled, Typography } from "@mui/material";
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+
+import { useParamSelector } from '../../redux/store';
+import { selectFileData } from '../../redux/selectors';
+
 
 export interface FileListGridProps {
   width: number;
   height: number;
 }
 
-interface GridConfig {
-  rowCount: number;
-  columnCount: number;
-  gutter: number;
-  rowHeight: number;
-  columnWidth: number;
-}
-
-export const isMobileDevice = () => {
-  // noinspection JSDeprecatedSymbols
-  return typeof window.orientation !== 'undefined' || navigator.userAgent.indexOf('IEMobile') !== -1;
-};
-
-export const getGridConfig = (
-  width: number,
-  fileCount: number,
-  viewConfig: FileViewConfigGrid,
-  isMobileBreakpoint: boolean,
-): GridConfig => {
-  const gutter = isMobileBreakpoint ? 5 : 8;
-  const scrollbar = isMobileDevice() ? 0 : 18;
-
-  let columnCount: number;
-  let columnWidth: number;
-  if (isMobileBreakpoint) {
-    columnCount = 2;
-    columnWidth = (width - gutter - scrollbar) / columnCount;
-  } else {
-    columnWidth = viewConfig.entryWidth;
-    columnCount = Math.max(1, Math.floor((width - scrollbar) / (columnWidth + gutter)));
-  }
-
-  const rowCount = Math.ceil(fileCount / columnCount);
-
-  return {
-    rowCount,
-    columnCount,
-    gutter,
-    rowHeight: viewConfig.entryHeight,
-    columnWidth,
-  };
-};
-
-export const GridContainer: React.FC<FileListGridProps> = React.memo((props) => {
-  const { width, height } = props;
+const GridContainer: React.FC<FileListGridProps> = ({ width, height }) => {
 
   const viewConfig = useSelector(selectFileViewConfig) as FileViewConfigGrid;
-  const displayFileIds = useSelector(selectors.getDisplayFileIds);
-  const fileCount = useMemo(() => displayFileIds.length, [displayFileIds]);
 
-  const gridRef = useRef<VariableSizeGrid>();
+  // Add a default value `[]` to avoid undefined errors
+  const displayFileIds = useSelector(selectors.getDisplayFileIds) as string[];  // or number[] based on your data
+
+  const fileCount = useMemo(() => displayFileIds.length, [displayFileIds]);
   const isMobileBreakpoint = useIsMobileBreakpoint();
 
-  // Whenever the grid config changes at runtime, we call a method on the
-  // `VariableSizeGrid` handle to reset column width/row height cache.
-  // !!! Note that we deliberately update the `gridRef` firsts and update the React
-  //     state AFTER that. This is needed to avoid file entries jumping up/down.
-  const [gridConfig, setGridConfig] = useState(getGridConfig(width, fileCount, viewConfig, isMobileBreakpoint));
-  const gridConfigRef = useRef(gridConfig);
-  useEffect(() => {
-    const oldConf = gridConfigRef.current;
-    const newConf = getGridConfig(width, fileCount, viewConfig, isMobileBreakpoint);
+  // const files = useMemo(() => displayFileIds.map(fileId => useParamSelector(selectFileData, fileId)), [displayFileIds]);
+  const files = displayFileIds.map(fileId => useParamSelector(selectFileData, fileId));
 
-    gridConfigRef.current = newConf;
-    if (gridRef.current) {
-      if (oldConf.rowCount !== newConf.rowCount) {
-        gridRef.current.resetAfterRowIndex(Math.min(oldConf.rowCount, newConf.rowCount) - 1);
-      }
-      if (oldConf.columnCount !== newConf.columnCount) {
-        gridRef.current.resetAfterColumnIndex(Math.min(oldConf.columnCount, newConf.rowCount) - 1);
-      }
-      if (oldConf.columnWidth !== newConf.columnWidth) {
-        gridRef.current.resetAfterIndices({ columnIndex: 0, rowIndex: 0 });
-      }
-    }
+  const cabinets = files.filter(file => file?.isDir === true && file?.parentId == null);
+  const folders = files.filter(file => file?.isDir === true && file?.parentId !== null);
+  const normalFiles = files.filter(file => file?.isDir === false);
 
-    setGridConfig(newConf);
-  }, [setGridConfig, gridConfigRef, isMobileBreakpoint, width, viewConfig, fileCount]);
 
-  const sizers = useMemo(() => {
-    const gc = gridConfigRef;
-    return {
-      getColumnWidth: (index: number) =>
-        gc.current.columnWidth! + (index === gc.current.columnCount - 1 ? 0 : gc.current.gutter),
-      getRowHeight: (index: number) =>
-        gc.current.rowHeight + (index === gc.current.rowCount - 1 ? 0 : gc.current.gutter),
-    };
-  }, [gridConfigRef]);
-
-  const displayFileIdsRef = useInstanceVariable(useSelector(selectors.getDisplayFileIds));
-  const getItemKey = useCallback(
-    (data: { columnIndex: number; rowIndex: number; data: any; }) => {
-      const index = data.rowIndex * gridConfigRef.current.columnCount + data.columnIndex;
-
-      return displayFileIdsRef.current[index] ?? `loading-file-${index}`;
-    },
-    [gridConfigRef, displayFileIdsRef],
+  // Moved `cellRenderer` inside to access `displayFileIds` and `viewConfig`
+  const renderFiles = (fileArray: any[]) => (
+    fileArray.filter(file => file).map((file, index) => (
+      <Box key={file.id} className='gridItem'>
+        <SmartFileEntry fileId={file.id} displayIndex={index} fileViewMode={viewConfig.mode} />
+      </Box>
+    ))
   );
 
-  const cellRenderer = useCallback(
-    (data: { rowIndex: number; columnIndex: number; style: CSSProperties; }) => {
-      const gc = gridConfigRef;
-      const index = data.rowIndex * gc.current.columnCount + data.columnIndex;
-      const fileId = displayFileIds[index];
-      if (displayFileIds[index] === undefined) return null;
 
-      const styleWithGutter: CSSProperties = {
-        ...data.style,
-        paddingRight: data.columnIndex === gc.current.columnCount - 1 ? 0 : gc.current.gutter,
-        paddingBottom: data.rowIndex === gc.current.rowCount - 1 ? 0 : gc.current.gutter,
-        boxSizing: 'border-box',
-      };
+  return (
 
-      return (
-        <div style={styleWithGutter}>
-          <SmartFileEntry fileId={fileId ?? null} displayIndex={index} fileViewMode={viewConfig.mode} />
-        </div>
-      );
-    },
-    [displayFileIds, viewConfig.mode],
+    <BlockViewParent width={width} height={height}>
+      <BlockView>
+        <Box className="lastModified">
+          <Typography>Last Modified</Typography>
+          <ArrowUpwardIcon fontSize="small" />
+        </Box>
+        {cabinets.length > 0 && (
+          <BlockViewChild>
+            <BlockTitle>
+              <Typography variant="h6" className="titleText">
+                Cabinet
+              </Typography>
+            </BlockTitle>
+            <GridViewBlock>
+              {renderFiles(cabinets)}
+            </GridViewBlock>
+          </BlockViewChild>
+        )}
+        {folders.length > 0 && (
+          <BlockViewChild>
+            <BlockTitle>
+              <Typography variant="h6" className="titleText">
+                Folder
+              </Typography>
+            </BlockTitle>
+            <GridViewBlock >
+              {renderFiles(folders)}</GridViewBlock>
+          </BlockViewChild>
+        )}
+        {normalFiles.length > 0 && (
+          <BlockViewChild>
+            <BlockTitle>  
+              <Typography variant="h6" className="titleText">
+                Files
+              </Typography>
+            </BlockTitle>
+            <GridViewBlock>
+              {renderFiles(normalFiles)}</GridViewBlock>
+          </BlockViewChild>
+        )}
+      </BlockView>
+    </BlockViewParent>
   );
+};
 
-  const classes = useStyles();
-  const gridComponent = useMemo(() => {
-    return (
-      <VariableSizeGrid
-        ref={gridRef as any}
-        className={classes.gridContainer}
-        estimatedRowHeight={gridConfig.rowHeight + gridConfig.gutter}
-        rowHeight={sizers.getRowHeight}
-        estimatedColumnWidth={gridConfig.columnWidth + gridConfig.gutter}
-        columnWidth={sizers.getColumnWidth}
-        columnCount={gridConfig.columnCount}
-        height={height}
-        rowCount={gridConfig.rowCount}
-        width={width}
-        itemKey={getItemKey}
-      >
-        {cellRenderer}
-      </VariableSizeGrid>
-    );
-  }, [
-    classes.gridContainer,
-    gridConfig.rowHeight,
-    gridConfig.gutter,
-    gridConfig.columnWidth,
-    gridConfig.columnCount,
-    gridConfig.rowCount,
-    sizers.getRowHeight,
-    sizers.getColumnWidth,
-    height,
-    width,
-    getItemKey,
-    cellRenderer,
-  ]);
+export default GridContainer;
 
-  return gridComponent;
-});
 
-const useStyles = makeGlobalExplorerStyles(() => ({
-  gridContainer: {},
+const GridViewBlock = styled(Box)(({ theme }) => ({
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+  gridColumnGap: theme.spacing(2),
+  gridRowGap: theme.spacing(2),
+  width: '100%',
+  height: 'auto',
+  '& .gridItem': {
+    display: 'flex',
+  }
+}))
+
+// Styled Components
+const BlockViewParent = styled(Box)(({ theme, width, height }: { width: any, height: any }) => ({
+  display: 'flex',
+  width: width + 'px',
+  height: height + 'px',
+  overflow : 'auto',
+ 
+}));
+
+// Styled Components
+const BlockView = styled(Box)(({ theme }) => ({
+  gap: theme.spacing(3.5),
+  display: 'flex',
+  flexDirection: 'column',
+  position: 'relative',
+  padding: theme.spacing(2, 3),
+  width: '100%',
+  height: 'fit-content',
+  '& .lastModified': {
+    position: 'absolute',
+    right: theme.spacing(3),
+    top: theme.spacing(2),
+    display : 'flex',
+    gap: '10px'
+  }
+}));
+
+const BlockViewChild = styled(Box)(({ theme }) => ({
+  gap: theme.spacing(2),
+  display: 'flex',
+  flexDirection: 'column'
+}));
+
+const BlockTitle = styled(Box)(({ theme }) => ({
+  position: 'relative',
+  display: 'flex',
+  justifyContent: 'space-between',
+  gap: theme.spacing(2),
+  '& .titleText': {
+    fontSize: '16px',
+    fontWeight: 400
+  }
 }));

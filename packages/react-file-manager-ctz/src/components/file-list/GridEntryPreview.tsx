@@ -153,16 +153,6 @@ GridEntryPreviewFile.displayName = 'GridEntryPreviewFile';
 
 const useFileStyles = makeLocalExplorerStyles((theme) => ({
   previewFile: {
-    boxShadow: (state: FileEntryState) => {
-      const shadows: string[] = [];
-      if (state.selected) shadows.push('inset rgba(0,153,255, .65) 0 0 0 3px');
-      if (state.focused) shadows.push('inset rgba(0, 0, 0, 1) 0 0 0 3px');
-      shadows.push(`inset ${theme.gridFileEntry.fileColorTint} 0 0 0 999px`);
-      return shadows.join(', ');
-    },
-    // backgroundColor: (state: FileEntryState) => state.color,
-    backgroundColor: '#ffffff',
-    borderRadius: theme.gridFileEntry.borderRadius,
     position: 'relative',
     overflow: 'hidden',
     display: 'flex',
@@ -172,17 +162,7 @@ const useFileStyles = makeLocalExplorerStyles((theme) => ({
     zIndex: 14,
   },
   fileIcon: {
-    // transform: 'translateX(-50%) translateY(-50%)',
-    // fontSize: theme.gridFileEntry.iconSize,
-    // opacity: (state: FileEntryState) => (state.thumbnailUrl && !state.focused ? 0 : 1),
-    // color: (state: FileEntryState) =>
-    //   state.focused ? theme.gridFileEntry.iconColorFocused : theme.gridFileEntry.iconColor,
-    // position: 'absolute',
-    // left: '50%',
-    // zIndex: 12,
-    // top: '50%',
-    width: '79.5px',
-    height: '78px'
+    display : 'flex',
   },
   thumbnail: {
     borderRadius: theme.gridFileEntry.borderRadius,
@@ -198,15 +178,6 @@ const useFileStyles = makeLocalExplorerStyles((theme) => ({
 export const useCommonEntryStyles = makeLocalExplorerStyles(() => ({
   selectionIndicator: {
     display: (state: FileEntryState) => (state.selected ? 'block' : 'none'),
-    // background:
-    //   'repeating-linear-gradient(' +
-    //   '45deg,' +
-    //   'rgba(0,153,255,.14),' +
-    //   'rgba(0,153,255,.14) 10px,' +
-    //   'rgba(0,153,255,.25) 0,' +
-    //   'rgba(0,153,255,.25) 20px' +
-    //   ')',
-    backgroundColor: 'rgba(0, 153, 255, .14)',
     position: 'absolute',
     height: '100%',
     width: '100%',

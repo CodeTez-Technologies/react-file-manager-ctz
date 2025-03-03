@@ -163,6 +163,11 @@ const reducers = {
         if (!state.contextMenuConfig) return;
         state.contextMenuConfig = null;
     },
+
+    // list columns
+    setListColumns(state: RootState, action: PayloadAction<any>) {
+        state.listCols = action.payload;
+    },
 };
 
 export const { actions: reduxActions, reducer: rootReducer } = createSlice({

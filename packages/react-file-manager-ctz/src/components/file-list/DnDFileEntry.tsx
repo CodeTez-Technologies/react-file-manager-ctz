@@ -29,5 +29,6 @@ export const DnDFileEntry = React.memo(({ file, children }: DnDFileEntryProps) =
 export const useStyles = makeLocalExplorerStyles(() => ({
   fillParent: {
     height: '100%',
+    width: '100%'
   },
 }));

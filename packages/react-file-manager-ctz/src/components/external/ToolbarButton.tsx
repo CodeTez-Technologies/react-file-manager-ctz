@@ -16,6 +16,7 @@ import { useFileActionProps, useFileActionTrigger } from '../../util/file-action
 import { useLocalizedFileActionStrings } from '../../util/i18n';
 import { ExplorerIconContext } from '../../util/icon-helper';
 import { c, important, makeGlobalExplorerStyles } from '../../util/styles';
+import { Box, styled } from '@mui/material';
 
 export interface ToolbarButtonProps {
     className?: string;
@@ -32,65 +33,34 @@ export interface ToolbarButtonProps {
 export const ToolbarButton: React.FC<ToolbarButtonProps> = React.memo((props) => {
 
     const { className: externalClassName, text, tooltip, active, icon, iconOnly, onClick, disabled, dropdown } = props;
-    const classes = useStyles();
     const ExplorerIcon = useContext(ExplorerIconContext);
 
     const iconComponent =
         icon || iconOnly ? (
-            <div className={iconOnly ? '' : classes.iconWithText}>
+            <IconBlock className={iconOnly ? '' : 'iconFigure'}>
                 <ExplorerIcon icon={icon ? icon : IconName.fallbackIcon} fixedWidth={true} />
-            </div>
+            </IconBlock>
         ) : null;
 
     const className = c({
         [externalClassName ?? '']: true,
-        [classes.baseButton]: true,
-        [classes.iconOnlyButton]: iconOnly,
-        [classes.activeButton]: !!active,
+        ['baseButton']: true,
+        ['iconOnlyButton']: iconOnly,
+        ['activeButton']: !!active, 
     });
 
     return (
-        <Button sx={{ ml: 2 }} variant={dropdown ? "default" : "contained"} className={className} onClick={onClick} title={tooltip ? tooltip : text} disabled={disabled || !onClick}>
+        <DropDownButton variant={dropdown ? "default" : "contained"} className={className} onClick={onClick} title={tooltip ? tooltip : text} disabled={disabled || !onClick}>
             {iconComponent}
             {text && !iconOnly && <span>{text}</span>}
             {dropdown && text && !iconOnly && (
-                <div className={classes.iconDropdown}>
+                <div className='iconDropdown'>
                     <ExplorerIcon icon={IconName.dropdown} fixedWidth={true} />
                 </div>
             )}
-        </Button>
+        </DropDownButton>
     );
 });
-
-const useStyles = makeGlobalExplorerStyles((theme) => ({
-    baseButton: {
-        fontSize: important(theme.toolbar.fontSize),
-        textTransform: important('none'),
-        letterSpacing: important(0),
-        minWidth: important('auto'),
-        lineHeight: theme.toolbar.lineHeight,
-        height: theme.toolbar.size,
-        paddingBottom: important(0),
-        paddingTop: important(0),
-        paddingLeft: theme.toolbar.buttonPadding,
-        paddingRight: theme.toolbar.buttonPadding,
-    },
-    iconWithText: {
-        marginRight: 8,
-    },
-    iconOnlyButton: {
-        width: theme.toolbar.size,
-        textAlign: 'center',
-    },
-    iconDropdown: {
-        fontSize: '0.7em',
-        marginLeft: 2,
-        marginTop: 1,
-    },
-    activeButton: {
-        color: important(theme.colors.textActive),
-    },
-}));
 
 export interface SmartToolbarButtonProps {
     fileActionId: string;
@@ -122,3 +92,31 @@ export const SmartToolbarButton: React.FC<SmartToolbarButtonProps> = React.memo(
         />
     );
 });
+
+const DropDownButton = styled(Box)(({theme})=>({
+    cursor : 'pointer',
+   '&.baseButton':{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '5px',
+        '& .iconDropdown svg':{
+            width : '12px',
+            height: '12px',
+            color :  theme.palette.text.secondary,
+        }
+   }
+}))
+
+const IconBlock = styled(Box)(({theme})=>({
+    display : 'flex',
+    padding: '7px',
+    borderRadius: '50%',
+    '&:hover':{
+        background :  theme.palette.action.hover,
+    },
+     'svg':{
+        stroke :  theme.palette.text.secondary,
+        width: '20px',
+        height: '20px',
+     }
+}))

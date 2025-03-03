@@ -75,6 +75,8 @@ export type RootState = {
     // Context menu
     contextMenuMounted: boolean;
     contextMenuConfig: Nullable<ContextMenuConfig>;
+
+    listCols: { label: string; getValue: (item: any) => any; }[]
 };
 
 export type ExplorerThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, null, Action<string>>;
