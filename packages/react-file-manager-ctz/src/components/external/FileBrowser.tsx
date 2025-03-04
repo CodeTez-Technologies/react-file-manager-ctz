@@ -56,7 +56,6 @@ export const FileBrowser = React.forwardRef<FileBrowserHandle, FileBrowserProps 
 
     const theme = useMemo(() => {
         let muiOptions: ThemeOptions = {
-            cssVarPrefix: 'mui',
             palette: { mode: darkMode ? 'dark' : 'light' },
         };
         if (props.muiThemeOptions) {
