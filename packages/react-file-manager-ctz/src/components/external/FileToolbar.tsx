@@ -23,7 +23,9 @@ export const FileToolbar: React.FC<FileToolbarProps & { children?: ReactNode; }>
         // @ts-ignore
     // Extract all fileActionIds from items
     const items = toolbarItems.filter(i => i.name !== 'Actions');
-    const fileActionIds = items.flatMap(item => item.fileActionIds || []);
+    const fileActionIds = items.flatMap(item => 
+        typeof item === 'string' ? [] : item.fileActionIds
+    );
 
     // Split into two categories
     const enableOptions = fileActionIds.filter(id => id.startsWith("enable"));

@@ -130,7 +130,7 @@ export const ListEntry: React.FC<FileEntryProps> = React.memo(
     return (
       <ListItem
         {...fileEntryHtmlProps}
-        entryState={entryState}
+        selected={entryState.selected}
         style={{
           gridTemplateColumns: [
             "40px",
@@ -205,9 +205,9 @@ const useStyles = makeLocalExplorerStyles((theme) => ({
   },
 }));
 
-const ListItem = styled(Box)(({ theme ,entryState } :{entryState : any}) => ({
+const ListItem = styled(Box)<{ selected?: boolean }>(({ theme, selected }) => ({
   display: "grid",
-  ...(entryState.selected && {
+  ...(selected && {
     // background: `rgb(${theme.palette.primary.main}) / 0.16)`,
     background: `color-mix(in srgb, ${theme.palette.primary.main} 10%, transparent)`,
   }),
@@ -215,7 +215,7 @@ const ListItem = styled(Box)(({ theme ,entryState } :{entryState : any}) => ({
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
   "&:hover": {
-    ...(!entryState.selected && {
+    ...(!selected && {
       background: theme.palette.action.hover,
     }),
     "& .checkBoxBlock": {

@@ -18,7 +18,7 @@ export type ToolbarDropdownProps = {
     name?: string;
     icon?: string;
     text?: string;
-    fileActionIds: string[];  // Change from fileActionIds to items
+    fileActionIds: any[];  // Change from fileActionIds to items
 };
 
 export const ToolbarDropdown: React.FC<ToolbarDropdownProps> = React.memo((props) => {
@@ -40,7 +40,7 @@ export const ToolbarDropdown: React.FC<ToolbarDropdownProps> = React.memo((props
         [fileActionIds, handleClose],
     );
 
-    const localizedName = useLocalizedFileActionGroup(name);
+    const localizedName = useLocalizedFileActionGroup(name ?? '');
     const toolbarButtonProps: ToolbarButtonProps = {
         text: localizedName,
         onClick: handleClick,

@@ -39,15 +39,14 @@ function App() {
 		// ExplorerActions.DeleteFiles,
 		defineFileAction({
 			id: 'filter',
-			requiresSelection: true,
 			button: {
 				name: 'Filter',
 				toolbar: true,
-				contextMenu: true,
 				group: 'Options',
 				icon: 'filter',
 			},
 		}),
+		
 		defineFileAction({
 			id: 'preview',
 			requiresSelection: true,

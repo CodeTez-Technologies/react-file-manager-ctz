@@ -27,13 +27,11 @@ export interface FileContextMenuProps { }
 
 const ContextMenuItem: React.FC<{ fileActionId: string[], hideContextMenu: any }> = ({ fileActionId, hideContextMenu }) => {
     // Fetch all actions based on fileActionIds
-    const buttonActions = useMemo(() => {
-        return fileActionId.map((id) => useParamSelector(selectFileActionData, id)).filter(Boolean);
-    }, [fileActionId]);
+    const buttonActions = fileActionId.map((id) => useParamSelector(selectFileActionData, id)).filter(Boolean);
 
     // Function to group by `groupType`
     const groupByType = (actions: any) => {
-        return actions.reduce((acc, action) => {
+        return actions.reduce((acc:any, action:any) => {
           const groupType = action.button.groupType || "ungrouped";
           if (!acc[groupType]) {
             acc[groupType] = [];
@@ -49,7 +47,7 @@ const ContextMenuItem: React.FC<{ fileActionId: string[], hideContextMenu: any }
     <>
       {Object.entries(groupedActions).map(([groupType, group]) => (
         <DropDownSection key={groupType}>
-          {group.map(action => (
+          {(group as { id: string }[]).map((action:any) => (
             <SmartToolbarDropdownButton
               key={`context-menu-item-${action.id}`}
               fileActionId={action.id}

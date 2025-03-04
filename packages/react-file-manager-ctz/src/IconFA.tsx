@@ -78,7 +78,7 @@ import ImageIcon from './icons/image';
 import FileIcon from './icons/file';
 import CabinetIcon from './icons/cabinet';
 import LayoutIcon from './icons/Assets/LayoutIcon';
-import SortIcon from './icons/Assets/Sorticon';
+import SortIcon from './icons/Assets/SortIcon';
 import AddIcon from './icons/Assets/AddIcon';
 import FilterIcon from './icons/Assets/FilterIcon';
 
