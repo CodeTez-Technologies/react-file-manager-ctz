@@ -1,16 +1,17 @@
-import * as React from 'react';
+import React from 'react';
 // Mui
 import { Button, styled } from '@mui/material';
 import type { ButtonProps } from '@mui/material';
 
 
 // Styled Button
-const Btn = styled(Button)(({ theme, themeColor }: { themeColor?: string, theme: any }) => ({
+const Btn = styled(Button)(({ theme, themecolor }: { themecolor?: string, theme: any }) => ({
     borderRadius: theme.shape.borderRadius,
     gap: theme.spacing(1),
     whiteSpace: 'nowrap',
     textTransform: 'capitalize',
     lineHeight: 'initial',
+    minWidth :'fit-content',
 
     '&.MuiButton-sizeSmall': {
         padding: theme.spacing(0.75, 1.75),
@@ -34,39 +35,39 @@ const Btn = styled(Button)(({ theme, themeColor }: { themeColor?: string, theme:
         }
     },
     '&.MuiButton-outlinedPrimary': {
-        border: `1px solid ${themeColor ? themeColor : theme.palette.primary.main}`,
+        border: `1px solid ${themecolor ? themecolor : theme.palette.primary.main}`,
         '&:has(&.MuiButtonGroup-firstButton , &.MuiButtonGroup-grouped:first-child)': {
             borderRightColor: 'transparent'
         },
-        color: themeColor ? themeColor : theme.palette.primary.main,
+        color: themecolor ? themecolor : theme.palette.primary.main,
         '&:hover': {
-            background: themeColor ? themeColor + '14' : theme.palette.primary.lighterOpacity,
+            background: themecolor ? themecolor + '14' : theme.palette.primary.lighterOpacity,
         },
         '& .MuiButton-icon': {
             '& svg': {
-                fill: themeColor ? themeColor : theme.palette.primary.main,
+                fill: themecolor ? themecolor : theme.palette.primary.main,
             }
         }
     },
     '&.MuiButton-outlinedSecondary': {
-        border: `1px solid ${themeColor ? themeColor : theme.palette.divider}`,
+        border: `1px solid ${themecolor ? themecolor : theme.palette.divider}`,
         '&:has(&.MuiButtonGroup-firstButton , &.MuiButtonGroup-grouped:first-child)': {
             borderRightColor: 'transparent'
         },
-        color: themeColor ? themeColor : theme.palette.secondary.main,
+        color: themecolor ? themecolor : theme.palette.secondary.main,
         '&:hover': {
-            background: themeColor ? themeColor + '14' : theme.palette.secondary.lighterOpacity,
+            background: themecolor ? themecolor + '14' : theme.palette.secondary.lighterOpacity,
         },
         '& .MuiButton-icon': {
             '& svg': {
-                fill: themeColor ? themeColor : theme.palette.secondary.main,
+                fill: themecolor ? themecolor : theme.palette.secondary.main,
             }
         }
     },
     '&.MuiButton-containedPrimary': {
-        border: `1px solid ${themeColor ? themeColor : theme.palette.primary.main}`,
-        background: themeColor ? themeColor : theme.palette.primary.main,
-        boxShadow: `0px 2px 6px color-mix(in srgb, ${themeColor ? themeColor : theme.palette.primary.main} 30%, transparent)`,
+        border: `1px solid ${themecolor ? themecolor : theme.palette.primary.main}`,
+        background: themecolor ? themecolor : theme.palette.primary.main,
+        boxShadow: `0px 2px 6px color-mix(in srgb, ${themecolor ? themecolor : theme.palette.primary.main} 30%, transparent)`,
         lineHeight: 'initial',
         '& .MuiButton-icon': {
             '& svg': {
@@ -74,13 +75,13 @@ const Btn = styled(Button)(({ theme, themeColor }: { themeColor?: string, theme:
             }
         },
         '&:hover': {
-            background: themeColor ? themeColor : theme.palette.primary.dark,
+            background: themecolor ? themecolor : theme.palette.primary.dark,
         }
     },
     '&.MuiButton-containedSecondary': {
-        border: `1px solid ${themeColor ? themeColor : theme.palette.secondary.main}`,
-        background: themeColor ? themeColor : theme.palette.secondary.main,
-        boxShadow: `0px 2px 6px color-mix(in srgb, ${themeColor ? themeColor : theme.palette.secondary.main} 30%, transparent)`,
+        border: `1px solid ${themecolor ? themecolor : theme.palette.secondary.main}`,
+        background: themecolor ? themecolor : theme.palette.secondary.main,
+        boxShadow: `0px 2px 6px color-mix(in srgb, ${themecolor ? themecolor : theme.palette.secondary.main} 30%, transparent)`,
         lineHeight: 'initial',
         '& .MuiButton-icon': {
             '& svg': {
@@ -88,7 +89,7 @@ const Btn = styled(Button)(({ theme, themeColor }: { themeColor?: string, theme:
             }
         },
         '&:hover': {
-            background: themeColor ? themeColor : theme.palette.secondary.dark,
+            background: themecolor ? themecolor : theme.palette.secondary.dark,
         }
     },
     '& .MuiButton-icon': {
@@ -99,8 +100,8 @@ const Btn = styled(Button)(({ theme, themeColor }: { themeColor?: string, theme:
 }));
 
 // Custom Button Component
-const CustomButton = ({ children, themeColor, ...props }: { themeColor?: string, children?: any } & ButtonProps) => {
-    return <Btn themeColor={themeColor} {...props}>{children}</Btn>;
+const CustomButton = ({ children, themecolor, ...props }: { themecolor?: string, children?: any } & ButtonProps) => {
+    return <Btn themecolor={themecolor} {...props}>{children}</Btn>;
 };
 
 export default CustomButton;

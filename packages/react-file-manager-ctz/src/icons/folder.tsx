@@ -1,5 +1,5 @@
 import { useTheme } from "@mui/material/styles";
-import * as React from 'react';
+import React from 'react';
 
 export default function Icon() {
     const theme = useTheme();

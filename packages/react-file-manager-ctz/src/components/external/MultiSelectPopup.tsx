@@ -1,6 +1,6 @@
 import  React from "react";
 
-import { Box, ButtonGroup, styled, Tooltip, Typography } from "@mui/material"
+import { Box, ButtonGroup, styled, Tooltip, Typography, useMediaQuery } from "@mui/material"
 
 import CloseIcon from '@mui/icons-material/Close';
 import CompressIcon from "@mui/icons-material/Compress";
@@ -77,8 +77,8 @@ const ActionButton = styled(Box)(({ theme }) => ({
 }))
 
 interface FloatingPopupProps {
-    onClose: (value : any) => void,
-    shareFolder: boolean
+    onClose: () => void,
+    shareFolder?: boolean
     setShareFolder ?:(view : boolean) => void,
 }
 
@@ -98,6 +98,8 @@ const data = [
 ]
 
 const MultiSelectPopup = ({ onClose}: FloatingPopupProps) => {
+    const isMobile = useMediaQuery("(max-width: 764px)");
+
     return (
         <FloatingPopupBlock >
             <Box className='shadowBlock'>
@@ -105,17 +107,17 @@ const MultiSelectPopup = ({ onClose}: FloatingPopupProps) => {
                     <Typography variant="h6" className="selectedItems">4 File Selected</Typography>
                 </Box>
                 <Box className='flex gap-4 items-center actionButton'>
-                    <CustomButton variant="outlined" startIcon={<CopyIcon color='inherit' />} size='small' themeColor='#376534'>
-                        Copy Link
+                    <CustomButton variant="outlined" startIcon={<CopyIcon color='inherit' />} size='small' themecolor='#376534'>
+                       { !isMobile && 'Copy Link' }
                     </CustomButton>
-                    <CustomButton variant="outlined" startIcon={<DownloadIcon color='inherit' />} size='small' themeColor='#BE670E'>
-                        Download
+                    <CustomButton variant="outlined" startIcon={<DownloadIcon color='inherit' />} size='small' themecolor='#BE670E'>
+                         { !isMobile && 'Download' }
                     </CustomButton>
                     <ButtonGroup>
-                        <CustomButton variant="outlined" startIcon={<ShareIcon color='inherit' />} size='small' themeColor='#A8247F'>
-                            Share
+                        <CustomButton variant="outlined" startIcon={<ShareIcon color='inherit' />} size='small' themecolor='#A8247F'>
+                               { !isMobile && 'Share' }
                         </CustomButton>
-                        <CustomButton variant="outlined" startIcon={<AngleIcon color={'inherit'} />} size='small' themeColor='#A8247F' />
+                        <CustomButton variant="outlined" startIcon={<AngleIcon color={'inherit'} />} size='small' themecolor='#A8247F' />
                     </ButtonGroup>
                     <ActionButton>
                         <MenuDotIcon color='inherit' />

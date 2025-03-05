@@ -7,6 +7,7 @@ import {
   selectCurrentFolder,
   selectFileViewConfig,
   selectors,
+  selectSelectedFiles,
 } from "../../redux/selectors";
 import { FileViewMode } from "../../types/file-view.types";
 import { IconName } from "../../types/icons.types";
@@ -36,8 +37,9 @@ interface StyleState {
 
 export const FileList: React.FC<FileListProps> = React.memo(
   (props: FileListProps) => {
-    const displayFileIds = useSelector(selectors.getDisplayFileIds);
+    const displayFileIds = useSelector(selectors.getDisplayFileIds)as string[];
     const viewConfig = useSelector(selectFileViewConfig);
+    const selectFileCount = useSelector(selectSelectedFiles);
 
     const currentFolder = useSelector(selectCurrentFolder);
     const { drop, dndCanDrop, dndIsOverCurrent } = useFileDrop({
@@ -51,6 +53,10 @@ export const FileList: React.FC<FileListProps> = React.memo(
     const localClasses = useLocalStyles(styleState);
     const classes = useStyles(viewConfig);
     const { onScroll } = props;
+
+    const onClose = ()=>{
+
+    }
 
     // In Explorer v0.x, this field was user-configurable. In Explorer v1.x+, we hardcode
     // this to `true` to simplify configuration. Users can just wrap Explorer in their
@@ -67,19 +73,13 @@ export const FileList: React.FC<FileListProps> = React.memo(
         else {
           return (
             <ViewerParentBlock width={width} height={height}>
-               {/* <MultiSelectPopup onClose={console.log('gahysgdfuy')}/> */}
+               {selectFileCount.length !== 0 && <MultiSelectPopup onClose={onClose} />}
                {viewConfig.mode === FileViewMode.List ? <ListContainer width={width} height={height} /> :   <GridContainer width={width} height={height} />}
              </ViewerParentBlock>
           )
-          // if (viewConfig.mode === FileViewMode.List) {
-          //   return <ListContainer width={width} height={height} />;
-          // } 
-          // else {
-          //   return <GridContainer width={width} height={height} />;
-          // }
         } 
       },
-      [displayFileIds, viewConfig]
+      [displayFileIds, viewConfig ,selectFileCount]
     );
 
     const ExplorerIcon = useContext(ExplorerIconContext);

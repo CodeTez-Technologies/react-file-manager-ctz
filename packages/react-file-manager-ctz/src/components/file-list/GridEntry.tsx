@@ -12,19 +12,16 @@ import {
 } from "./GridEntryPreview";
 import { Box, styled, Typography } from "@mui/material";
 import CustomCheckBox from "../customize/CustomCheckBox";
-import DefaultImage from "../../icons/defaultImage";
-// import DefaultImage from "../../icons/DefaultImage";
+import DefaultImage from "../../icons/tempImage";
+
+
 
 export const GridEntry: React.FC<FileEntryProps> = React.memo(
   ({ file, selected, focused, dndState }) => {
     const isDirectory = FileHelper.isDirectory(file);
     const entryState = useFileEntryState(file, selected, focused);
 
-    const classes = useFileEntryStyles(entryState);
     const fileEntryHtmlProps = useFileEntryHtmlProps(file);
-    const entryClassName = c({
-      [classes.gridFileEntry]: true,
-    });
     return (
       <>
         {
@@ -38,7 +35,7 @@ export const GridEntry: React.FC<FileEntryProps> = React.memo(
                   />  
                 </Box>
                 <Box className='fileType'>
-                   <GridEntryPreviewFile className={classes.gridFileEntryPreview} entryState={entryState} dndState={dndState} />
+                   <GridEntryPreviewFile  entryState={entryState} dndState={dndState} />
                 </Box>
               </Box>
               <Box className="flex flex-col fileDetailBlock">
@@ -51,7 +48,7 @@ export const GridEntry: React.FC<FileEntryProps> = React.memo(
             :
             <FolderView className='folderItem' {...fileEntryHtmlProps} state={entryState}>
               <Box component="figure" className="folderIconBlock">
-                <GridEntryPreviewFile className={classes.gridFileEntryPreview} entryState={entryState} dndState={dndState} />
+                <GridEntryPreviewFile  entryState={entryState} dndState={dndState} />
               </Box>
               <Box className="flex flex-col folderDetailBlock">
                 <FileEntryName file={file} />
@@ -68,26 +65,6 @@ export const GridEntry: React.FC<FileEntryProps> = React.memo(
   }
 );
 GridEntry.displayName = "GridEntry";
-
-const useFileEntryStyles = makeLocalExplorerStyles((theme) => ({
-  gridFileEntry: {
-    // flexDirection: 'column',
-    // display: 'flex',
-    // height: '100%',
-  },
-  gridFileEntryPreview: {
-    // flexGrow: 1,
-  },
-  gridFileEntryName: {
-    backgroundColor: (state: FileEntryState) =>
-      state.selected ? "rgba(0,153,255, .25)" : "transparent",
-    textDecoration: (state: FileEntryState) =>
-      state.focused ? "underline" : "none",
-    borderRadius: 3,
-    padding: [2, 4],
-    fontWeight: 500,
-  },
-}));
 
 
 // Styled

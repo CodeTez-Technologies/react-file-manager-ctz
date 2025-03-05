@@ -191,8 +191,8 @@ function App() {
 					size: f.isDir ? '' : parseInt(f.size || 0, 10),
 				}))}
 				clearSelectionOnOutsideClick={false}
-				// defaultFileViewActionId='enable_grid_view'
-				defaultFileViewActionId="enable_list_view"
+				defaultFileViewActionId='enable_grid_view'
+				// defaultFileViewActionId="enable_list_view"
 				listCols={[
 					{ label: 'Cabinet Size', getValue: (item) => 0 },
 					{ label: 'MetaData', getValue: (item) => <Chip label="Yes" color="primary" size="small" /> },

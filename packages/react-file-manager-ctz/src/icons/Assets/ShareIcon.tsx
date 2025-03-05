@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 const ShareIcon = ({ color }: { color: any }) => {
     return (

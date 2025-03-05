@@ -2,13 +2,12 @@ import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { SmartFileEntry } from "./FileEntry";
 import { makeGlobalExplorerStyles, useIsMobileBreakpoint } from '../../util/styles';
-import { FileViewConfigGrid } from "../..";
 import { selectFileViewConfig, selectors } from '../../redux/selectors';
 import { Box, styled, Typography } from "@mui/material";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-
 import { useParamSelector } from '../../redux/store';
 import { selectFileData } from '../../redux/selectors';
+import { FileViewConfigGrid } from "../../types/file-view.types";
 
 
 export interface FileListGridProps {

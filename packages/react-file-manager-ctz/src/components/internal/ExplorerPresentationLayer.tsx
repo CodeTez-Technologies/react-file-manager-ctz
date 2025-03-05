@@ -93,8 +93,7 @@ export const ExplorerPresentationLayer: React.FC<ExplorerPresentationLayerProps>
 const useStyles = makeGlobalExplorerStyles((theme) => ({
     explorerRoot: {
         backgroundColor: theme.palette.background.paper,
-        border: theme.root.borderStyle ? `${theme.root.borderStyle} ${theme.palette.divider}` : undefined,
-        // padding: theme.margins.rootLayoutMargin,
+        border: `1px solid transparent`,
         fontSize: theme.fontSizes.rootPrimary,
         color: theme.palette.text.primary,
         touchAction: 'manipulation', // Disabling zoom on double tap
