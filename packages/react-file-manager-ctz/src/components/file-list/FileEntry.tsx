@@ -12,7 +12,7 @@ import { ClickableWrapper, ClickableWrapperProps } from '../internal/ClickableWr
 import { CompactEntry } from './CompactEntry';
 import { DnDFileEntry } from './DnDFileEntry';
 import { useFileClickHandlers } from './FileEntry-hooks';
-import { GridEntry } from './GridEntry';
+import {GridEntry }  from './GridEntry';
 import { ListEntry } from './ListEntry';
 
 export interface SmartFileEntryProps {

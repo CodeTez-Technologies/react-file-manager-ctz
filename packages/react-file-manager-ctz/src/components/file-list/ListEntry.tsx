@@ -19,6 +19,7 @@ import { useSelector } from "react-redux";
 import { Box, IconButton, styled, Typography, useMediaQuery } from "@mui/material";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CustomCheckBox from "../customize/CustomCheckBox";
+import { useContextMenuTrigger } from "../external/FileContextMenu-hooks";
 
 interface StyleState {
   entryState: FileEntryState;
@@ -50,6 +51,7 @@ export const ListEntry: React.FC<FileEntryProps> = React.memo(
     const ExplorerIcon = useContext(ExplorerIconContext);
     const fileEntryHtmlProps = useFileEntryHtmlProps(file);
     const listCols = useSelector(selectListColumns);
+    const showContextMenu = useContextMenuTrigger();
 
     // Inside your `ListEntry` component:
     const isMobile = useMediaQuery("(max-width: 764px)");
@@ -100,7 +102,7 @@ export const ListEntry: React.FC<FileEntryProps> = React.memo(
               label: "Action",
               resizable: false,
               component: () => (
-                <IconButton>
+                <IconButton onClick={showContextMenu}>
                   <MoreVertIcon />
                 </IconButton>
               ),

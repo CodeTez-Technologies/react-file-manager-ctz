@@ -15,6 +15,8 @@ import DownloadIcon from "../../icons/Assets/DownloadIcon";
 import ShareIcon from "../../icons/Assets/ShareIcon";
 import AngleIcon from "../../icons/Assets/AngleIcon";
 import MenuDotIcon from "../../icons/Assets/MenuDotIcon";
+import { useContextMenuTrigger } from "./FileContextMenu-hooks";
+import CustomCheckBox from "../customize/CustomCheckBox";
 
 const FloatingPopupBlock = styled(Box)(({ theme}) => ({
     position: "absolute",
@@ -27,7 +29,7 @@ const FloatingPopupBlock = styled(Box)(({ theme}) => ({
         // boxShadow: 'var(--mui-customShadows-xs)',
         boxShadow:  `0px 3px 12px rgb(47 43 61 / 0.14)`,
         padding: theme.spacing(1),
-        paddingLeft: '57px',
+        // paddingLeft: '57px',
         background: theme.palette.background.paper,
         borderRadius: theme.shape.borderRadius,
         display: 'flex',
@@ -38,6 +40,21 @@ const FloatingPopupBlock = styled(Box)(({ theme}) => ({
             fontWeight: 500
         }
     },
+    '& .selectedItemDetail':{
+        display : 'flex',
+        gap: theme.spacing(2),
+        alignItems : 'center'
+    },
+    '& .selectCount':{
+        width : '25px',
+        height: '25px',
+        borderRadius : '50%',
+        background : theme.palette.action.hover,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: '14px',
+    }, 
     '& .actionButton':{
         display : 'flex',
         gap: theme.spacing(2)
@@ -99,14 +116,27 @@ const data = [
 
 const MultiSelectPopup = ({ onClose}: FloatingPopupProps) => {
     const isMobile = useMediaQuery("(max-width: 764px)");
+    const showContextMenu = useContextMenuTrigger();
 
     return (
         <FloatingPopupBlock >
             <Box className='shadowBlock'>
-                <Box className='flex items-center'>
-                    <Typography variant="h6" className="selectedItems">4 File Selected</Typography>
+                <Box className='selectedItemDetail'>
+                    <CustomCheckBox
+                className={'show'}
+                checked={true} />
+                    {
+                        isMobile ? 
+                        <Tooltip title='Selected Files'>
+                            <Box className='selectCount'>4</Box> 
+                        </Tooltip>
+                        :
+                        <Box className='flex items-center' >
+                            <Typography variant="h6" className="selectedItems">4 File Selected</Typography>
+                        </Box>
+                    }
                 </Box>
-                <Box className='flex gap-4 items-center actionButton'>
+                <Box className='actionButton'>
                     <CustomButton variant="outlined" startIcon={<CopyIcon color='inherit' />} size='small' themecolor='#376534'>
                        { !isMobile && 'Copy Link' }
                     </CustomButton>
@@ -119,7 +149,7 @@ const MultiSelectPopup = ({ onClose}: FloatingPopupProps) => {
                         </CustomButton>
                         <CustomButton variant="outlined" startIcon={<AngleIcon color={'inherit'} />} size='small' themecolor='#A8247F' />
                     </ButtonGroup>
-                    <ActionButton>
+                    <ActionButton onClick={showContextMenu}>
                         <MenuDotIcon color='inherit' />
                     </ActionButton>
                 </Box>

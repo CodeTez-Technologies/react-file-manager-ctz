@@ -4,7 +4,7 @@
  * @license MIT
  */
 
-import React, { ReactElement, useEffect, useMemo } from 'react';
+import React, { ReactElement, useEffect, useMemo, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -18,14 +18,14 @@ import { important, makeGlobalExplorerStyles } from '../../util/styles';
 import { useContextMenuDismisser } from './FileContextMenu-hooks';
 import { SmartToolbarDropdownButton } from './ToolbarDropdownButton';
 import { ExplorerDispatch } from '../../types/redux.types';
-import { Box, styled } from '@mui/material';
+import { Box, styled, useMediaQuery } from '@mui/material';
 
 import { useParamSelector } from '../../redux/store';
 import { selectFileActionData } from '../../redux/selectors';
 
 export interface FileContextMenuProps { }
 
-const ContextMenuItem: React.FC<{ fileActionId: string[], hideContextMenu: any }> = ({ fileActionId, hideContextMenu }) => {
+const ContextMenuItem: React.FC<{ fileActionId: string[], hideContextMenu: any , subMenuPosition: string }> = ({ fileActionId, hideContextMenu , subMenuPosition}) => {
     // Fetch all actions based on fileActionIds
     const buttonActions = fileActionId.map((id) => useParamSelector(selectFileActionData, id)).filter(Boolean);
 
@@ -52,6 +52,7 @@ const ContextMenuItem: React.FC<{ fileActionId: string[], hideContextMenu: any }
               key={`context-menu-item-${action.id}`}
               fileActionId={action.id}
               onClickFollowUp={hideContextMenu}
+              subMenuPosition={subMenuPosition}
             />
           ))}
         </DropDownSection>
@@ -63,6 +64,10 @@ const ContextMenuItem: React.FC<{ fileActionId: string[], hideContextMenu: any }
 export const FileContextMenu: React.FC<FileContextMenuProps> = React.memo(() => {
     
     const dispatch: ExplorerDispatch = useDispatch();
+    const [subMenuPosition, setSubMenuPosition] = useState<string>('left');
+    const isMobile = useMediaQuery("(max-width: 764px)");
+
+    console.log('subMenuPosition' , subMenuPosition)
 
     useEffect(() => {
         dispatch(reduxActions.setContextMenuMounted(true));
@@ -92,15 +97,16 @@ export const FileContextMenu: React.FC<FileContextMenuProps> = React.memo(() => 
                         key={`context-menu-item-${item}`}
                         fileActionId={item}
                         onClickFollowUp={hideContextMenu}
+                        subMenuPosition={subMenuPosition}
                     />
                 );
             } else {
                 return (
-                    <ContextMenuItem key={`context-menu-item-${item.name}`} fileActionId={item.fileActionIds} hideContextMenu={hideContextMenu} />
+                    <ContextMenuItem key={`context-menu-item-${item.name}`} fileActionId={item.fileActionIds} hideContextMenu={hideContextMenu} subMenuPosition={subMenuPosition} />
                 );
             }
         });
-    }, [contextMenuItems, hideContextMenu]);
+    }, [contextMenuItems, hideContextMenu ,subMenuPosition]);
     
     
     const anchorPosition = useMemo(
@@ -108,7 +114,26 @@ export const FileContextMenu: React.FC<FileContextMenuProps> = React.memo(() => 
         [contextMenuConfig],
     );
 
-    const classes = useStyles();
+    const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+
+    useEffect(() => {
+        if (!dropdownRef.current || !anchorPosition) return;
+        if (isMobile) {
+            setSubMenuPosition("center");
+            return;
+        }
+        const menuElement = dropdownRef.current.querySelector('.MuiPaper-root') as HTMLDivElement;
+        if (!menuElement) return;
+
+        const { offsetWidth: menuWidth, offsetHeight: menuHeight } = menuElement;
+        let { top: newX, left: newY } = anchorPosition;
+        
+        newX = Math.min(newX, window.innerWidth - menuWidth);
+        newY = Math.min(newY, window.innerHeight - menuHeight);
+        
+        setSubMenuPosition(newX + menuWidth * 2 > window.innerWidth ? 'right' : 'left');
+    }, [anchorPosition]);
     
     return (
         <ActionMenu
@@ -119,6 +144,7 @@ export const FileContextMenu: React.FC<FileContextMenuProps> = React.memo(() => 
             open={!!contextMenuConfig}
             anchorPosition={anchorPosition}
             anchorReference="anchorPosition"
+            ref={dropdownRef}
         >
             {contextMenuItemComponents}
             {/* <ListSubheader component="div" className={classes.browserMenuTooltip}>

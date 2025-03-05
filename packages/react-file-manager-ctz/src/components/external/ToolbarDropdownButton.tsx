@@ -19,8 +19,9 @@ import { useLocalizedFileActionStrings } from '../../util/i18n';
 import { ExplorerIconContext } from '../../util/icon-helper';
 import { c, important, makeGlobalExplorerStyles } from '../../util/styles';
 
-import { Box, Menu, styled, Typography } from '@mui/material';
+import { backdropClasses, Box, Menu, styled, Typography } from '@mui/material';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import zIndex from '@mui/material/styles/zIndex';
 
 export interface ToolbarDropdownButtonProps {
     text: string;
@@ -29,11 +30,12 @@ export interface ToolbarDropdownButtonProps {
     onClick?: () => void;
     disabled?: boolean;
     item?: any;
+    subMenuPosition:string
 }
 
 export const ToolbarDropdownButton = React.forwardRef(
-    (props: ToolbarDropdownButtonProps, ref: React.Ref<HTMLLIElement>) => {
-        const { text, active, icon, onClick, disabled, item } = props;
+    (props: ToolbarDropdownButtonProps , ref: React.Ref<HTMLLIElement> ,) => {
+        const { text, active, icon, onClick, disabled, item ,subMenuPosition } = props;
         const classes = useStyles();
         const ExplorerIcon = useContext(ExplorerIconContext);
 
@@ -57,7 +59,7 @@ export const ToolbarDropdownButton = React.forwardRef(
                     </Box>
                 }
                 {Array.isArray(item?.button?.dropdownItem) && item.button.dropdownItem.length > 0 && (
-                    <SubDropdown className="subDropdown">
+                    <SubDropdown className="subDropdown" subMenuPosition={subMenuPosition}>
                         {item.button.dropdownItem.map((subItem: any, subIndex: number) => (
                             <DropdownItemList key={subIndex} onClick={subItem.onClick}>
                                 <DropdownItem className="dropdownItem">
@@ -105,11 +107,12 @@ const useStyles = makeGlobalExplorerStyles((theme) => ({
 export interface SmartToolbarDropdownButtonProps {
     fileActionId: string;
     onClickFollowUp?: () => void;
+    subMenuPosition: any;
 }
 
 export const SmartToolbarDropdownButton = React.forwardRef(
     (props: SmartToolbarDropdownButtonProps, ref: React.Ref<HTMLLIElement>) => {
-        const { fileActionId, onClickFollowUp } = props;
+        const { fileActionId, onClickFollowUp ,subMenuPosition} = props;
 
         // Fetch action data first
         const action = useParamSelector(selectFileActionData, fileActionId);
@@ -138,23 +141,30 @@ export const SmartToolbarDropdownButton = React.forwardRef(
                 active={active}
                 disabled={disabled}
                 item={action}
+                subMenuPosition={subMenuPosition}
             />
         );
     },
 );
 
-const SubDropdown = styled(Box)(({ theme }) => ({
+const SubDropdown = styled(Box)(({ theme , subMenuPosition } : {subMenuPosition :string}) => ({
     position: 'absolute',
     top: 0,
     display: 'none',
     minWidth: '200px',
-    // ...(subMenuPosition == 'right' ? {
-    //     right: '100%',
-    //     marginRight: theme.spacing(1),
-    // } : {
-    left: 'calc(100%)',
-    marginLeft: theme.spacing(1),
-        // }),
+    zIndex: '1',
+    ...(subMenuPosition == 'right' ? {
+        right: '0px',
+        transform:' translateX(100%)',
+        marginRight: '-9px',
+    } : (subMenuPosition == 'center') ? {
+        top: '100%',
+        right: 0,
+    }: {
+        left: '0px',
+        marginLeft: '-9px',
+        transform: 'translateX(-100%)',
+        }),
     background: theme.palette.background.paper,
     boxShadow:  `0px 3px 12px rgb(47 43 61 / 0.14)`,
     borderRadius: theme.shape.borderRadius,
@@ -186,7 +196,6 @@ const DropdownItem = styled(Box)(({ theme }) => ({
         opacity: 0,
         right: "-17px"
     },
-
     '& svg': {
         width: '18px',
         height: '18px',

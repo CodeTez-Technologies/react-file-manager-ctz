@@ -25,6 +25,9 @@ import { ListContainer } from "./ListContainer";
 import { Box, styled } from "@mui/material";
 import GridContainer from "./GridContainer";
 import MultiSelectPopup from "../external/MultiSelectPopup";
+import { useDispatch } from "react-redux";
+import { ExplorerDispatch } from "../../types/redux.types";
+import { reduxActions } from "../../redux/reducers";
 
 export interface FileListProps {
   onScroll?: (e: UIEvent<HTMLDivElement>) => void;
@@ -54,8 +57,10 @@ export const FileList: React.FC<FileListProps> = React.memo(
     const classes = useStyles(viewConfig);
     const { onScroll } = props;
 
-    const onClose = ()=>{
+    const dispatch: ExplorerDispatch = useDispatch();
 
+    const onClose = ()=>{
+      dispatch(reduxActions.clearSelection());
     }
 
     // In Explorer v0.x, this field was user-configurable. In Explorer v1.x+, we hardcode
@@ -74,10 +79,10 @@ export const FileList: React.FC<FileListProps> = React.memo(
           return (
             <ViewerParentBlock width={width} height={height}>
                {selectFileCount.length !== 0 && <MultiSelectPopup onClose={onClose} />}
-               {viewConfig.mode === FileViewMode.List ? <ListContainer width={width} height={height} /> :   <GridContainer width={width} height={height} />}
+               {viewConfig.mode === FileViewMode.List ? <ListContainer width={width} height={height} /> :  <GridContainer width={width} height={height} />}
              </ViewerParentBlock>
           )
-        } 
+        }  
       },
       [displayFileIds, viewConfig ,selectFileCount]
     );

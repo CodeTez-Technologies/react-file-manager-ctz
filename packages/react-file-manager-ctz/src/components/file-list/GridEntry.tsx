@@ -18,20 +18,20 @@ import DefaultImage from "../../icons/tempImage";
 
 export const GridEntry: React.FC<FileEntryProps> = React.memo(
   ({ file, selected, focused, dndState }) => {
+    
     const isDirectory = FileHelper.isDirectory(file);
     const entryState = useFileEntryState(file, selected, focused);
-
     const fileEntryHtmlProps = useFileEntryHtmlProps(file);
     return (
       <>
         {
           file && file.isDir === false ?
-            <FileView className='fileItems' {...fileEntryHtmlProps} state={entryState}>
+            <FileView className='fileItems' {...fileEntryHtmlProps} state={entryState.selected}>
               <Box component="figure" className="fileImageBlock">
                 <DefaultImage />
                 <Box className="fileCheckBox">
                   <CustomCheckBox className='hovered'
-                    checked={focused}
+                    checked={selected}
                   />  
                 </Box>
                 <Box className='fileType'>
@@ -44,9 +44,8 @@ export const GridEntry: React.FC<FileEntryProps> = React.memo(
                 </Typography>
               </Box>
             </FileView>
-
             :
-            <FolderView className='folderItem' {...fileEntryHtmlProps} state={entryState}>
+            <FolderView className='folderItem' {...fileEntryHtmlProps} state={entryState.selected}>
               <Box component="figure" className="folderIconBlock">
                 <GridEntryPreviewFile  entryState={entryState} dndState={dndState} />
               </Box>
@@ -55,7 +54,7 @@ export const GridEntry: React.FC<FileEntryProps> = React.memo(
               </Box>
               <Box className="fileCheckBox">
                 <CustomCheckBox className='hovered'
-                  checked={focused}
+                  checked={selected}
                 />  
               </Box>
             </FolderView>
@@ -68,7 +67,7 @@ GridEntry.displayName = "GridEntry";
 
 
 // Styled
-const FolderView = styled(Box)<{ state: FileEntryState }>(({ theme, state }) => ({
+const FolderView = styled(Box)<{ state: boolean }>(({ theme, state }) => ({
   '&.folderItem': {
     border: `1px solid ${theme.palette.divider}`,
     padding: theme.spacing(1.5),
@@ -79,16 +78,16 @@ const FolderView = styled(Box)<{ state: FileEntryState }>(({ theme, state }) => 
     cursor: 'pointer',
     position: 'relative',
     '&:hover': {
-      background: theme.palette.action.hover,
+      background: state ?  `color-mix(in srgb, ${theme.palette.primary.main} 10%, transparent)` :theme.palette.action.hover ,
       "& .fileCheckBox": {
         '& .MuiCheckbox-root':{
             opacity:' 1 !important'
         }
       }
     },
-    ...(state.selected && {
-      background: theme.palette.primary.lighterOpacity
-    }),
+    ...(state ? {
+      background: `color-mix(in srgb, ${theme.palette.primary.main} 10%, transparent)`,
+    } : {}),
     '& .fileCheckBox': {
       position: 'absolute',
       top: '2px',

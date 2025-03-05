@@ -106,12 +106,9 @@ const GridViewBlock = styled(Box)(({ theme }) => ({
 }))
 
 // Styled Components
-const BlockViewParent = styled(Box)(({ theme, width, height }: { width: any, height: any }) => ({
+const BlockViewParent = styled(Box)(({ theme}) => ({
   display: 'flex',
-  width: width + 'px',
-  height: height + 'px',
   overflow : 'auto',
- 
 }));
 
 // Styled Components
