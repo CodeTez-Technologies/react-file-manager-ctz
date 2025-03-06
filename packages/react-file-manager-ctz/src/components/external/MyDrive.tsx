@@ -4,6 +4,7 @@ import React from 'react'
 import { Box, styled } from '@mui/material'
 // Icons
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
+import CustomBreadcrumb from '../customize/CustomBreadcrumb';
 
 const MyDrive = () => {
   return (
@@ -11,7 +12,7 @@ const MyDrive = () => {
             <IconGroup>
                 <AccountTreeOutlinedIcon />
             </IconGroup>
-            <Box>My Drive</Box>
+            <CustomBreadcrumb path={'newone\\newone\\newone\\Interview\\Resume Management\\digital Marketing'}/>
       </MyDriveBlock>
   )
 }

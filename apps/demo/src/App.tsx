@@ -9,13 +9,15 @@ import {
 	ExplorerActions,
 	defineFileAction,
 	IconName,
+	FileNavbar,
 } from '../../../packages/react-file-manager-ctz/src/index';
 import files from './files';
 import './App.css';
 
 const FileViewerContainer = styled(Box)(()=>({
     height: '100vh',
-	width: '100%',
+	width: '100vw',
+	overflow: 'hidden'
 }))
 
 function App() {
@@ -106,7 +108,7 @@ function App() {
 			},
 		}),
 	];
-	const CustomActions = {
+	const CustomActions = [{
 		DeleteFiles: defineFileAction({
 			id: 'delete_files',
 			requiresSelection: true,
@@ -173,13 +175,13 @@ function App() {
 				icon: IconName.upload,
 			},
 		}),
-	};
+	}];
 
 	return (
 		<FileViewerContainer>
 			<FileBrowser
 				// darkMode={true}
-				fileActions={myFileActions}
+				fileActions={CustomActions}
 				iconComponent={IconFA}
 				folderChain={pathEntries.map((name, idx) => ({
 					id: `${idx}`,
@@ -198,7 +200,7 @@ function App() {
 					{ label: 'MetaData', getValue: (item) => <Chip label="Yes" color="primary" size="small" /> },
 				]}
 			>
-				{/* <FileNavbar /> */}
+				<FileNavbar />
 				<FileToolbar />
 				<FileList />
 				<FileContextMenu />

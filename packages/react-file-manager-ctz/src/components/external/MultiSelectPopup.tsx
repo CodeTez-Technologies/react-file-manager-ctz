@@ -97,6 +97,7 @@ interface FloatingPopupProps {
     onClose: () => void,
     shareFolder?: boolean
     setShareFolder ?:(view : boolean) => void,
+    count: any
 }
 
 const data = [
@@ -114,7 +115,7 @@ const data = [
     },
 ]
 
-const MultiSelectPopup = ({ onClose}: FloatingPopupProps) => {
+const MultiSelectPopup = ({ onClose , count}: FloatingPopupProps) => {
     const isMobile = useMediaQuery("(max-width: 764px)");
     const showContextMenu = useContextMenuTrigger();
 
@@ -127,12 +128,12 @@ const MultiSelectPopup = ({ onClose}: FloatingPopupProps) => {
                 checked={true} />
                     {
                         isMobile ? 
-                        <Tooltip title='Selected Files'>
-                            <Box className='selectCount'>4</Box> 
+                        <Tooltip title='Selected Items'>
+                            <Box className='selectCount'>{count ?? '0'}</Box> 
                         </Tooltip>
                         :
                         <Box className='flex items-center' >
-                            <Typography variant="h6" className="selectedItems">4 File Selected</Typography>
+                            <Typography variant="h6" className="selectedItems">{count ?? '0'} Items Selected</Typography>
                         </Box>
                     }
                 </Box>
