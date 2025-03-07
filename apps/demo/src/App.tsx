@@ -14,8 +14,8 @@ import {
 import files from './files';
 import './App.css';
 
-const FileViewerContainer = styled(Box)(()=>({
-    height: '100vh',
+const FileViewerContainer = styled(Box)(() => ({
+	height: '100vh',
 	width: '100vw',
 	overflow: 'hidden'
 }))
@@ -120,7 +120,7 @@ function App() {
 				icon: 'filter',
 			},
 		}),
-		
+
 		defineFileAction({
 			id: 'preview',
 			requiresSelection: true,
@@ -143,7 +143,7 @@ function App() {
 				group: 'Actions',
 				groupType: 'access',
 				icon: IconName.star,
-				dropdown: true, 
+				dropdown: true,
 				dropdownItem: [
 					{
 						icon: IconName.copy,
@@ -164,9 +164,9 @@ function App() {
 				toolbar: true,
 				contextMenu: true,
 				group: 'Actions',
-				groupType: 'filemanage',
+				groupType: 'filehandle',
 				icon: IconName.star,
-				dropdown: true, 
+				dropdown: true,
 				dropdownItem: [
 					{
 						icon: IconName.copy,
@@ -177,6 +177,148 @@ function App() {
 						label: 'Open in new tab',
 					},
 				],
+			},
+		}),
+
+		defineFileAction({
+			id: 'create_folder',
+			requiresSelection: false,
+			hotkeys: [],
+			button: {
+				name: 'Create New',
+				toolbar: true,
+				contextMenu: false,
+				groupType: 'filehandle',
+				tooltip: 'Create New',
+				dropdown: false,
+				icon: IconName.folderCreate,
+			},
+		}),
+		defineFileAction({
+			id: 'delete_files',
+			requiresSelection: true,
+			hotkeys: ['delete'],
+			button: {
+				name: 'Delete',
+				toolbar: true,
+				contextMenu: true,
+				group: 'Actions',
+				groupType: 'filehandle',
+				tooltip: 'Delete',
+				dropdown: true,
+				icon: IconName.trash,
+			},
+		}),
+		defineFileAction({
+			id: 'rename_files',
+			requiresSelection: true,
+			button: {
+				name: 'Rename',
+				toolbar: true,
+				contextMenu: true,
+				groupType: 'filehandle',
+				group: 'Actions',
+				icon: IconName.copy,
+			},
+		}),
+		defineFileAction({
+			id: 'copy_files',
+			requiresSelection: true,
+			button: {
+				name: 'Copy To...',
+				toolbar: true,
+				contextMenu: true,
+				groupType: 'filehandle',
+				group: 'Actions',
+				icon: IconName.copy,
+			},
+		}),
+		defineFileAction({
+			id: 'download_files',
+			requiresSelection: true,
+			button: {
+				name: 'Download',
+				toolbar: true,
+				contextMenu: true,
+				groupType: 'filehandle',
+				group: 'Actions',
+				icon: IconName.download,
+			},
+		}),
+		defineFileAction({
+			id: 'move_files',
+			requiresSelection: true,
+			button: {
+				name: 'Move To...',
+				toolbar: true,
+				contextMenu: true,
+				groupType: 'filehandle',
+				group: 'Actions',
+				icon: IconName.copy,
+			},
+		}),
+		defineFileAction({
+			id: 'share_files',
+			requiresSelection: true,
+			button: {
+				name: 'Share',
+				toolbar: true,
+				contextMenu: true,
+				groupType: 'filehandle',
+				group: 'Actions',
+				icon: IconName.share,
+			},
+		}),
+		defineFileAction({
+			id: 'star_file',
+			requiresSelection: true,
+			button: {
+				name: 'Add to Starred',
+				toolbar: true,
+				contextMenu: true,
+				group: 'Actions',
+				icon: IconName.star,
+			},
+		}),
+		defineFileAction({
+			id: 'run_ocr',
+			requiresSelection: true,
+			button: {
+				name: 'Run Ocr',
+				toolbar: true,
+				contextMenu: true,
+				group: 'Actions',
+				icon: IconName.search,
+			},
+		}),
+		defineFileAction({
+			id: 'run_convert',
+			requiresSelection: true,
+			button: {
+				name: 'Run Convert',
+				toolbar: true,
+				contextMenu: true,
+				group: 'Actions',
+				icon: IconName.config,
+			},
+		}),
+		defineFileAction({
+			id: 'properties',
+			button: {
+				name: 'Properties',
+				toolbar: true,
+				contextMenu: true,
+				group: 'Actions',
+				icon: IconName.upload,
+			},
+		}),
+
+		defineFileAction({
+			id: 'upload_files',
+			button: {
+				name: 'Upload',
+				toolbar: true,
+				icon: IconName.upload,
 			},
 		}),
 	];
@@ -253,7 +395,7 @@ function App() {
 		<FileViewerContainer>
 			<FileBrowser
 				// darkMode={true}
-				fileActions={CustomActions}
+				fileActions={myFileActions}
 				iconComponent={IconFA}
 				folderChain={pathEntries.map((name, idx) => ({
 					id: `${idx}`,

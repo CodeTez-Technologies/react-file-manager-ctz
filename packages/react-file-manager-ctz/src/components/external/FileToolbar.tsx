@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { useSelector } from 'react-redux';
 
-import { selectSelectedFiles } from '../../redux/selectors';
+import { selectContextMenuItems, selectSelectedFiles } from '../../redux/selectors';
 import MultiSelectPopup from './MultiSelectPopup';
 import MyDrive from './MyDrive';
 import { useDispatch } from 'react-redux';
@@ -19,11 +19,13 @@ export const FileToolbar: React.FC<FileToolbarProps> = React.memo(() => {
 
     const onClose = ()=>{
         dispatch(reduxActions.clearSelection());
-      }
+    } 
+
+    
 
     return (
         <Box sx={{position: 'relative'}}>
-           {selectFileCount.length !== 0 && <MultiSelectPopup onClose={onClose} count={selectFileCount.length}/>}
+           {selectFileCount.length !== 0 && <MultiSelectPopup onClose={onClose} />}
         </Box>
     );
 });

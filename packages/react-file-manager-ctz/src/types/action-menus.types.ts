@@ -5,7 +5,7 @@ export interface FileActionGroup {
     name: string;
     sortOrder: number;
     icon?: Nullable<IconName | string>;
-    fileActionIds: string[];
+    fileActionIds: string[] | string;
 }
 
 export type FileActionMenuItem = string | FileActionGroup;

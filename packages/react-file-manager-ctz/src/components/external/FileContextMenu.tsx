@@ -67,8 +67,6 @@ export const FileContextMenu: React.FC<FileContextMenuProps> = React.memo(() => 
     const [subMenuPosition, setSubMenuPosition] = useState<string>('left');
     const isMobile = useMediaQuery("(max-width: 764px)");
 
-    console.log('subMenuPosition' , subMenuPosition)
-
     useEffect(() => {
         dispatch(reduxActions.setContextMenuMounted(true));
         return () => {
