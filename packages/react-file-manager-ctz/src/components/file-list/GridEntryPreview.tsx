@@ -19,7 +19,7 @@ export type FileEntryState = {
   color: string;
   icon: IconName | string;
   thumbnailUrl: Nullable<string>;
-  iconSpin: boolean;
+  iconSpin: boolean;  
   selected: boolean;
   focused: boolean;
 };

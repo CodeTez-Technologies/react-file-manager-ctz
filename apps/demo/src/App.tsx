@@ -21,7 +21,79 @@ const FileViewerContainer = styled(Box)(()=>({
 }))
 
 function App() {
-	const pathEntries = ['test', 'folder'];
+	const pathEntries = [
+		{
+			"id": "0",
+			"name": "My Drive",
+			"isDir": true
+		},
+		{
+			"isDir": true,
+			"id": "82df8054-099b-4d4d-a2a3-8f70f97e00ae",
+			"name": "newone",
+			"slug": "newone",
+			"parentId": null,
+			"folderPath": "newone",
+			"sftpId": null,
+			"ext": null,
+			"size": "10060073",
+			"maxSize": "7516192768",
+			"description": "dwg viewer test",
+			"remarks": null,
+			"status": 1,
+			"folderState": "ready",
+			"isPublish": 1,
+			"createdBy": "13e2e195-72df-4bf7-b690-71d22dc1b587",
+			"updatedBy": "13e2e195-72df-4bf7-b690-71d22dc1b587",
+			"createdAt": "2025-01-06T04:51:56.835Z",
+			"updatedAt": "2025-02-27T08:18:39.410Z",
+			"deletedAt": null
+		},
+		{
+			"isDir": true,
+			"id": "0c8fea63-1741-412f-8ae9-9c10bc79ea91",
+			"name": "newone",
+			"slug": "newone",
+			"parentId": "82df8054-099b-4d4d-a2a3-8f70f97e00ae",
+			"folderPath": "newone\\newone",
+			"sftpId": null,
+			"ext": null,
+			"size": "9961769",
+			"maxSize": "0",
+			"description": "dwg viewer test",
+			"remarks": null,
+			"status": 1,
+			"folderState": "ready",
+			"isPublish": 1,
+			"createdBy": "13e2e195-72df-4bf7-b690-71d22dc1b587",
+			"updatedBy": "13e2e195-72df-4bf7-b690-71d22dc1b587",
+			"createdAt": "2025-01-06T04:52:24.924Z",
+			"updatedAt": "2025-02-27T08:18:39.405Z",
+			"deletedAt": null
+		},
+		// {
+		// 	"isDir": true,
+		// 	"id": "60b8f62f-9933-4f35-a2fd-decacce25737",
+		// 	"name": "newfolder",
+		// 	"slug": "newfolder",
+		// 	"parentId": "0c8fea63-1741-412f-8ae9-9c10bc79ea91",
+		// 	"folderPath": "newone\\newone\\newfolder",
+		// 	"sftpId": null,
+		// 	"ext": null,
+		// 	"size": "1562",
+		// 	"maxSize": "0",
+		// 	"description": "",
+		// 	"remarks": null,
+		// 	"status": 1,
+		// 	"folderState": "ready",
+		// 	"isPublish": 1,
+		// 	"createdBy": "13bdc64a-bda4-4ea2-a258-2c3f714832ee",
+		// 	"updatedBy": "13bdc64a-bda4-4ea2-a258-2c3f714832ee",
+		// 	"createdAt": "2025-02-27T08:11:53.306Z",
+		// 	"updatedAt": "2025-02-27T08:18:39.392Z",
+		// 	"deletedAt": null
+		// }
+	];
 	const myFileActions = [
 		// defineFileAction({
 		// 	id: 'create_folder',	
@@ -185,7 +257,7 @@ function App() {
 				iconComponent={IconFA}
 				folderChain={pathEntries.map((name, idx) => ({
 					id: `${idx}`,
-					name,
+					name: `${name.name}`,
 				}))}
 				files={files.map((f) => ({
 					...f,

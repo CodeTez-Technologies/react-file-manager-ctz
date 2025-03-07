@@ -94,7 +94,6 @@ export const FileNavbar: React.FC<FileNavbarProps> = React.memo((props) => {
     }, [navbarItems]);
 
     const hideToolbarInfo = useSelector(selectHideToolbarInfo);
-
     return (
         <NavbarWrapper className='navbarWrapper'>
             <Box className='navbarContainer'>
@@ -102,7 +101,7 @@ export const FileNavbar: React.FC<FileNavbarProps> = React.memo((props) => {
                     <Box className='navbarLeft'>
                         {/* <navbarSearch /> */}
                         {/* {!hideToolbarInfo && <navbarInfo />} */} 
-                        {children ? children : <MyDrive />}
+                        {children ? children : <MyDrive breadcrumb={folderChainItems}/>}
                     </Box>
                     <Box className='navbarRight'>{navbarItemComponents}</Box>
                 </Box>

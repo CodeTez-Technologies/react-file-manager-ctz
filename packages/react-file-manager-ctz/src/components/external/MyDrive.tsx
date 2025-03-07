@@ -6,13 +6,13 @@ import { Box, styled } from '@mui/material'
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 import CustomBreadcrumb from '../customize/CustomBreadcrumb';
 
-const MyDrive = () => {
+const MyDrive = ({breadcrumb} :{breadcrumb : any}) => {
   return (
       <MyDriveBlock>
             <IconGroup>
                 <AccountTreeOutlinedIcon />
             </IconGroup>
-            <CustomBreadcrumb path={'newone\\newone\\newone\\Interview\\Resume Management\\digital Marketing'}/>
+            <CustomBreadcrumb path={breadcrumb}/>
       </MyDriveBlock>
   )
 }
