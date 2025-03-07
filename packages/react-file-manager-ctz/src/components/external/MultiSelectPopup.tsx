@@ -85,7 +85,7 @@ const ActionButton = styled(Box)(({ theme }) => ({
 interface FloatingPopupProps {
     shareFolder?: boolean
     setShareFolder ?:(view : boolean) => void,
-    count: any
+    onClose : () => void
 }
 
 
