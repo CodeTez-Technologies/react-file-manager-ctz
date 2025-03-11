@@ -81,6 +81,7 @@ import LayoutIcon from './icons/Assets/LayoutIcon';
 import SortIcon from './icons/Assets/SortIcon';
 import AddIcon from './icons/Assets/AddIcon';
 import FilterIcon from './icons/Assets/FilterIcon';
+import MenuDots from './icons/Assets/MenuDots';
 
 // @ts-ignore
 const IconMap: { [iconName in IconName]: any } = {
@@ -205,6 +206,8 @@ export const IconFA: React.FC<ExplorerIconProps> = React.memo((props) => {
             return <FilterIcon />;
         case 'plus':
             return <AddIcon />;
+        case 'moreAction':
+            return <MenuDots />;
         default:
             return <FileIcon />;
     }

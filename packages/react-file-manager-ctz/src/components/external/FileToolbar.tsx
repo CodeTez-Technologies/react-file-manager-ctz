@@ -92,6 +92,7 @@ export const FileToolbar: React.FC<FileToolbarProps> = React.memo(() => {
     // const toolbarItems = useSelector(selectToolbarItems);
 
     const toolbarItems = useSelector(selectContextMenuItems);
+    console.log('toolbarItems' , toolbarItems)
 
     const requiredActions = ["copy_files", "download_files", "share_files"];
 
@@ -123,7 +124,7 @@ export const FileToolbar: React.FC<FileToolbarProps> = React.memo(() => {
             <>
                 {directButtons}
                 {dropdownItems.length > 0 && (
-                <NavbarDropdown key="toolbar-dropdown" name="More Actions" text='moreAction' fileActionIds={dropdownItems} />
+                <NavbarDropdown key="toolbar-dropdown" name="Actions"  icon='moreAction' fileActionIds={dropdownItems} />
             )}
             </>
         );
