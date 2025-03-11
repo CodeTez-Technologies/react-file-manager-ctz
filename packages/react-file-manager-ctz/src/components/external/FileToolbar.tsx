@@ -96,8 +96,6 @@ export const FileToolbar: React.FC<FileToolbarProps> = React.memo(() => {
     const requiredActions = ["copy_files", "download_files", "share_files"];
 
     const toolbarItemComponents = useMemo(() => {
-        debugger
-
         const directButtons: ReactElement[] = [];
         const dropdownItems: string[] = [];
     
