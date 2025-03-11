@@ -61,7 +61,7 @@ export const ToolbarDropdownButton = React.forwardRef(
                 {Array.isArray(item?.button?.dropdownItem) && item.button.dropdownItem.length > 0 && (
                     <SubDropdown className="subDropdown" subMenuPosition={subMenuPosition}>
                         {item.button.dropdownItem.map((subItem: any, subIndex: number) => (
-                            <DropdownItemList key={subIndex} onClick={subItem.onClick}>
+                            <DropdownItemList key={subIndex} onClick={onClick}>
                                 <DropdownItem className="dropdownItem">
                                     {subItem.icon && 
                                         <ExplorerIcon icon={subItem.icon} fixedWidth={true} />

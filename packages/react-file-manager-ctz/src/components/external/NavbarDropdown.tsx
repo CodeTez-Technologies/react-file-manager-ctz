@@ -23,7 +23,9 @@ export type NavbarDropdownProps = {
 
 export const NavbarDropdown: React.FC<NavbarDropdownProps> = React.memo((props) => {
 
+    
     const { name, icon, fileActionIds , text} = props;
+    console.log('moreAction' ,text )
     const [anchor, setAnchor] = React.useState<null | HTMLElement>(null);
 
     const handleClick = useCallback(
