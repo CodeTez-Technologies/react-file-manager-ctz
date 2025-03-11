@@ -36,7 +36,7 @@ const Btn = styled(Button)(({ theme, themecolor }: { themecolor?: string, theme:
     },
     '&.MuiButton-outlinedPrimary': {
         border: `1px solid ${themecolor ? themecolor : theme.palette.primary.main}`,
-        '&:has(&.MuiButtonGroup-firstButton , &.MuiButtonGroup-grouped:first-child)': {
+        '&:has(&.MuiButtonGroup-firstButton , &.MuiButtonGroup-grouped:first-of-type)': {
             borderRightColor: 'transparent'
         },
         color: themecolor ? themecolor : theme.palette.primary.main,
@@ -51,7 +51,7 @@ const Btn = styled(Button)(({ theme, themecolor }: { themecolor?: string, theme:
     },
     '&.MuiButton-outlinedSecondary': {
         border: `1px solid ${themecolor ? themecolor : theme.palette.divider}`,
-        '&:has(&.MuiButtonGroup-firstButton , &.MuiButtonGroup-grouped:first-child)': {
+        '&:has(&.MuiButtonGroup-firstButton , &.MuiButtonGroup-grouped:first-of-type)': {
             borderRightColor: 'transparent'
         },
         color: themecolor ? themecolor : theme.palette.secondary.main,

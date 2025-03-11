@@ -16,7 +16,10 @@ import ShareIcon from "../../icons/Assets/ShareIcon";
 import AngleIcon from "../../icons/Assets/AngleIcon";
 import MenuDotIcon from "../../icons/Assets/MenuDotIcon";
 import { useContextMenuTrigger } from "./FileContextMenu-hooks";
-import CustomCheckBox from "../customize/CustomCheckBox";
+import { ToolbarInfo } from "./ToolbarInfo";
+import { selectContextMenuItems } from "../../redux/selectors";
+import { useSelector } from "react-redux";
+import { FileActionGroup, FileActionMenuItem } from "../../types/action-menus.types";
 
 const FloatingPopupBlock = styled(Box)(({ theme}) => ({
     position: "absolute",
@@ -40,21 +43,7 @@ const FloatingPopupBlock = styled(Box)(({ theme}) => ({
             fontWeight: 500
         }
     },
-    '& .selectedItemDetail':{
-        display : 'flex',
-        gap: theme.spacing(2),
-        alignItems : 'center'
-    },
-    '& .selectCount':{
-        width : '25px',
-        height: '25px',
-        borderRadius : '50%',
-        background : theme.palette.action.hover,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontSize: '14px',
-    }, 
+
     '& .actionButton':{
         display : 'flex',
         gap: theme.spacing(2)
@@ -94,73 +83,80 @@ const ActionButton = styled(Box)(({ theme }) => ({
 }))
 
 interface FloatingPopupProps {
-    onClose: () => void,
     shareFolder?: boolean
     setShareFolder ?:(view : boolean) => void,
+    onClose : () => void
 }
 
-const data = [
-    {
-        icon: <ManageAccountsOutlinedIcon fontSize="small" />,
-        label: 'Manage Access',
-    },
-    {
-        icon: <StarBorderIcon fontSize="small" />,
-        label: 'Add to Favorites',
-    },
-    {
-        icon: <CompressIcon fontSize="small" />,
-        label: 'Compress',
-    },
-]
 
-const MultiSelectPopup = ({ onClose}: FloatingPopupProps) => {
+
+const MultiSelectPopup = ({ onClose }: FloatingPopupProps) => {
     const isMobile = useMediaQuery("(max-width: 764px)");
     const showContextMenu = useContextMenuTrigger();
 
+    const contextMenuItems = useSelector(selectContextMenuItems);
+
+    const requiredActions = ["copy_files", "download_files", "share_files"];
+
+    // Helper function to check if item is a FileActionGroup
+    const isFileActionGroup = (item: FileActionMenuItem): item is FileActionGroup =>
+        typeof item === "object" && item !== null && "fileActionIds" in item;
+
+    // Filter primary actions (copy, download, share)
+    const primaryActions = contextMenuItems?.filter(
+        item => isFileActionGroup(item) && requiredActions.some(action => item.fileActionIds.includes(action))
+    ) as FileActionGroup[];
+
+    const filteredContextMenuItems = contextMenuItems?.map(item => {
+        if (isFileActionGroup(item)) {
+            return {
+                ...item,
+                fileActionIds: item.fileActionIds.filter(action => !requiredActions.includes(action)) // Remove requiredActions
+            };
+        }
+        return item;
+    });
+
     return (
-        <FloatingPopupBlock >
+        <FloatingPopupBlock>
             <Box className='shadowBlock'>
-                <Box className='selectedItemDetail'>
-                    <CustomCheckBox
-                className={'show'}
-                checked={true} />
-                    {
-                        isMobile ? 
-                        <Tooltip title='Selected Files'>
-                            <Box className='selectCount'>4</Box> 
-                        </Tooltip>
-                        :
-                        <Box className='flex items-center' >
-                            <Typography variant="h6" className="selectedItems">4 File Selected</Typography>
-                        </Box>
-                    }
-                </Box>
+                <ToolbarInfo />
                 <Box className='actionButton'>
-                    <CustomButton variant="outlined" startIcon={<CopyIcon color='inherit' />} size='small' themecolor='#376534'>
-                       { !isMobile && 'Copy Link' }
-                    </CustomButton>
-                    <CustomButton variant="outlined" startIcon={<DownloadIcon color='inherit' />} size='small' themecolor='#BE670E'>
-                         { !isMobile && 'Download' }
-                    </CustomButton>
-                    <ButtonGroup>
-                        <CustomButton variant="outlined" startIcon={<ShareIcon color='inherit' />} size='small' themecolor='#A8247F'>
-                               { !isMobile && 'Share' }
+                    {primaryActions.some(action => action.fileActionIds.includes("copy_files")) && (
+                        <CustomButton variant="outlined" startIcon={<CopyIcon color='inherit' />} size='small' themecolor='#376534'>
+                            {!isMobile && 'Copy Link'}
                         </CustomButton>
-                        <CustomButton variant="outlined" startIcon={<AngleIcon color={'inherit'} />} size='small' themecolor='#A8247F' />
-                    </ButtonGroup>
-                    <ActionButton onClick={showContextMenu}>
-                        <MenuDotIcon color='inherit' />
-                    </ActionButton>
+                    )}
+
+                    {primaryActions.some(action => action.fileActionIds.includes("download_files")) && (
+                        <CustomButton variant="outlined" startIcon={<DownloadIcon color='inherit' />} size='small' themecolor='#BE670E'>
+                            {!isMobile && 'Download'}
+                        </CustomButton>
+                    )}
+
+                    {primaryActions.some(action => action.fileActionIds.includes("share_files")) && (
+                        <ButtonGroup>
+                            <CustomButton variant="outlined" startIcon={<ShareIcon color='inherit' />} size='small' themecolor='#A8247F'>
+                                {!isMobile && 'Share'}
+                            </CustomButton>
+                            <CustomButton variant="outlined" startIcon={<AngleIcon color={'inherit'} />} size='small' themecolor='#A8247F' />
+                        </ButtonGroup>
+                    )}
+
+                    {filteredContextMenuItems.length > 0 && (
+                        <ActionButton onClick={showContextMenu}>
+                            <MenuDotIcon color='inherit' />
+                        </ActionButton>
+                    )}
                 </Box>
                 <Tooltip title='Close'>
-                    <CloseButton onClick={onClose} >
+                    <CloseButton onClick={onClose}>
                         <CloseIcon />
                     </CloseButton>
                 </Tooltip>
             </Box>
         </FloatingPopupBlock>
-    )
+    );
 }
 
-export default MultiSelectPopup
+export default MultiSelectPopup;

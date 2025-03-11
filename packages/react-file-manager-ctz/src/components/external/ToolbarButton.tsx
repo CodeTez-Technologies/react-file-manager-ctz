@@ -53,7 +53,7 @@ export const ToolbarButton: React.FC<ToolbarButtonProps> = React.memo((props) =>
         <>
             {
                 (icon || iconOnly) && text ?
-                    (<Button variant={'contained'} startIcon={ <ExplorerIcon icon={icon ? icon : IconName.fallbackIcon} fixedWidth={true} />} onClick={onClick} title={tooltip ? tooltip : text} disabled={disabled || !onClick} sx={{textTransform: 'capitalize'}}>
+                    (<Button variant={'contained'} startIcon={ <ExplorerIcon icon={icon ? icon : IconName.fallbackIcon} fixedWidth={true} />} onClick={onClick} title={tooltip ? tooltip : text} disabled={disabled || !onClick} sx={{textTransform: 'capitalize'}} size='small'>
                          {text}
                     </Button>)
                     :
@@ -118,8 +118,8 @@ const DropDownButton = styled(Box)(({ theme }) => ({
 
 const IconBlock = styled(Box)(({ theme }) => ({
     display: 'flex',
-    padding: '8px',
-    borderRadius: '6px',
+    padding: '5px',
+    borderRadius: '4px',
     '&:hover': {
         background: theme.palette.action.hover,
     },

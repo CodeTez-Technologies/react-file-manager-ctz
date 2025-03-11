@@ -4,14 +4,15 @@ import React from 'react'
 import { Box, styled } from '@mui/material'
 // Icons
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
+import CustomBreadcrumb from '../customize/CustomBreadcrumb';
 
-const MyDrive = () => {
+const MyDrive = ({breadcrumb} :{breadcrumb : any}) => {
   return (
       <MyDriveBlock>
             <IconGroup>
                 <AccountTreeOutlinedIcon />
             </IconGroup>
-            <Box>My Drive</Box>
+            <CustomBreadcrumb path={breadcrumb}/>
       </MyDriveBlock>
   )
 }

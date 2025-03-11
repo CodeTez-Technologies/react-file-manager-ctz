@@ -107,7 +107,7 @@ const useStyles = makeGlobalExplorerStyles((theme) => ({
 export interface SmartToolbarDropdownButtonProps {
     fileActionId: string;
     onClickFollowUp?: () => void;
-    subMenuPosition: any;
+    subMenuPosition ?: any;
 }
 
 export const SmartToolbarDropdownButton = React.forwardRef(
