@@ -130,8 +130,7 @@ export const ListContainer: React.FC<FileListListProps> = React.memo(
                 {
                   !isMobile &&
                   <ResizeHandle
-                    onMouseDown={(e) => handleMouseDown(col, e)}
-                  >
+                    onMouseDown={(e) => handleMouseDown(col, e)}>
                     <Box className="resizeHandleBar"></Box>
                   </ResizeHandle>
                 }
@@ -189,26 +188,27 @@ const List = styled(Box)(({ theme, width, height }) => ({
     position: 'sticky',
     top: '0',
     background: theme.palette.background.paper,
-    zIndex: 1,
+    zIndex: '1000',
     width: "fit-content",
     minWidth: '100%',
   },
 }));
 
-const ListItemParent = styled(Box)(({ theme }) => ({
+const ListItemParent = styled(Box)(({theme}) => ({
   borderBottom: `1px solid ${theme.palette.divider}`,
   width: "100%",
 }));
 
 
-const ListHeaderRow = styled(Box)(() => ({
+const ListHeaderRow = styled(Box)(({theme}) => ({
   display: 'grid',
+  background: theme.palette.background.paper,
   '.checkBoxBlock': {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'end',
     position: 'relative',
-    zIndex: 100
+    zIndex: 10
   }
 }));
 

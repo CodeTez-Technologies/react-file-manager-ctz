@@ -24,6 +24,7 @@ export const getActionI18nId = (actionId: string, stringId: string): string =>
     `explorer.${I18nNamespace.FileActions}.${actionId}.${stringId}`;
 
 export const useLocalizedFileActionGroup = (groupName: string) => {
+    console.log('groupName' , groupName)
     const intl = useIntl();
     return useMemo(() => {
         return intl.formatMessage({

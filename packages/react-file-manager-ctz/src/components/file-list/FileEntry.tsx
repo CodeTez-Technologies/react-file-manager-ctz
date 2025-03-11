@@ -30,7 +30,7 @@ const disabledDndState: DndEntryState = {
 
 export const SmartFileEntry: React.FC<SmartFileEntryProps> = React.memo(({ fileId, displayIndex, fileViewMode ,columnWidths}) => {
   const classes = useStyles();
-
+   
   // Basic properties
   const file = useParamSelector(selectFileData, fileId);
   const selected = useParamSelector(selectIsFileSelected, fileId);
@@ -38,6 +38,11 @@ export const SmartFileEntry: React.FC<SmartFileEntryProps> = React.memo(({ fileI
 
   // Clickable wrapper properties
   const fileClickHandlers = useFileClickHandlers(file, displayIndex);
+
+  console.log('fileClickHandlers' , fileClickHandlers)
+  console.log('file' , file)
+  console.log('selected' , selected)
+
   const [focused, setFocused] = useState(false);
   const clickableWrapperProps: ClickableWrapperProps = {
     wrapperTag: 'div',

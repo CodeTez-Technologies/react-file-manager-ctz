@@ -50,7 +50,7 @@ export const ListEntry: React.FC<FileEntryProps> = React.memo(
     const commonClasses = useCommonEntryStyles(entryState);
     const ExplorerIcon = useContext(ExplorerIconContext);
     const fileEntryHtmlProps = useFileEntryHtmlProps(file);
-    const listCols = useSelector(selectListColumns);
+    const listCols = useSelector(selectListColumns) ?? [];
     const showContextMenu = useContextMenuTrigger();
 
     // Inside your `ListEntry` component:

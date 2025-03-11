@@ -37,7 +37,9 @@ const GridContainer: React.FC<FileListGridProps> = ({ width, height }) => {
   const renderFiles = (fileArray: any[]) => (
     fileArray.filter(file => file).map((file, index) => (
       <Box key={file.id} className='gridItem'>
-        <SmartFileEntry fileId={file.id} displayIndex={index} fileViewMode={viewConfig.mode} />
+        {file && file.id && (
+            <SmartFileEntry fileId={file.id} displayIndex={index} fileViewMode={viewConfig.mode} />
+          )}
       </Box>
     ))
   );
@@ -106,9 +108,11 @@ const GridViewBlock = styled(Box)(({ theme }) => ({
 }))
 
 // Styled Components
-const BlockViewParent = styled(Box)(({ theme}) => ({
-  display: 'flex',
-  overflow : 'auto',
+const BlockViewParent = styled(Box)(({ width, height }) => ({
+  width: width,
+  height: height,
+  display: "flex",
+  overflow: "auto"
 }));
 
 // Styled Components

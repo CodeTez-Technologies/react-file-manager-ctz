@@ -96,8 +96,6 @@ const MultiSelectPopup = ({ onClose }: FloatingPopupProps) => {
 
     const contextMenuItems = useSelector(selectContextMenuItems);
 
-    console.log('contextMenuItems', contextMenuItems);
-
     const requiredActions = ["copy_files", "download_files", "share_files"];
 
     // Helper function to check if item is a FileActionGroup

@@ -66,26 +66,26 @@ export const FileNavbar: React.FC<FileNavbarProps> = React.memo((props) => {
 
         if (enableOptions.length > 0) {
             components.push(
-                <NavbarDropdown key="enable-options" icon="layout" fileActionIds={enableOptions} />
+                <NavbarDropdown key="enable-options" icon="layout" fileActionIds={enableOptions} name="Options"/>
             );
         }
         if (filterOptions.length > 0) {
             components.push(
-                <NavbarDropdown key="filter-options" icon="filter" fileActionIds={filterOptions} />
+                <NavbarDropdown key="filter-options" icon="filter" fileActionIds={filterOptions}  name="Options"/>
             );
         }
 
         // Add Sort Options Dropdown
         if (sortOptions.length > 0) {
             components.push(
-                <NavbarDropdown key="sort-options" icon='sort' fileActionIds={sortOptions} />
+                <NavbarDropdown key="sort-options" icon='sort' fileActionIds={sortOptions}  name="Options"/>
             );
         }
 
         return (
             <>
                 {create.length > 0 &&
-                    <NavbarDropdown key="create" icon="plus" text='new' fileActionIds={create} />
+                    <NavbarDropdown key="create" icon="plus" text='new' fileActionIds={create}  name="Options"/>
                 }
                 <Box className='actionDropDown'>{components} </Box>
             </>

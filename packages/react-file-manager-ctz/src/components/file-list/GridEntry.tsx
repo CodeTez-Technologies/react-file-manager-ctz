@@ -22,11 +22,12 @@ export const GridEntry: React.FC<FileEntryProps> = React.memo(
     const isDirectory = FileHelper.isDirectory(file);
     const entryState = useFileEntryState(file, selected, focused);
     const fileEntryHtmlProps = useFileEntryHtmlProps(file);
+
     return (
       <>
         {
           file && file.isDir === false ?
-            <FileView className='fileItems' {...fileEntryHtmlProps} state={entryState.selected}>
+            <FileView className='fileItems' state={entryState?.selected.toString()} {...fileEntryHtmlProps}>
               <Box component="figure" className="fileImageBlock">
                 <DefaultImage />
                 <Box className="fileCheckBox">
@@ -45,7 +46,7 @@ export const GridEntry: React.FC<FileEntryProps> = React.memo(
               </Box>
             </FileView>
             :
-            <FolderView className='folderItem' {...fileEntryHtmlProps} state={entryState.selected}>
+            <FolderView className='folderItem' state={entryState?.selected.toString()} {...fileEntryHtmlProps}>
               <Box component="figure" className="folderIconBlock">
                 <GridEntryPreviewFile  entryState={entryState} dndState={dndState} />
               </Box>
@@ -78,14 +79,14 @@ const FolderView = styled(Box)<{ state: boolean }>(({ theme, state }) => ({
     cursor: 'pointer',
     position: 'relative',
     '&:hover': {
-      background: state ?  `color-mix(in srgb, ${theme.palette.primary.main} 10%, transparent)` :theme.palette.action.hover ,
+      background: state === 'true' ?  `color-mix(in srgb, ${theme.palette.primary.main} 10%, transparent)` :theme.palette.action.hover ,
       "& .fileCheckBox": {
         '& .MuiCheckbox-root':{
             opacity:' 1 !important'
         }
       }
     },
-    ...(state ? {
+    ...(state === 'true' ? {
       background: `color-mix(in srgb, ${theme.palette.primary.main} 10%, transparent)`,
     } : {}),
     '& .fileCheckBox': {

@@ -34,8 +34,8 @@ export const NavbarDropdown: React.FC<NavbarDropdownProps> = React.memo((props) 
 
     const menuItemComponents = useMemo(
         () =>
-            fileActionIds.map((id) => (
-                <SmartToolbarDropdownButton key={`menu-item-${id}`} fileActionId={id} onClickFollowUp={handleClose} />
+            fileActionIds.map((id,index) => (
+                <SmartToolbarDropdownButton key={`menu-item-${id}-${index}`} fileActionId={id} onClickFollowUp={handleClose} />
             )),
         [fileActionIds, handleClose],
     );

@@ -121,7 +121,7 @@ const useLocalStyles = makeLocalExplorerStyles((theme) => ({
   dndDropZone: {
     display: (state: StyleState) =>
       // When we cannot drop, we don't show an indicator at all
-      state.dndIsOverCurrent && state.dndCanDrop ? "block" : "none",
+    state.dndIsOverCurrent && state.dndCanDrop ? "block" : "none",
     borderRadius: theme.gridFileEntry.borderRadius,
     pointerEvents: "none",
     position: "absolute",
