@@ -43,7 +43,7 @@ const getItemStyles = (
 };
 
 export const DnDFileListDragLayer: React.FC<DnDFileListDragLayerProps> = () => {
-    
+
     const classes = useStyles();
 
     const { itemType, item, initialCursorOffset, initialFileOffset, currentFileOffset, isDragging } = useDragLayer(

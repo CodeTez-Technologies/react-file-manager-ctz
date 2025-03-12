@@ -12,81 +12,81 @@ import { ClickableWrapper, ClickableWrapperProps } from '../internal/ClickableWr
 import { CompactEntry } from './CompactEntry';
 import { DnDFileEntry } from './DnDFileEntry';
 import { useFileClickHandlers } from './FileEntry-hooks';
-import {GridEntry }  from './GridEntry';
+import { GridEntry } from './GridEntry';
 import { ListEntry } from './ListEntry';
 
 export interface SmartFileEntryProps {
-  fileId: Nullable<string>;
-  displayIndex: number;
-  fileViewMode: FileViewMode;
-  columnWidths?: number;
+    fileId: Nullable<string>;
+    displayIndex: number;
+    fileViewMode: FileViewMode;
+    columnWidths?: number;
 }
 
 const disabledDndState: DndEntryState = {
-  dndIsDragging: false,
-  dndIsOver: false,
-  dndCanDrop: false,
+    dndIsDragging: false,
+    dndIsOver: false,
+    dndCanDrop: false,
 };
 
-export const SmartFileEntry: React.FC<SmartFileEntryProps> = React.memo(({ fileId, displayIndex, fileViewMode ,columnWidths}) => {
-  const classes = useStyles();
-   
-  // Basic properties
-  const file = useParamSelector(selectFileData, fileId);
-  const selected = useParamSelector(selectIsFileSelected, fileId);
-  const dndDisabled = useSelector(selectIsDnDDisabled);
+export const SmartFileEntry: React.FC<SmartFileEntryProps> = React.memo(({ fileId, displayIndex, fileViewMode, columnWidths }) => {
+    const classes = useStyles();
 
-  // Clickable wrapper properties
-  const fileClickHandlers = useFileClickHandlers(file, displayIndex);
+    // Basic properties
+    const file = useParamSelector(selectFileData, fileId);
+    const selected = useParamSelector(selectIsFileSelected, fileId);
+    const dndDisabled = useSelector(selectIsDnDDisabled);
 
-  console.log('fileClickHandlers' , fileClickHandlers)
-  console.log('file' , file)
-  console.log('selected' , selected)
+    // Clickable wrapper properties
+    const fileClickHandlers = useFileClickHandlers(file, displayIndex);
 
-  const [focused, setFocused] = useState(false);
-  const clickableWrapperProps: ClickableWrapperProps = {
-    wrapperTag: 'div',
-    passthroughProps: { className: classes.fileEntryClickableWrapper },
-    ...(FileHelper.isClickable(file) ? fileClickHandlers : undefined),
-    setFocused,
-  };
+    console.log('fileClickHandlers', fileClickHandlers)
+    console.log('file', file)
+    console.log('selected', selected)
 
-  // File entry properties
-  const fileEntryProps: Omit<FileEntryProps, 'dndState'> = {
-    file,
-    selected,
-    focused,
-  };
+    const [focused, setFocused] = useState(false);
+    const clickableWrapperProps: ClickableWrapperProps = {
+        wrapperTag: 'div',
+        passthroughProps: { className: classes.fileEntryClickableWrapper },
+        ...(FileHelper.isClickable(file) ? fileClickHandlers : undefined),
+        setFocused,
+    };
 
-  let EntryComponent: React.FC<FileEntryProps>;
-  if (fileViewMode === FileViewMode.List) EntryComponent = ListEntry;
-  else if (fileViewMode === FileViewMode.Compact) EntryComponent = CompactEntry;
-  else EntryComponent = GridEntry;
+    // File entry properties
+    const fileEntryProps: Omit<FileEntryProps, 'dndState'> = {
+        file,
+        selected,
+        focused,
+    };
 
-  return dndDisabled ? (
-    <ClickableWrapper {...clickableWrapperProps}>
-      <EntryComponent {...fileEntryProps} dndState={disabledDndState} columnWidths={columnWidths}/>
-    </ClickableWrapper>
-  ) : (
-    <DnDFileEntry file={file}>
-      {(dndState) => (
+    let EntryComponent: React.FC<FileEntryProps>;
+    if (fileViewMode === FileViewMode.List) EntryComponent = ListEntry;
+    else if (fileViewMode === FileViewMode.Compact) EntryComponent = CompactEntry;
+    else EntryComponent = GridEntry;
+
+    return dndDisabled ? (
         <ClickableWrapper {...clickableWrapperProps}>
-          <EntryComponent {...fileEntryProps} dndState={dndState} columnWidths={columnWidths}/>
+            <EntryComponent {...fileEntryProps} dndState={disabledDndState} columnWidths={columnWidths} />
         </ClickableWrapper>
-      )}
-    </DnDFileEntry>
-  );
+    ) : (
+        <DnDFileEntry file={file}>
+            {(dndState) => (
+                <ClickableWrapper {...clickableWrapperProps}>
+                    <EntryComponent {...fileEntryProps} dndState={dndState} columnWidths={columnWidths} />
+                </ClickableWrapper>
+            )}
+        </DnDFileEntry>
+    );
 });
 SmartFileEntry.displayName = 'SmartFileEntry';
 
 const useStyles = makeGlobalExplorerStyles(() => ({
-  fileEntryClickableWrapper: {
-    // We disable default browser outline because Explorer provides its own outline
-    // (which doesn't compromise accessibility, hopefully)
-    outline: 'none !important',
-    position: 'relative',
-    height: '100%',
-    width: '100%',
-    zIndex : 100,
-  },
+    fileEntryClickableWrapper: {
+        // We disable default browser outline because Explorer provides its own outline
+        // (which doesn't compromise accessibility, hopefully)
+        outline: 'none !important',
+        position: 'relative',
+        height: '100%',
+        width: '100%',
+        zIndex: 100,
+    },
 }));

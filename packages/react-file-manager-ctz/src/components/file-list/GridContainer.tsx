@@ -15,7 +15,7 @@ export interface FileListGridProps {
   height: number;
 }
 
-const GridContainer: React.FC<FileListGridProps> = ({ width, height }) => {
+export const GridContainer: React.FC<FileListGridProps> = ({ width, height }) => {
 
   const viewConfig = useSelector(selectFileViewConfig) as FileViewConfigGrid;
 
@@ -91,9 +91,6 @@ const GridContainer: React.FC<FileListGridProps> = ({ width, height }) => {
     </BlockViewParent>
   );
 };
-
-export default GridContainer;
-
 
 const GridViewBlock = styled(Box)(({ theme }) => ({
   display: 'grid',
