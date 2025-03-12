@@ -1,8 +1,7 @@
-import React, { ReactElement, ReactNode, useMemo } from 'react';
+import React, { ReactElement, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Box, BoxProps, styled, Theme, Tooltip } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Box, BoxProps, styled } from '@mui/material';
 
 import { selectContextMenuItems, selectSelectedFiles, selectToolbarItems } from '../../redux/selectors';
 import { useDispatch } from 'react-redux';
@@ -13,7 +12,7 @@ import { makeGlobalExplorerStyles } from '../../util/styles';
 import { ToolbarInfo } from './ToolbarInfo';
 import { SmartToolbarButton } from './ToolbarButton';
 import { NavbarDropdown } from './NavbarDropdown';
-
+import { ToolbarCloseButton } from './ToolbarCloseButton';
 
 const FloatingPopupBlock = styled(Box)<BoxProps>(({ theme }: { theme: any }) => ({
     position: "absolute",
@@ -47,35 +46,6 @@ const FloatingPopupBlock = styled(Box)<BoxProps>(({ theme }: { theme: any }) => 
     }
 }));
 
-const CloseButton = styled(Box)(({ theme }) => ({
-    border: `1px solid ${theme.palette.error.main}`,
-    padding: theme.spacing(0.5),
-    borderRadius: theme.shape.borderRadius,
-    display: 'flex',
-    cursor: 'pointer',
-    '& svg': {
-        fill: theme.palette.error.main,
-        width: '16px',
-        height: '16px'
-    }
-}));
-
-const ActionButton = styled(Box)(({ theme }) => ({
-    width: '28px',
-    height: '28px',
-    border: `1px solid ${theme.palette.divider}`,
-    borderRadius: '3px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    'svg': {
-        width: '12px',
-        height: '12px',
-        fill: theme.palette.text.primary,
-    },
-
-}))
-
 export interface FileToolbarProps { };
 
 export const FileToolbar: React.FC<FileToolbarProps> = React.memo(() => {
@@ -84,10 +54,6 @@ export const FileToolbar: React.FC<FileToolbarProps> = React.memo(() => {
 
     const selectFileCount = useSelector(selectSelectedFiles);
     const dispatch: ExplorerDispatch = useDispatch();
-
-    const onClose = () => {
-        dispatch(reduxActions.clearSelection());
-    }
 
     // const toolbarItems = useSelector(selectToolbarItems);
 
@@ -130,35 +96,56 @@ export const FileToolbar: React.FC<FileToolbarProps> = React.memo(() => {
         );
     }, [toolbarItems]);
 
+    if (selectFileCount.length === 0) return null;
+
     return (
-        <Box sx={{ position: 'relative' }}>
-            {selectFileCount.length !== 0 &&
-                <FloatingPopupBlock className={classes.toolbarWrapper}>
-                    <div className={`${classes.toolbarContainer} shadowBlock`}>
-                        <div className={classes.toolbarLeft}>
-                            <ToolbarInfo />
-                        </div>
-                        <div className={`${classes.toolbarRight} actionButton`}>
-                            {toolbarItemComponents}
-                        </div>
-                        <Tooltip title='Close'>
-                            <CloseButton onClick={onClose}>
-                                <CloseIcon />
-                            </CloseButton>
-                        </Tooltip>
-                    </div>
-                </FloatingPopupBlock>
-            }
-        </Box>
+        // <FloatingPopupBlock className={classes.toolbarWrapper}>
+        //     <div className={`${classes.toolbarContainer} shadowBlock`}>
+        //         <div className={classes.toolbarLeft}>
+        //             <ToolbarInfo />
+        //         </div>
+        //         <div className={`${classes.toolbarRight} actionButton`}>
+        //             {toolbarItemComponents}
+        //         </div>
+        //         <ToolbarCloseButton />
+        //     </div>
+        // </FloatingPopupBlock>
+        <div className={classes.toolbarWrapper}>
+            <div className={classes.toolbarContainer}>
+                <div className={classes.toolbarLeft}>
+                    <ToolbarInfo />
+                </div>
+                <div className={classes.toolbarRight}>{toolbarItemComponents}</div>
+                <div className={classes.toolbarRight}><ToolbarCloseButton /></div>
+            </div>
+        </div>
     );
 });
 
-const useStyles = makeGlobalExplorerStyles(() => ({
-    toolbarWrapper: {},
-    toolbarContainer: {},
-    toolbarLeft: {},
-    toolbarLeftFiller: {},
-    toolbarRight: {},
+const useStyles = makeGlobalExplorerStyles(theme => ({
+    toolbarWrapper: {
+        padding: 10,
+    },
+    toolbarContainer: {
+        flexWrap: 'wrap-reverse',
+        display: 'flex',
+    },
+    toolbarLeft: {
+        paddingBottom: theme.palette.primary,
+        flexWrap: 'nowrap',
+        flexGrow: 10000,
+        display: 'flex',
+
+    },
+    toolbarLeftFiller: {
+        flexGrow: 10000,
+    },
+    toolbarRight: {
+        paddingBottom: theme.margins.rootLayoutMargin,
+        flexWrap: 'nowrap',
+        display: 'flex',
+        gap: 5
+    },
 }));
 
 
