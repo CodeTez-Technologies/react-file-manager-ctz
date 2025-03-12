@@ -414,7 +414,6 @@ function App() {
 					{ label: 'MetaData', getValue: (item) => <Chip label="Yes" color="primary" size="small" /> },
 				]}
 			>
-				<FileNavbar />
 				<FileToolbar />
 				<FileList />
 				<FileContextMenu />

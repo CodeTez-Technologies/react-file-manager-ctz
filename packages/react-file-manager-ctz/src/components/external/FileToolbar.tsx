@@ -1,10 +1,10 @@
 import React, { ReactElement, ReactNode, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Box, styled, Tooltip } from '@mui/material';
+import { Box, BoxProps, styled, Theme, Tooltip } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
-import {selectContextMenuItems, selectSelectedFiles, selectToolbarItems } from '../../redux/selectors';
+import { selectContextMenuItems, selectSelectedFiles, selectToolbarItems } from '../../redux/selectors';
 import { useDispatch } from 'react-redux';
 import { ExplorerDispatch } from '../../types/redux.types';
 import { reduxActions } from '../../redux/reducers';
@@ -15,16 +15,16 @@ import { SmartToolbarButton } from './ToolbarButton';
 import { NavbarDropdown } from './NavbarDropdown';
 
 
-const FloatingPopupBlock = styled(Box)(({ theme}) => ({
+const FloatingPopupBlock = styled(Box)<BoxProps>(({ theme }: { theme: any }) => ({
     position: "absolute",
     top: "6px",
     left: "0",
     width: `calc(100% - ${theme.spacing(6)})`,
     zIndex: 9,
-    padding: theme.spacing(0 , 3),
+    padding: theme.spacing(0, 3),
     '& > .shadowBlock': {
         // boxShadow: 'var(--mui-customShadows-xs)',
-        boxShadow:  `0px 3px 12px rgb(47 43 61 / 0.14)`,
+        boxShadow: `0px 3px 12px rgb(47 43 61 / 0.14)`,
         padding: theme.spacing(1),
         // paddingLeft: '57px',
         background: theme.palette.background.paper,
@@ -38,8 +38,8 @@ const FloatingPopupBlock = styled(Box)(({ theme}) => ({
         }
     },
 
-    '& .actionButton':{
-        display : 'flex',
+    '& .actionButton': {
+        display: 'flex',
         gap: theme.spacing(2)
     },
     '& .smallBtn': {
@@ -76,7 +76,7 @@ const ActionButton = styled(Box)(({ theme }) => ({
 
 }))
 
-export interface FileToolbarProps { }
+export interface FileToolbarProps { };
 
 export const FileToolbar: React.FC<FileToolbarProps> = React.memo(() => {
 
@@ -92,19 +92,19 @@ export const FileToolbar: React.FC<FileToolbarProps> = React.memo(() => {
     // const toolbarItems = useSelector(selectToolbarItems);
 
     const toolbarItems = useSelector(selectContextMenuItems);
-    console.log('toolbarItems' , toolbarItems)
+    console.log('toolbarItems', toolbarItems)
 
     const requiredActions = ["copy_files", "download_files", "share_files"];
 
     const toolbarItemComponents = useMemo(() => {
         const directButtons: ReactElement[] = [];
         const dropdownItems: string[] = [];
-    
+
         for (const item of toolbarItems) {
             if (typeof item === 'string') {
-                    directButtons.push(
-                        <SmartToolbarButton key={`toolbar-item-${item}`} fileActionId={item} />
-                    );
+                directButtons.push(
+                    <SmartToolbarButton key={`toolbar-item-${item}`} fileActionId={item} />
+                );
 
             } else if (typeof item === 'object' && item.fileActionIds) {
                 // If it's an object, add the whole group to dropdown
@@ -119,13 +119,13 @@ export const FileToolbar: React.FC<FileToolbarProps> = React.memo(() => {
                 });
             }
         }
-    
+
         return (
             <>
                 {directButtons}
                 {dropdownItems.length > 0 && (
-                <NavbarDropdown key="toolbar-dropdown" name="Actions"  icon='moreAction' fileActionIds={dropdownItems} />
-            )}
+                    <NavbarDropdown key="toolbar-dropdown" name="Actions" icon='moreAction' fileActionIds={dropdownItems} />
+                )}
             </>
         );
     }, [toolbarItems]);
@@ -134,12 +134,12 @@ export const FileToolbar: React.FC<FileToolbarProps> = React.memo(() => {
         <Box sx={{ position: 'relative' }}>
             {selectFileCount.length !== 0 &&
                 <FloatingPopupBlock className={classes.toolbarWrapper}>
-                   <div className={`${classes.toolbarContainer} shadowBlock`}>
+                    <div className={`${classes.toolbarContainer} shadowBlock`}>
                         <div className={classes.toolbarLeft}>
-                           <ToolbarInfo />      
+                            <ToolbarInfo />
                         </div>
                         <div className={`${classes.toolbarRight} actionButton`}>
-                          {toolbarItemComponents}
+                            {toolbarItemComponents}
                         </div>
                         <Tooltip title='Close'>
                             <CloseButton onClick={onClose}>
@@ -153,12 +153,12 @@ export const FileToolbar: React.FC<FileToolbarProps> = React.memo(() => {
     );
 });
 
-const useStyles = makeGlobalExplorerStyles(theme => ({
+const useStyles = makeGlobalExplorerStyles(() => ({
     toolbarWrapper: {},
     toolbarContainer: {},
-    toolbarLeft: {display : 'flex'},
+    toolbarLeft: {},
     toolbarLeftFiller: {},
-    toolbarRight: {display : 'flex'},
+    toolbarRight: {},
 }));
 
 

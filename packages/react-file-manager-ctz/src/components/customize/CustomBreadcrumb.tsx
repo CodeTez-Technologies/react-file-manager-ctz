@@ -1,137 +1,103 @@
-import React, { useState } from "react";
-import { Box, Breadcrumbs, styled, Typography, Menu, MenuItem, Link, Tooltip, useMediaQuery } from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
+import { Box, Breadcrumbs, styled, Typography } from "@mui/material";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import AngleIcon from "../../icons/Assets/AngleIcon";
+import AutoSizer from "react-virtualized-auto-sizer";
 
-const BreadcrumbsBlock = styled(Breadcrumbs)(({ theme }) => ({
-  "& .MuiBreadcrumbs-ol": {
-    whiteSpace: "nowrap",
-    flexWrap: "nowrap",
-  },
+// Styled
+const BreadcrumbsBlock = styled(Breadcrumbs)(() => ({
   "& .breadcrumbsText": {
-    fontSize: "14px",
+    fontSize: "12px",
     fontWeight: 400,
-    minWidth: "50px",
-    maxWidth: '150px',
-    whiteSpace: "nowrap",
-    textOverflow: "ellipsis",
-    overflow: "hidden",
-    textTransform: "capitalize",
-    cursor: "pointer",
-  },
-  "& .breadcrumbsLastBlock": {
-    display: "flex",
-    gap: theme.spacing(0.5),
-    alignItems: "center",
-    "& svg": {
-      width: "12px",
-      height: "12px",
-      fill: theme.palette.text.secondary,
-    },
   },
 }));
 
-const MenuBlock = styled(Box)(({ theme }) => ({
-  display: "flex",
-  "& .menuIcon": {
-    display: "flex",
-    background: theme.palette.divider,
-    borderRadius: "100%",
-    padding: "5px",
-    "&:hover": {
-      background: theme.palette.action.hover,
-    },
-    "& svg": {
-      width: "14px",
-      height: "14px",
-    },
-  },
-}));
+const ParentContainer = styled(Box)(({ theme }) => ({}));
 
-const ActionMenu = styled(Menu)(({ theme }) => ({
-  marginTop: "10px",
-  "& .MuiPaper-root": {
-    minWidth: "280px",
-    "& .MuiList-root": {
-      padding: theme.spacing(1),
-      "& .MuiButtonBase-root": {
-        borderRadius: "5px",
-      },
-      "& .MuiListItemText-root": {
-        margin: "0px !important",
-      },
-    },
-  },
-}));
-
-interface CustomBreadcrumbProps {
-  path: any;
+interface FilePathProps {
+  path: string;
 }
 
-const CustomBreadcrumb: React.FC<CustomBreadcrumbProps> = ({ path }) => {
-  const isMobile = useMediaQuery("(max-width: 764px)");
+const CustomBreadCrumb: React.FC<FilePathProps> = ({ path }) => {
+  const linkParts = path.split("/");
+  const [breadcrumbsContent, setBreadcrumbsContent] = useState(linkParts);
+  const breadcrumb = useRef<HTMLDivElement | null>(null);
+  const [breadcrumbWidth, setBreadcrumbWidth] = useState(0);
 
-  const linkParts =
-    typeof path === "string"
-      ? path.replace(/\\/g, "/").split("/")
-      : path.map((item) => item.file.name);
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    setAnchorEl(event.currentTarget);
+  const calculateWidth = () => {
+    if (breadcrumb.current) {
+      setBreadcrumbWidth(breadcrumb.current.offsetWidth);
+    }
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  useEffect(() => {
+    calculateWidth();
+    window.addEventListener("resize", calculateWidth);
+    return () => {
+      window.removeEventListener("resize", calculateWidth);
+    };
+  }, [breadcrumbsContent]);
+
+  const getVisibleBreadcrumbs = () => {
+    const totalWidth = breadcrumbWidth;
+    let visibleItems = [...breadcrumbsContent];
+    
+    // Check if the width allows all breadcrumbs to be displayed
+    let currentWidth = 0;
+    const breadcrumbWidths: number[] = []; // Array to store the width of each breadcrumb item
+    
+    // We can measure each breadcrumb item and accumulate the width
+    const measureBreadcrumbWidths = () => {
+      breadcrumbWidths.length = 0; // Reset the array on recalculation
+      visibleItems.forEach((item, index) => {
+        const breadcrumbElement = document.getElementById(`breadcrumb-${index}`);
+        if (breadcrumbElement) {
+          breadcrumbWidths.push(breadcrumbElement.offsetWidth);
+        }
+      });
+    };
+
+    measureBreadcrumbWidths();
+    
+    currentWidth = breadcrumbWidths.reduce((acc, width) => acc + width, 0);
+    
+    if (currentWidth > totalWidth) {
+      // If the width exceeds the parent container, show the first and last item
+      return [visibleItems[0], visibleItems[visibleItems.length - 1]];
+    } else {
+      // Else, show all items
+      return visibleItems;
+    }
   };
 
   return (
-    <BreadcrumbsBlock separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-      {(isMobile || linkParts.length > 3) &&
-        <Tooltip title={linkParts[0]}>
-          <Link className="breadcrumbsText" underline="hover">
-            {linkParts[0]}
-          </Link>
-        </Tooltip>
-      }
-      {(isMobile || linkParts.length > 3) &&
-        <MenuBlock>
-          <Box onClick={handleClick} className="menuIcon">
-            <MoreHorizIcon />
-          </Box>
-          <ActionMenu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose} autoFocus={false}>
-            {linkParts.slice(1, -1).map((item, index) => (
-              <MenuItem key={index} onClick={handleClose} disableRipple disableTouchRipple disableFocusRipple>
-                {item}
-              </MenuItem>
-            ))}
-          </ActionMenu>
-        </MenuBlock>
-      }
-      {
-        (!isMobile && linkParts.length <= 3) &&
-        linkParts.slice(0, -1).map((item, index) => (
-          <Tooltip key={index} title={item}>
-            <Link className="breadcrumbsText" underline="hover">
-              {item}
-            </Link>
-          </Tooltip>
-        ))
-      }
-      {linkParts.length > 0 && (
-        <Box className="breadcrumbsLastBlock">
-          <Tooltip title={linkParts[linkParts.length - 1]}>
-            <Typography variant="h6" className="breadcrumbsText">
-              {linkParts[linkParts.length - 1]}
-            </Typography>
-          </Tooltip>
-          <AngleIcon />
-        </Box>
-      )}
-    </BreadcrumbsBlock>
+    <AutoSizer>
+      {({ height, width }: { width: number; height: number }) => {
+        setBreadcrumbWidth(width);
+
+        const visibleBreadcrumbs = getVisibleBreadcrumbs();
+        return (
+          <ParentContainer width={width} height={height}>
+            <BreadcrumbsBlock
+              ref={breadcrumb}
+              separator={<NavigateNextIcon fontSize="small" />}
+              aria-label="breadcrumb"
+            >
+              {visibleBreadcrumbs.map((item, index) => (
+                <Typography
+                  key={index}
+                  variant="h6"
+                  className="breadcrumbsText"
+                  id={`breadcrumb-${index}`}
+                >
+                  {item}
+                </Typography>
+              ))}
+            </BreadcrumbsBlock>
+          </ParentContainer>
+        );
+      }}
+    </AutoSizer>
   );
 };
 
-export default CustomBreadcrumb;
+export default CustomBreadCrumb;

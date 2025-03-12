@@ -53,8 +53,8 @@ export const ToolbarButton: React.FC<ToolbarButtonProps> = React.memo((props) =>
         <>
             {
                 (icon || iconOnly) && text ?
-                    (<Button variant={'contained'} startIcon={ <ExplorerIcon icon={icon ? icon : IconName.fallbackIcon} fixedWidth={true} />} onClick={onClick} title={tooltip ? tooltip : text} disabled={disabled || !onClick} sx={{textTransform: 'capitalize'}} size='small'>
-                         {text}
+                    (<Button variant={'contained'} startIcon={<ExplorerIcon icon={icon ? icon : IconName.fallbackIcon} fixedWidth={true} />} onClick={onClick} title={tooltip ? tooltip : text} disabled={disabled || !onClick} sx={{ textTransform: 'capitalize' }} size='small'>
+                        {text}
                     </Button>)
                     :
                     (<DropDownButton variant={dropdown ? "default" : "contained"} className={className} onClick={onClick} title={tooltip ? tooltip : text} disabled={disabled || !onClick}>
