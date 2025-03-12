@@ -31,6 +31,7 @@ export const useFileEntryHtmlProps = (file: Nullable<FileData>): HTMLProps<HTMLD
 };
 
 export const useFileEntryState = (file: Nullable<FileData>, selected: boolean, focused: boolean) => {
+
     const iconData = useIconData(file);
     const { thumbnailUrl, thumbnailLoading } = useThumbnailUrl(file);
 
