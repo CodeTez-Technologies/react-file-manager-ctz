@@ -36,6 +36,7 @@ const getItemStyles = (
     const x = initialCursorOffset.x + (currentFileOffset.x - initialFileOffset.x);
     const y = initialCursorOffset.y + (currentFileOffset.y - initialFileOffset.y);
     const transform = `translate(${x}px, ${y}px)`;
+
     return {
         transform,
         WebkitTransform: transform,
