@@ -14,36 +14,51 @@ import { SmartToolbarButton } from './ToolbarButton';
 import { NavbarDropdown } from './NavbarDropdown';
 import { ToolbarCloseButton } from './ToolbarCloseButton';
 
-const FloatingPopupBlock = styled(Box)<BoxProps>(({ theme }: { theme: any }) => ({
-    position: "absolute",
-    top: "6px",
-    left: "0",
-    width: `calc(100% - ${theme.spacing(6)})`,
-    zIndex: 9,
-    padding: theme.spacing(0, 3),
-    '& > .shadowBlock': {
-        // boxShadow: 'var(--mui-customShadows-xs)',
-        boxShadow: `0px 3px 12px rgb(47 43 61 / 0.14)`,
-        padding: theme.spacing(1),
-        // paddingLeft: '57px',
-        background: theme.palette.background.paper,
-        borderRadius: theme.shape.borderRadius,
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        '.selectedItems': {
-            fontSize: '12px',
-            fontWeight: 500
-        }
-    },
+const ToolbarContainer = styled(Box)<BoxProps>(({ theme }: { theme: any }) => ({
+    '&.toolbarWrapper': {
 
-    '& .actionButton': {
-        display: 'flex',
-        gap: theme.spacing(2)
     },
-    '& .smallBtn': {
-        padding: '5px 15px',
-    }
+    '& .toolbarContainer': {
+
+    },
+    '& .toolbarLeft': {
+
+    },
+    '& .toolbarCenter': {
+
+    },
+    '& .toolbarRight': {
+
+    },
+    // position: "absolute",
+    // top: "6px",
+    // left: "0",
+    // width: `calc(100% - ${theme.spacing(6)})`,
+    // zIndex: 9,
+    // padding: theme.spacing(0, 3),
+    // '& > .shadowBlock': {
+    //     // boxShadow: 'var(--mui-customShadows-xs)',
+    //     boxShadow: `0px 3px 12px rgb(47 43 61 / 0.14)`,
+    //     padding: theme.spacing(1),
+    //     // paddingLeft: '57px',
+    //     background: theme.palette.background.paper,
+    //     borderRadius: theme.shape.borderRadius,
+    //     display: 'flex',
+    //     justifyContent: 'space-between',
+    //     alignItems: 'center',
+    //     '.selectedItems': {
+    //         fontSize: '12px',
+    //         fontWeight: 500
+    //     }
+    // },
+
+    // '& .actionButton': {
+    //     display: 'flex',
+    //     gap: theme.spacing(2)
+    // },
+    // '& .smallBtn': {
+    //     padding: '5px 15px',
+    // }
 }));
 
 export interface FileToolbarProps { };
@@ -99,7 +114,7 @@ export const FileToolbar: React.FC<FileToolbarProps> = React.memo(() => {
     if (selectFileCount.length === 0) return null;
 
     return (
-        // <FloatingPopupBlock className={classes.toolbarWrapper}>
+        // <ToolbarContainer className={classes.toolbarWrapper}>
         //     <div className={`${classes.toolbarContainer} shadowBlock`}>
         //         <div className={classes.toolbarLeft}>
         //             <ToolbarInfo />
@@ -109,7 +124,7 @@ export const FileToolbar: React.FC<FileToolbarProps> = React.memo(() => {
         //         </div>
         //         <ToolbarCloseButton />
         //     </div>
-        // </FloatingPopupBlock>
+        // </ToolbarContainer>
         <div className={classes.toolbarWrapper}>
             <div className={classes.toolbarContainer}>
                 <div className={classes.toolbarLeft}>
