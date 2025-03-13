@@ -1,14 +1,8 @@
 import React, { ReactElement, useMemo } from 'react';
+import { Box, BoxProps, styled } from '@mui/material';
 import { useSelector } from 'react-redux';
 
-import { Box, BoxProps, styled } from '@mui/material';
-
 import { selectContextMenuItems, selectSelectedFiles, selectToolbarItems } from '../../redux/selectors';
-import { useDispatch } from 'react-redux';
-import { ExplorerDispatch } from '../../types/redux.types';
-import { reduxActions } from '../../redux/reducers';
-
-import { makeGlobalExplorerStyles } from '../../util/styles';
 import { ToolbarInfo } from './ToolbarInfo';
 import { SmartToolbarButton } from './ToolbarButton';
 import { NavbarDropdown } from './NavbarDropdown';
@@ -16,9 +10,8 @@ import { ToolbarCloseButton } from './ToolbarCloseButton';
 
 const ToolbarContainer = styled(Box)<BoxProps>(({ theme }: { theme: any }) => ({
     '&.toolbarWrapper': {
-        padding: theme.spacing(1.5 , 3),
+        padding: theme.spacing(1.5, 3),
         borderBottom: `1px solid ${theme.palette.divider}`,
-
         '& .toolbarContainer': {
             display: 'flex',
             justifyContent: 'space-between'
@@ -34,7 +27,7 @@ const ToolbarContainer = styled(Box)<BoxProps>(({ theme }: { theme: any }) => ({
         },
         '& .toolbarRight': {
             display: 'flex',
-            alignItems:'center'
+            alignItems: 'center'
         },
     },
 }));
@@ -44,7 +37,6 @@ export interface FileToolbarProps { };
 export const FileToolbar: React.FC<FileToolbarProps> = React.memo(() => {
 
     const selectFileCount = useSelector(selectSelectedFiles);
-    const dispatch: ExplorerDispatch = useDispatch();
 
     // const toolbarItems = useSelector(selectToolbarItems);
 
@@ -100,31 +92,3 @@ export const FileToolbar: React.FC<FileToolbarProps> = React.memo(() => {
         </ToolbarContainer>
     );
 });
-
-// const useStyles = makeGlobalExplorerStyles(theme => ({
-//     toolbarWrapper: {
-//         padding: 10,
-//     },
-//     toolbarContainer: {
-//         flexWrap: 'wrap-reverse',
-//         display: 'flex',
-//     },
-//     toolbarLeft: {
-//         paddingBottom: theme.palette.primary,
-//         flexWrap: 'nowrap',
-//         flexGrow: 10000,
-//         display: 'flex',
-
-//     },
-//     toolbarLeftFiller: {
-//         flexGrow: 10000,
-//     },
-//     toolbarRight: {
-//         paddingBottom: theme.margins.rootLayoutMargin,
-//         flexWrap: 'nowrap',
-//         display: 'flex',
-//         gap: 5
-//     },
-// }));
-
-
