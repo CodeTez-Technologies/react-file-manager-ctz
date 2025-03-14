@@ -1,33 +1,31 @@
 
-import React from 'react'
+import React from 'react';
 
-import { Box, styled } from '@mui/material'
-// Icons
+import { Box, styled, Theme } from '@mui/material';
+
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
-import CustomBreadcrumb from '../customize/CustomBreadcrumb';
+import CustomBreadCrumb from '../customize/CustomBreadCrumb';
 
-const MyDrive = ({breadcrumb} :{breadcrumb : any}) => {
-  return (
-      <MyDriveBlock>
+const MyDrive = ({ breadcrumb }: { breadcrumb: any }) => {
+    return (
+        <MyDriveBlock>
             <IconGroup>
                 <AccountTreeOutlinedIcon />
             </IconGroup>
-            <CustomBreadcrumb path={breadcrumb}/>
-      </MyDriveBlock>
-  )
+            <CustomBreadCrumb path={breadcrumb} />
+        </MyDriveBlock>
+    );
 }
 
-export default MyDrive
+export default MyDrive;
 
-const MyDriveBlock = styled(Box)(({theme}) => ({
-    display : 'flex',
-    alignItems : 'center',
-    gap: theme.spacing(2),
+const MyDriveBlock = styled(Box)(({ theme }: { theme: any }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing(2), // Ensure theme.spacing is properly typed
+}));
 
-}))
-
-
-const IconGroup = styled(Box)(({theme}) => ({
+const IconGroup = styled(Box)(({ theme }: { theme: Theme }) => ({
     border: `1px solid ${theme.palette.divider}`,
     borderRadius: '5px',
     padding: '5px 15px',
@@ -35,6 +33,6 @@ const IconGroup = styled(Box)(({theme}) => ({
     width: 'fit-content',
     fontSize: '14px',
     '&:hover , &:focus': {
-        color:  theme.palette.primary.main,
+        color: theme.palette.primary.main,
     }
-}))    
+})); 
