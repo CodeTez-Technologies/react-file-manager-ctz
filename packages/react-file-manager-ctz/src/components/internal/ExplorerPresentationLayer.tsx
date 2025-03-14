@@ -65,26 +65,28 @@ export const ExplorerPresentationLayer: React.FC<ExplorerPresentationLayerProps>
         }
 
         const targetClassNames = ['explorer-fileThumbnail', 'gridFileEntry', 'selectionIndicator', 'explorer-file-entry', 'listFileEntry', 'listFile'];
-        // const matchFn = (c: any) => {
-        //     const regex = new RegExp(`${c}`);
-        //     const match = e.target.className.match(regex);
+        const matchFn = (c: any) => {
+            const regex = new RegExp(`${c}`);
+            const match = e.target.className.match(regex);
 
-        //     return match?.length;
-        // };
+            return match?.length;
+        };
 
 
-        // if (targetClassNames.find(matchFn)) {
-        //     return;
-        // }
-
-        // Check if event target OR any of its parent elements have a matching class
-        const clickedInsideTarget = targetClassNames.some(className =>
-            e.target.closest(`[class*="${className}"]`)
-        );
-
-        if (!clickedInsideTarget) {
-            dispatch(reduxActions.clearSelection()); // Now it will always clear selection when clicking outside
+        if (targetClassNames.find(matchFn)) {
+            return;
         }
+
+        // // Check if event target OR any of its parent elements have a matching class
+        // const clickedInsideTarget = targetClassNames.some(className =>
+        //     e.target.closest(`[class*="${className}"]`)
+        // );
+
+        // if (!clickedInsideTarget) {
+        //     dispatch(reduxActions.clearSelection()); // Now it will always clear selection when clicking outside
+        // }
+        
+        dispatch(reduxActions.clearSelection());
 
     };
 
