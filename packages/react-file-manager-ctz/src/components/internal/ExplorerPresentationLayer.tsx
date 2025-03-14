@@ -85,14 +85,14 @@ export const ExplorerPresentationLayer: React.FC<ExplorerPresentationLayerProps>
         // if (!clickedInsideTarget) {
         //     dispatch(reduxActions.clearSelection()); // Now it will always clear selection when clicking outside
         // }
-        
+
         dispatch(reduxActions.clearSelection());
 
     };
 
     return (
         <ClickAwayListener onClickAway={handleClickAway}>
-            <Box className={classes.explorerRoot} onContextMenu={showContextMenu} onClick={handleClick}>
+            <Box className={classes.explorerRoot} onContextMenu={showContextMenu}>
                 {!dndDisabled && dndContextAvailable && <DnDFileListDragLayer />}
                 {hotkeyListenerComponents}
                 {children ? children : null}
