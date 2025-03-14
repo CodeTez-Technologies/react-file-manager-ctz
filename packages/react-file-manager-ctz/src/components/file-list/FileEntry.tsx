@@ -39,10 +39,6 @@ export const SmartFileEntry: React.FC<SmartFileEntryProps> = React.memo(({ fileI
     // Clickable wrapper properties
     const fileClickHandlers = useFileClickHandlers(file, displayIndex);
 
-    console.log('fileClickHandlers', fileClickHandlers)
-    console.log('file', file)
-    console.log('selected', selected)
-
     const [focused, setFocused] = useState(false);
     const clickableWrapperProps: ClickableWrapperProps = {
         wrapperTag: 'div',

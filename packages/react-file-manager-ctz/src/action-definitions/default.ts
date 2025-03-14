@@ -86,7 +86,7 @@ export const DefaultActions = {
         id: 'enable_list_view',
         fileViewConfig: {
             mode: FileViewMode.List,
-            entryHeight: 30,
+            entryHeight: 70,
         },
         button: {
             name: 'List',
