@@ -73,6 +73,7 @@ export const SmartFileEntry: React.FC<SmartFileEntryProps> = React.memo(({ fileI
         </DnDFileEntry>
     );
 });
+
 SmartFileEntry.displayName = 'SmartFileEntry';
 
 const useStyles = makeGlobalExplorerStyles(() => ({
