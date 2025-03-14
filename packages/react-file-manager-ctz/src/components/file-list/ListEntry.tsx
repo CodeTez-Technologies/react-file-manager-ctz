@@ -133,6 +133,7 @@ export const ListEntry: React.FC<FileEntryProps> = React.memo(
       <ListItem
         {...fileEntryHtmlProps}
         selected={entryState.selected}
+        className={classes.listFileEntry}
         style={{
           gridTemplateColumns: [
             "40px",
@@ -140,14 +141,14 @@ export const ListEntry: React.FC<FileEntryProps> = React.memo(
           ].join(" ")
         }}
       >
-        <Box className="checkBoxBlock">
+        <Box className={c([classes.listFile,'checkBoxBlock'])} >
           <CustomCheckBox
             className={'show'}
             checked={entryState.selected}
           />
         </Box>
         {columns.map((col) => (
-          <ResizableCell key={col.key}>
+          <ResizableCell key={col.key} className={classes.listFile}>
             {col.component ? col.component(file) : "-"}
           </ResizableCell>
         ))}
@@ -158,20 +159,9 @@ export const ListEntry: React.FC<FileEntryProps> = React.memo(
 
 const useStyles = makeLocalExplorerStyles((theme) => ({
   listFileEntry: {
-    color: ({ dndState }: StyleState) =>
-      dndState.dndIsOver
-        ? dndState.dndCanDrop
-          ? theme.dnd.canDropColor
-          : theme.dnd.cannotDropColor
-        : "inherit",
-    boxShadow: `inset ${theme.palette.divider} 0 -1px 0`,
-    fontSize: theme.listFileEntry.fontSize,
-    alignItems: "center",
-    position: "relative",
-    height: "100%",
   },
-  listFileEntrySelection: {
-    opacity: 0.6,
+  listFile: {
+
   },
   listFileEntryIcon: {
     color: ({ entryState, dndState }: StyleState) =>

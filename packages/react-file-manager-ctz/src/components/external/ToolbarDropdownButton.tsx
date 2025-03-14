@@ -30,12 +30,12 @@ export interface ToolbarDropdownButtonProps {
     onClick?: () => void;
     disabled?: boolean;
     item?: any;
-    subMenuPosition:string
+    submenuposition:string
 }
 
 export const ToolbarDropdownButton = React.forwardRef(
     (props: ToolbarDropdownButtonProps , ref: React.Ref<HTMLLIElement> ,) => {
-        const { text, active, icon, onClick, disabled, item ,subMenuPosition } = props;
+        const { text, active, icon, onClick, disabled, item ,submenuposition } = props;
         const classes = useStyles();
         const ExplorerIcon = useContext(ExplorerIconContext);
 
@@ -59,7 +59,7 @@ export const ToolbarDropdownButton = React.forwardRef(
                     </Box>
                 }
                 {Array.isArray(item?.button?.dropdownItem) && item.button.dropdownItem.length > 0 && (
-                    <SubDropdown className="subDropdown" subMenuPosition={subMenuPosition}>
+                    <SubDropdown className="subDropdown" submenuposition={submenuposition}>
                         {item.button.dropdownItem.map((subItem: any, subIndex: number) => (
                             <DropdownItemList key={subIndex} onClick={onClick}>
                                 <DropdownItem className="dropdownItem">
@@ -107,12 +107,12 @@ const useStyles = makeGlobalExplorerStyles((theme) => ({
 export interface SmartToolbarDropdownButtonProps {
     fileActionId: string;
     onClickFollowUp?: () => void;
-    subMenuPosition ?: any;
+    submenuposition ?: any;
 }
 
 export const SmartToolbarDropdownButton = React.forwardRef(
     (props: SmartToolbarDropdownButtonProps, ref: React.Ref<HTMLLIElement>) => {
-        const { fileActionId, onClickFollowUp ,subMenuPosition} = props;
+        const { fileActionId, onClickFollowUp ,submenuposition} = props;
 
         // Fetch action data first
         const action = useParamSelector(selectFileActionData, fileActionId);
@@ -141,23 +141,23 @@ export const SmartToolbarDropdownButton = React.forwardRef(
                 active={active}
                 disabled={disabled}
                 item={action}
-                subMenuPosition={subMenuPosition}
+                submenuposition={submenuposition}
             />
         );
     },
 );
 
-const SubDropdown = styled(Box)(({ theme , subMenuPosition } : {subMenuPosition :string}) => ({
+const SubDropdown = styled(Box)(({ theme , submenuposition } : {submenuposition :string}) => ({
     position: 'absolute',
     top: 0,
     display: 'none',
     minWidth: '200px',
     zIndex: '1',
-    ...(subMenuPosition == 'right' ? {
+    ...(submenuposition == 'right' ? {
         right: '0px',
         transform:' translateX(100%)',
         marginRight: '-9px',
-    } : (subMenuPosition == 'center') ? {
+    } : (submenuposition == 'center') ? {
         top: '100%',
         right: 0,
     }: {

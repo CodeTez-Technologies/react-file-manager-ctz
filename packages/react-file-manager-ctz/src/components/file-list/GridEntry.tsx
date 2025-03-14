@@ -22,12 +22,17 @@ export const GridEntry: React.FC<FileEntryProps> = React.memo(
     const isDirectory = FileHelper.isDirectory(file);
     const entryState = useFileEntryState(file, selected, focused);
     const fileEntryHtmlProps = useFileEntryHtmlProps(file);
+    const classes = useFileEntryStyles(entryState);
+
+    const entryClassName = c({
+      [classes.gridFileEntry]: true,
+  });
 
     return (
       <>
         {
           file && file.isDir === false ?
-            <FileView className='fileItems' state={entryState?.selected.toString()} {...fileEntryHtmlProps}>
+            <FileView className={entryClassName} state={entryState?.selected.toString()} {...fileEntryHtmlProps}>
               <Box component="figure" className="fileImageBlock">
                 <DefaultImage />
                 <Box className="fileCheckBox">
@@ -46,7 +51,7 @@ export const GridEntry: React.FC<FileEntryProps> = React.memo(
               </Box>
             </FileView>
             :
-            <FolderView className='folderItem' state={entryState?.selected.toString()} {...fileEntryHtmlProps}>
+            <FolderView  className={entryClassName} state={entryState?.selected.toString()} {...fileEntryHtmlProps}>
               <Box component="figure" className="folderIconBlock">
                 <GridEntryPreviewFile  entryState={entryState} dndState={dndState} />
               </Box>
@@ -69,7 +74,6 @@ GridEntry.displayName = "GridEntry";
 
 // Styled
 const FolderView = styled(Box)<{ state: boolean }>(({ theme, state }) => ({
-  '&.folderItem': {
     border: `1px solid ${theme.palette.divider}`,
     padding: theme.spacing(1.5),
     gap: theme.spacing(2),
@@ -127,11 +131,9 @@ const FolderView = styled(Box)<{ state: boolean }>(({ theme, state }) => ({
         textTransform: 'capitalize'
       }
     }
-  }
 }));
 
 const FileView = styled(Box)<{ state: FileEntryState }>(({ theme, state }) => ({
-  '&.fileItems': {
       border: `1px solid ${theme.palette.divider}`,
       borderRadius: theme.shape.borderRadius,
       overflow: 'hidden',
@@ -208,5 +210,15 @@ const FileView = styled(Box)<{ state: FileEntryState }>(({ theme, state }) => ({
               textTransform: 'capitalize'
           }
       }
-  }
+}));
+
+const useFileEntryStyles = makeLocalExplorerStyles(theme => ({
+  gridFileEntry: {
+  },
+  gridFileEntryPreview: {
+  },
+  gridFileEntryNameContainer: {
+  },
+  gridFileEntryName: {
+  },
 }));

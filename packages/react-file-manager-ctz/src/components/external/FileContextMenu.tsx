@@ -25,7 +25,7 @@ import { selectFileActionData } from '../../redux/selectors';
 
 export interface FileContextMenuProps { }
 
-const ContextMenuItem: React.FC<{ fileActionId: string[], hideContextMenu: any , subMenuPosition: string }> = ({ fileActionId, hideContextMenu , subMenuPosition}) => {
+const ContextMenuItem: React.FC<{ fileActionId: string[], hideContextMenu: any , submenuposition: string }> = ({ fileActionId, hideContextMenu , submenuposition}) => {
     // Fetch all actions based on fileActionIds
     const buttonActions = fileActionId.map((id) => useParamSelector(selectFileActionData, id)).filter(Boolean);
 
@@ -52,7 +52,7 @@ const ContextMenuItem: React.FC<{ fileActionId: string[], hideContextMenu: any ,
               key={`context-menu-item-${action.id}`}
               fileActionId={action.id}
               onClickFollowUp={hideContextMenu}
-              subMenuPosition={subMenuPosition}
+              submenuposition={submenuposition}
             />
           ))}
         </DropDownSection>
@@ -64,7 +64,7 @@ const ContextMenuItem: React.FC<{ fileActionId: string[], hideContextMenu: any ,
 export const FileContextMenu: React.FC<FileContextMenuProps> = React.memo(() => {
     
     const dispatch: ExplorerDispatch = useDispatch();
-    const [subMenuPosition, setSubMenuPosition] = useState<string>('left');
+    const [submenuposition, setsubmenuposition] = useState<string>('left');
     const isMobile = useMediaQuery("(max-width: 764px)");
 
     useEffect(() => {
@@ -95,16 +95,16 @@ export const FileContextMenu: React.FC<FileContextMenuProps> = React.memo(() => 
                         key={`context-menu-item-${item}`}
                         fileActionId={item}
                         onClickFollowUp={hideContextMenu}
-                        subMenuPosition={subMenuPosition}
+                        submenuposition={submenuposition}
                     />
                 );
             } else {
                 return (
-                    <ContextMenuItem key={`context-menu-item-${item.name}`} fileActionId={item.fileActionIds} hideContextMenu={hideContextMenu} subMenuPosition={subMenuPosition} />
+                    <ContextMenuItem key={`context-menu-item-${item.name}`} fileActionId={item.fileActionIds} hideContextMenu={hideContextMenu} submenuposition={submenuposition} />
                 );
             }
         });
-    }, [contextMenuItems, hideContextMenu ,subMenuPosition]);
+    }, [contextMenuItems, hideContextMenu ,submenuposition]);
     
     
     const anchorPosition = useMemo(
@@ -118,7 +118,7 @@ export const FileContextMenu: React.FC<FileContextMenuProps> = React.memo(() => 
     useEffect(() => {
         if (!dropdownRef.current || !anchorPosition) return;
         if (isMobile) {
-            setSubMenuPosition("center");
+            setsubmenuposition("center");
             return;
         }
         const menuElement = dropdownRef.current.querySelector('.MuiPaper-root') as HTMLDivElement;
@@ -130,7 +130,7 @@ export const FileContextMenu: React.FC<FileContextMenuProps> = React.memo(() => 
         newX = Math.min(newX, window.innerWidth - menuWidth);
         newY = Math.min(newY, window.innerHeight - menuHeight);
         
-        setSubMenuPosition(newX + menuWidth * 2 > window.innerWidth ? 'right' : 'left');
+        setsubmenuposition(newX + menuWidth * 2 > window.innerWidth ? 'right' : 'left');
     }, [anchorPosition]);
     
     return (
