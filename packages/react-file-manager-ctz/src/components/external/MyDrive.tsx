@@ -6,7 +6,7 @@ import { Box, styled, Theme } from '@mui/material';
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 import CustomBreadCrumb from '../customize/CustomBreadCrumb';
 
-const MyDrive = ({ breadcrumb }: { breadcrumb: any }) => {
+export const MyDrive = ({ breadcrumb }: { breadcrumb: any }) => {
     return (
         <MyDriveBlock>
             <IconGroup>
@@ -16,8 +16,6 @@ const MyDrive = ({ breadcrumb }: { breadcrumb: any }) => {
         </MyDriveBlock>
     );
 }
-
-export default MyDrive;
 
 const MyDriveBlock = styled(Box)(({ theme }: { theme: any }) => ({
     display: 'flex',

@@ -15,7 +15,7 @@ import { SmartToolbarButton } from './ToolbarButton';
 import { styled } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { selectHideToolbarInfo, selectToolbarItems } from '../../redux/selectors';
-import MyDrive from './MyDrive';
+import { MyDrive } from './MyDrive';
 import { NavbarDropdown } from './NavbarDropdown';
 import { useStyles } from '../file-list/DnDFileEntry';
 
@@ -66,26 +66,26 @@ export const FileNavbar: React.FC<FileNavbarProps> = React.memo((props) => {
 
         if (enableOptions.length > 0) {
             components.push(
-                <NavbarDropdown key="enable-options" icon="layout" fileActionIds={enableOptions} name="Options"/>
+                <NavbarDropdown key="enable-options" icon="layout" fileActionIds={enableOptions} name="Options" />
             );
         }
         if (filterOptions.length > 0) {
             components.push(
-                <NavbarDropdown key="filter-options" icon="filter" fileActionIds={filterOptions}  name="Options"/>
+                <NavbarDropdown key="filter-options" icon="filter" fileActionIds={filterOptions} name="Options" />
             );
         }
 
         // Add Sort Options Dropdown
         if (sortOptions.length > 0) {
             components.push(
-                <NavbarDropdown key="sort-options" icon='sort' fileActionIds={sortOptions}  name="Options"/>
+                <NavbarDropdown key="sort-options" icon='sort' fileActionIds={sortOptions} name="Options" />
             );
         }
 
         return (
             <>
                 {create.length > 0 &&
-                    <NavbarDropdown key="create" icon="plus" text='new' fileActionIds={create}  name="Options"/>
+                    <NavbarDropdown key="create" icon="plus" text='new' fileActionIds={create} name="Options" />
                 }
                 <Box className='actionDropDown'>{components} </Box>
             </>
@@ -100,8 +100,8 @@ export const FileNavbar: React.FC<FileNavbarProps> = React.memo((props) => {
                 <Box className='navbarInnerContainer'>
                     <Box className='navbarLeft'>
                         {/* <navbarSearch /> */}
-                        {/* {!hideToolbarInfo && <navbarInfo />} */} 
-                        {children ? children : <MyDrive breadcrumb={folderChainItems}/>}
+                        {/* {!hideToolbarInfo && <navbarInfo />} */}
+                        {children ? children : <MyDrive breadcrumb={folderChainItems} />}
                     </Box>
                     <Box className='navbarRight'>{navbarItemComponents}</Box>
                 </Box>
